@@ -1,0 +1,10 @@
+{% comment %}
+  The normal list, spiced up.
+
+  The id="comments" is required for django-ajaxcomments,
+  the 'comments/comment.html template is also used by django-ajaxcomments.
+{% endcomment %}
+
+<div id="comments">
+  {% for comment in comment_list %}{% include "comments/comment.html" %}{% endfor %}
+</div>

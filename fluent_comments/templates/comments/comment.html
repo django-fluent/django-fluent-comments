@@ -1,0 +1,32 @@
+{% comment %}
+  Something that django.contrib.comments does not provide:
+  An individual template for a single comment, to easily be reused.
+
+  This include is also used by django-ajaxcomments.
+  The div id should be "c{id}", because the comment.get_absolute_url() points to it.
+
+  Note, to override the displayed date format, don't replace this template.
+  Instead, define DATETIME_FORMAT in a locale file. Requires setting:
+
+   FORMAT_MODULE_PATH = 'settings.locale'
+
+  Then create 'settings/locale/XY/formats.py' with:
+
+   DATETIME_FORMAT = '...'
+
+  This should give you consistent dates across all views.
+{% endcomment %}
+{% load i18n %}
+
+        <div id="c{{ comment.id }}" class="comment-item">
+            {% spaceless %}
+            <h4>
+              {% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}
+              {% if comment.name %}{{ comment.name }}{% else %}{% trans "Anonymous" %}{% endif %}
+              {% if comment.url %}</a>{% endif %}
+              <span class="comment-date">{% blocktrans with submit_date=comment.submit_date %}on {{ submit_date }}{% endblocktrans %}</span>
+            </h4>
+            {% endspaceless %}
+
+            <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+        </div>
