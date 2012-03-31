@@ -22,8 +22,8 @@
             {% spaceless %}
             <h4>
               {% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}
-              {% if comment.name %}{{ comment.name }}{% else %}{% trans "Anonymous" %}{% endif %}
-              {% if comment.url %}</a>{% endif %}
+              {% if comment.name %}{{ comment.name }}{% else %}{% trans "Anonymous" %}{% endif %}{% comment %}
+              {% endcomment %}{% if comment.url %}</a>{% endif %}<span>&nbsp;</span>
               <span class="comment-date">{% blocktrans with submit_date=comment.submit_date %}on {{ submit_date }}{% endblocktrans %}</span>
             </h4>
             {% endspaceless %}

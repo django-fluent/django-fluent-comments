@@ -1,6 +1,6 @@
-{% load comments i18n crispy_forms_tags %}
+{% load comments i18n crispy_forms_tags fluent_comments_tags %}{% load url from future %}
 
-<form action="{% comment_form_target %}" method="post" class="form-horizontal">{% csrf_token %}
+<form action="{% comment_form_target %}" data-ajax-action="{% url 'comments-post-comment-ajax' %}" method="post" class="js-comments-form comments-form form-horizontal">{% csrf_token %}
   {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
 
   {{ form|crispy }}
@@ -8,11 +8,6 @@
   <div class="form-actions">
     <input type="submit" name="post" class="btn btn-submit" value="{% trans "Post" %}" />
     <input type="submit" name="preview" class="btn btn-submit" value="{% trans "Preview" %}" />
-
-    <span id="comment-waiting" style="display: none;">
-      <img src="{{ STATIC_URL }}fluent_comments/img/ajax-wait.gif" alt="" class="ajax-loader" />{% trans "Please wait . . ." %}
-    </span>
-    <span id="comment-added-message" style="display: none;">{% trans "Your comment has been posted!" %}</span>
-    <span id="comment-thanks" style="display: none;">{% trans "Thank you for your comment!" %}</span>
+    {% ajax_comment_tags %}
   </div>
 </form>

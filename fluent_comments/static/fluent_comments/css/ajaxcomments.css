@@ -1,0 +1,13 @@
+#comment-waiting {
+  line-height: 16px;
+}
+
+#comment-waiting img {
+  vertical-align: middle;
+  padding: 0 4px 0 10px;
+}
+
+#comment-added-message,
+#comment-thanks {
+  padding-left: 10px;
+}
