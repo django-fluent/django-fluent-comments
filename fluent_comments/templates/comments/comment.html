@@ -17,9 +17,9 @@
   This should give you consistent dates across all views.
 {% endcomment %}
 {% load i18n %}
-
-        <div id="c{{ comment.id }}" class="comment-item">
-            {% spaceless %}
+        <div{% if preview %} id="comment-preview"{% else %} id="c{{ comment.id }}"{% endif %} class="comment-item">
+          {% if preview %}<h3>{% trans "Preview of your comment" %}</h3>{% endif %}
+          {% spaceless %}
             <h4>
               {% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}
               {% if comment.name %}{{ comment.name }}{% else %}{% trans "Anonymous" %}{% endif %}{% comment %}

@@ -24,6 +24,10 @@ def post_comment_ajax(request, using=None):
     # This is copied from django.contrib.comments.
     # Basically this view does too much, and doesn't offer a hook to change the rendering
     # (request is not passed to next_redirect for example)
+    #
+    # This is a separate view, unlike the approach that django-ajaxcomments takes.
+    # However, the django-ajaxcomments solution is not thread safe, as it changes the comment view per request.
+
 
     # Fill out some initial data fields from an authenticated user, if present
     data = request.POST.copy()
@@ -70,8 +74,12 @@ def post_comment_ajax(request, using=None):
             escape(str(form.security_errors())))
 
     # If there are errors or if we requested a preview show the comment
-    if form.errors or preview:
-        return _ajax_result(request, form)
+    if preview:
+        comment = form.get_comment_object() if not form.errors else None
+        return _ajax_result(request, form, "preview", comment)
+    if form.errors:
+        return _ajax_result(request, form, "post")
+
 
     # Otherwise create the comment
     comment = form.get_comment_object()
@@ -99,10 +107,10 @@ def post_comment_ajax(request, using=None):
         request = request
     )
 
-    return _ajax_result(request, form, comment)
+    return _ajax_result(request, form, "post", comment)
 
 
-def _ajax_result(request, form, comment=None):
+def _ajax_result(request, form, action, comment=None):
     # Based on django-ajaxcomments, BSD licensed.
     # Copyright (c) 2009 Brandon Konkle and individual contributors.
     #
@@ -119,13 +127,19 @@ def _ajax_result(request, form, comment=None):
 
     comment_html = None
     if comment:
-        context = {'comment': comment}
+        context = {
+            'comment': comment,
+            'action': action,
+            'preview': (action == 'preview'),
+        }
         comment_html = render_to_string('comments/comment.html', context, context_instance=RequestContext(request))
 
     json_response = simplejson.dumps({
         'success': success,
+        'action': action,
         'errors': json_errors,
         'html': comment_html,
+        'comment_id': comment.id if comment else None,
     })
 
     return HttpResponse(json_response, mimetype="application/json")

@@ -4,7 +4,8 @@
     var active_input = '';
 
     // Settings
-    var SCROLL_TOP_OFFSET = 60;
+    var COMMENT_SCROLL_TOP_OFFSET = 40;
+    var PREVIEW_SCROLL_TOP_OFFSET = 20;
 
 
     $.fn.ready(function()
@@ -53,16 +54,15 @@
 
     function onCommentFormSubmit(event)
     {
+        event.preventDefault();  // only after ajax call worked.
         var form = event.target;
-        if( active_input != 'preview' )
-        {
-            event.preventDefault();  // only after ajax call worked.
-            ajaxComment(form, {
-                'complete': onCommentPosted
-            });
-            return false;
-        }
-        return true;
+        var preview = (active_input == 'preview');
+
+        ajaxComment(form, {
+            onsuccess: (preview ? null : onCommentPosted),
+            preview: preview
+        });
+        return false;
     }
 
 
@@ -70,27 +70,31 @@
     {
         // Allow initialisation before scrolling.
         var $comment = $("#c" + id);
+        if( $comment.length == 0 ) {
+            if( window.console ) console.warn("scrollToComment() - #c" + id + " not found.");
+            return;
+        }
+
         if( window.on_scroll_to_comment && window.on_scroll_to_comment({comment: $comment}) === false )
             return;
 
         // Scroll to the comment.
-        if( $comment.length )
-            $(scrollElement).animate( {scrollTop: $comment.offset().top - SCROLL_TOP_OFFSET }, speed || 1000 );
+        scrollToElement( $comment, speed, COMMENT_SCROLL_TOP_OFFSET );
     }
 
 
-    function onCommentPosted($comment)
+    function scrollToElement( $element, speed, offset )
     {
-        var id = $comment.attr('id');
+        if( $element.length )
+            $(scrollElement).animate( {scrollTop: $element.offset().top - (offset || 0) }, speed || 1000 );
+    }
 
-        if( id.substring(0, 1) == 'c' )
-        {
-            id = parseInt(id.substring(1));
-            $("#comment-added-message").fadeIn(200);
 
-            setTimeout(function(){ scrollToComment(id, 1000); }, 1000);
-            setTimeout(function(){ $("#comment-added-message").fadeOut(500) }, 4000);
-        }
+    function onCommentPosted( comment_id, $comment )
+    {
+        $("#comment-added-message").fadeIn(200);
+        setTimeout(function(){ scrollToComment(comment_id, 1000); }, 1000);
+        setTimeout(function(){ $("#comment-added-message").fadeOut(500) }, 4000);
     }
 
 
@@ -101,10 +105,12 @@
       Updated to be more generic, more fancy, and usable with different templates.
      */
     var commentBusy = false;
+    var previewAutoAdded = false;
 
     function ajaxComment(form, args)
     {
-        var oncomplete = args.complete;
+        var onsuccess = args.onsuccess;
+        var preview = !!args.preview;
 
         $('div.comment-error').remove();
         if (commentBusy) {
@@ -113,12 +119,13 @@
 
         commentBusy = true;
         var $form = $(form);
-        var comment = $form.serialize();
+        var comment = $form.serialize() + (preview ? '&preview=1' : '');
         var url = $form.attr('action') || './';
         var ajaxurl = $form.attr('data-ajax-action');
 
         // Add a wait animation
-        $('#comment-waiting').fadeIn(1000);
+        if( ! preview )
+            $('#comment-waiting').fadeIn(1000);
 
         // Use AJAX to post the comment.
         $.ajax({
@@ -131,9 +138,14 @@
                 removeWaitAnimation();
 
                 if (data.success) {
-                    commentSuccess(data);
-                    var added = $("#comments > :last-child");
-                    if( oncomplete ) oncomplete(added);
+                    var $added;
+                    if( preview )
+                        $added = commentPreview(data);
+                    else
+                        $added = commentSuccess(data);
+
+                    if( onsuccess )
+                        args.onsuccess(data.comment_id, $added);
                 }
                 else {
                     commentFailure(data);
@@ -156,10 +168,30 @@
         // Clean form
         $('form.js-comments-form textarea')[0].value = "";
         $('#id_comment').val('');
+        removePreview();
 
         // Show comment
         $('#comments').append(data['html']);
         $('div.comment:last').show('slow');
+        return $("#comments > div.comment:last-of-type");
+    }
+
+    function commentPreview(data)
+    {
+        var $previewarea = $("#comment-preview-area");
+        if( $previewarea.length == 0 )
+        {
+            // If not explicitly added to the HTML, include a previewarea in the comments.
+            // This should at least give the same markup.
+            $("#comments").append('<div id="comment-preview-area"></div>');
+            $previewarea = $("#comment-preview-area");
+            previewAutoAdded = true;
+        }
+
+        $previewarea.html(data.html);
+
+        // Scroll to preview, but allow time to render it.
+        setTimeout(function(){ scrollToElement( $previewarea, 500, PREVIEW_SCROLL_TOP_OFFSET ); }, 500);
     }
 
     function commentFailure(data)
@@ -172,6 +204,15 @@
         for (var error in data.errors) {
             $('#id_' + error).parent().before(data.errors[error])
         }
+    }
+
+    function removePreview()
+    {
+        var $previewarea = $("#comment-preview-area");
+        if( previewAutoAdded )
+            $previewarea.remove();  // make sure it's added at the end again later.
+        else
+            $previewarea.html('');
     }
 
     function removeWaitAnimation()
