@@ -9,7 +9,6 @@ setup(
     install_requires=[
         'Django>=1.2.0',
         'django-crispy-forms>=1.1.1',
-        'django-ajaxcomments>=0.2',
     ],
     description='A modern plug&play commenting setup based on django.contrib.comments, crispy-forms and ajaxcomments',
     long_description=open('README.rst').read(),
