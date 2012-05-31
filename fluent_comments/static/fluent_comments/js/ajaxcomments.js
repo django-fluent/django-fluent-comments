@@ -168,12 +168,20 @@
         // Clean form
         $('form.js-comments-form textarea')[0].value = "";
         $('#id_comment').val('');
-        removePreview();
 
         // Show comment
-        $('#comments').append(data['html']);
-        $('div.comment:last').show('slow');
-        return $("#comments > div.comment:last-of-type");
+        var had_preview = removePreview();
+        $('#comments').append(data['html']).removeClass('empty');
+        var $new_comment = $("#comments > div.comment-item:last");
+
+        if( had_preview )
+            // Avoid double jump when preview was removed. Instead refade to final comment.
+            $new_comment.hide().fadeIn(600);
+        else
+            // Smooth introduction to the new comment.
+            $new_comment.hide().show(600);
+
+        return $new_comment;
     }
 
     function commentPreview(data)
@@ -183,12 +191,15 @@
         {
             // If not explicitly added to the HTML, include a previewarea in the comments.
             // This should at least give the same markup.
-            $("#comments").append('<div id="comment-preview-area"></div>');
+            $("#comments").append('<div id="comment-preview-area"></div>').addClass('has-preview');
             $previewarea = $("#comment-preview-area");
             previewAutoAdded = true;
         }
 
-        $previewarea.html(data.html);
+        var had_preview = $previewarea.hasClass('has-preview-loaded');
+        $previewarea.html(data.html).addClass('has-preview-loaded');
+        if( ! had_preview )
+            $previewarea.hide().show(600);
 
         // Scroll to preview, but allow time to render it.
         setTimeout(function(){ scrollToElement( $previewarea, 500, PREVIEW_SCROLL_TOP_OFFSET ); }, 500);
@@ -209,10 +220,18 @@
     function removePreview()
     {
         var $previewarea = $("#comment-preview-area");
+        var had_preview = $previewarea.hasClass('has-preview-loaded');
+
         if( previewAutoAdded )
             $previewarea.remove();  // make sure it's added at the end again later.
         else
             $previewarea.html('');
+
+        // Update classes. allowing CSS to add/remove margins for example.
+        $previewarea.removeClass('has-preview-loaded')
+        $("#comments").removeClass('has-preview');
+
+        return had_preview;
     }
 
     function removeWaitAnimation()

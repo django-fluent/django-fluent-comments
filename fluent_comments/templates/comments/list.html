@@ -5,6 +5,6 @@
   the 'comments/comment.html template is also used by django-ajaxcomments.
 {% endcomment %}
 
-<div id="comments">
+<div id="comments"{% if not comment_list %} class="empty"{% endif %}>
   {% for comment in comment_list %}{% include "comments/comment.html" %}{% endfor %}
 </div>
