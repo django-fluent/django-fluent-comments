@@ -2,10 +2,10 @@
   Something that django.contrib.comments does not provide:
   An individual template for a single comment, to easily be reused.
 
-  This include is also used by django-ajaxcomments.
+  This include is also used by the Ajax comments view.
   The div id should be "c{id}", because the comment.get_absolute_url() points to it.
 
-  Note, to override the displayed date format, don't replace this template.
+  NOTE: to override the displayed date format, don't replace this template.
   Instead, define DATETIME_FORMAT in a locale file. Requires setting:
 
    FORMAT_MODULE_PATH = 'settings.locale'

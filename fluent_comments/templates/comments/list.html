@@ -1,8 +1,8 @@
 {% comment %}
   The normal list, spiced up.
 
-  The id="comments" is required for django-ajaxcomments,
-  the 'comments/comment.html template is also used by django-ajaxcomments.
+  The id="comments" is required for JavaScript,
+  the 'comments/comment.html template is also used by the Ajax view.
 {% endcomment %}
 
 <div id="comments"{% if not comment_list %} class="empty"{% endif %}>
