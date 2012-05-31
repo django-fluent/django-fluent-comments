@@ -171,8 +171,9 @@
 
         // Show comment
         var had_preview = removePreview();
-        $('#comments').append(data['html']).removeClass('empty');
-        var $new_comment = $("#comments > div.comment-item:last");
+        var $comments = getCommentsDiv();
+        $comments.append(data['html']).removeClass('empty');
+        var $new_comment = $comments.children("div.comment-item:last");
 
         if( had_preview )
             // Avoid double jump when preview was removed. Instead refade to final comment.
@@ -191,7 +192,7 @@
         {
             // If not explicitly added to the HTML, include a previewarea in the comments.
             // This should at least give the same markup.
-            $("#comments").append('<div id="comment-preview-area"></div>').addClass('has-preview');
+            getCommentsDiv().append('<div id="comment-preview-area"></div>').addClass('has-preview');
             $previewarea = $("#comment-preview-area");
             previewAutoAdded = true;
         }
@@ -215,6 +216,14 @@
         for (var error in data.errors) {
             $('#id_' + error).parent().before(data.errors[error])
         }
+    }
+
+    function getCommentsDiv()
+    {
+        var $comments = $("#comments");
+        if( $comments.length == 0 )
+            alert("Internal error - unable to display comment.\n\nreason: container is missing in the page.");
+        return $comments;
     }
 
     function removePreview()
