@@ -37,9 +37,12 @@ Add the following in ``urls.py``::
         url(r'^blog/comments/', include('fluent_comments.urls')),
     )
 
-Provide a template that displays the comments for the ``object``::
+Provide a template that displays the comments for the ``object`` and includes the required static files::
 
     {% load comments %}
+
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
 
     {% render_comment_list for object %}
     {% render_comment_form for object %}
@@ -52,7 +55,7 @@ The database can be created afterwards::
 Template for non-ajax pages
 ---------------------------
 
-The templates which django.contrib.comments_ renders, use a single base template for all layouts.
+The templates which django.contrib.comments_ renders use a single base template for all layouts.
 This template is empty by default since it's only serves as a placeholder.
 To complete the configuration of the comments module, create a ``comments/base.html`` file
 that maps the template blocks onto your website base template. For example::
