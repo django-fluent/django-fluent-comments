@@ -1,0 +1,108 @@
+# Copyright (C) 2010-2012
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Diederik van der Boor <vdboor@edoburu.nl>, 2010-2012
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-18 22:46+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Diederik van der Boor <vdboor@edoburu.nl>\n"
+"Language-Team: Dutch <NL@li.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: admin.py:37
+msgid "Content"
+msgstr "Inhoud"
+
+#: admin.py:40
+msgid "Account information"
+msgstr "Account informatie"
+
+#: admin.py:43
+msgid "Moderation"
+msgstr "Moderatie"
+
+#: admin.py:54
+msgid "Hierarchy"
+msgstr "Hiërarchie"
+
+#: admin.py:63
+msgid "Page"
+msgstr "Pagina"
+
+#: templates/comments/comment.html:21 templates/comments/preview.html:12
+msgid "Preview of your comment"
+msgstr "Voorbeeld van je reactie"
+
+#: templates/comments/comment.html:25
+msgid "Anonymous"
+msgstr "Anoniem"
+
+#: templates/comments/comment.html:28
+#, python-format
+msgid "on %(submit_date)s"
+msgstr "op %(submit_date)s"
+
+#: templates/comments/form.html:9 templates/comments/preview.html:26
+msgid "Post"
+msgstr "Plaatsen"
+
+#: templates/comments/form.html:10 templates/comments/preview.html:27
+msgid "Preview"
+msgstr "Voorbeeld"
+
+#: templates/comments/posted.html:3
+msgid "Thanks for commenting"
+msgstr "Bedankt voor je reactie"
+
+#: templates/comments/posted.html:11
+msgid "Thanks for posting your comment"
+msgstr "Bedankt voor het insturen van je reactie"
+
+#: templates/comments/posted.html:13
+msgid ""
+"\n"
+"      We have received your comment, and posted it on the web site.<br/>\n"
+"      You will be sent back to the article...\n"
+"      "
+msgstr
+"\n"
+"      We hebben je reactie ontvangen, en geplaatst op de website.<br/>\n"
+"      Je wordt nu teruggestuurd naar de vorige pagina...\n"
+"      "
+
+#: templates/comments/posted.html:24
+msgid "Back to the article"
+msgstr "Terug naar de pagina"
+
+#: templates/comments/preview.html:3
+msgid "Preview your comment"
+msgstr "Voorbeeld van je reactie"
+
+#: templates/comments/preview.html:10
+msgid "Please correct the error below"
+msgid_plural "Please correct the errors below"
+msgstr[0] "Corrigeer a.u.b. de fout hieronder"
+msgstr[1] "Corrigeer a.u.b. de fouten hieronder"
+
+#: templates/comments/preview.html:17
+msgid "Post your comment"
+msgstr "Reactie plaatsen"
+
+#: templates/comments/preview.html:20
+msgid "Or make changes"
+msgstr "Of pas het bericht aan"
+
+#: templates/fluent_comments/templatetags/ajax_comment_tags.html:3
+msgid "Please wait . . ."
+msgstr "Even geduld . . ."
+
+#: templates/fluent_comments/templatetags/ajax_comment_tags.html:5
+msgid "Your comment has been posted!"
+msgstr "Je reactie is geplaatst!"
