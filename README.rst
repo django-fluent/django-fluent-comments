@@ -2,10 +2,14 @@ Introduction
 ============
 
 The *django-fluent-comments* module enhances the default appearance
-of the *django.contrib.comments* application to be directly usable in web sites.
+of the django.contrib.comments_ application to be directly usable in web sites.
+The features are:
 
-The application is designed to be plug&play.
-It leverages django-crispy-forms_ to handle the form layout.
+* Ajax-based preview and posting of comments
+* Configurable form layouts using django-crispy-forms_.
+
+The application is designed to be plug&play;
+installing it should already give a better comment layout.
 
 Installation
 ============
@@ -44,6 +48,30 @@ The database can be created afterwards::
 
     ./manage.py syncdb
     ./manage.py runserver
+
+Template for non-ajax pages
+---------------------------
+
+The templates which django.contrib.comments_ renders, use a single base template for all layouts.
+This template is empty by default since it's only serves as a placeholder.
+To complete the configuration of the comments module, create a ``comments/base.html`` file
+that maps the template blocks onto your website base template. For example::
+
+    {% extends "mysite/base.html" %}{% load i18n %}
+
+    {% block headtitle %}{% block title %}{% trans "Responses for page" %}{% endblock %}{% endblock %}
+
+    {% block main %}
+        <div id="comments-wrapper">
+            {% block content %}{% endblock %}
+        </div>
+    {% endblock %}
+
+In this example, the base template has a ``headtitle`` and ``main`` block,
+which contain the ``content`` and ``title`` blocks that django.contrib.comments_ needs to see.
+This application also outputs an ``extrahead`` block for a meta-refresh tag.
+The ``extrahead`` block can be included in the site base template directly,
+so it doesn't have to be included in the ``comments/base.html`` file.
 
 
 CSS form layout
@@ -95,7 +123,8 @@ please let us know as well because we will look into it.
 Pull requests are welcome too. :-)
 
 
-.. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
+.. _django.contrib.comments: https://docs.djangoproject.com/en/dev/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
-.. _`Uni-form`: http://sprawsm.com/uni-form
+.. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
 .. _`Bootstrap`: http://twitter.github.com/bootstrap/index.html
+.. _`Uni-form`: http://sprawsm.com/uni-form
