@@ -4,6 +4,9 @@ Introduction
 The *django-fluent-comments* module enhances the default appearance
 of the *django.contrib.comments* application to be directly usable in web sites.
 
+The application is designed to be plug&play.
+It leverages django-crispy-forms_ to handle the form layout.
+
 Installation
 ============
 
@@ -20,6 +23,7 @@ To use comments, the following settings are required::
 
     INSTALLED_APPS += (
         'fluent_contents',
+        'crispy_forms',
         'django.contrib.comments',
     )
 
@@ -51,4 +55,5 @@ The database can be created afterwards::
 
 
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
+.. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
 

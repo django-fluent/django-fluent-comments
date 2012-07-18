@@ -10,7 +10,7 @@ setup(
         'Django>=1.2.0',
         'django-crispy-forms>=1.1.1',
     ],
-    description='A modern plug&play commenting setup based on django.contrib.comments, crispy-forms and ajaxcomments',
+    description='A modern, ajax-based appearance for django.contrib.comments',
     long_description=open('README.rst').read(),
 
     author='Diederik van der Boor',
