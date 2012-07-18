@@ -49,17 +49,18 @@ The database can be created afterwards::
 CSS form layout
 ---------------
 
-A form layout is something that is very different across web sites.
-However, this module uses django-crispy-forms_ for the form HTML layout, to make it easy to
-have a consistent layout across all your Django forms (in fact, we would encourage to adopt django-crispy-forms_ for all your form layouts).
-
-Currently this module gives you 2 options for the layout:
+Form layouts generally differ across web sites, hence this application doesn't dictate a specific form layout.
+Instead, this application uses django-crispy-forms_ which allows configuration of the form appearance..
+By default, the forms can be rendered with 2 well known CSS frameworks:
 
 * `Bootstrap`_ The default template pack. The popular simple and flexible HTML, CSS, and Javascript for user interfaces from Twitter.
 * `Uni-form`_ Nice looking, well structured, highly customizable, accessible and usable forms.
 
 The ``CRISPY_TEMPLATE_PACK`` setting allows you to choose which layout you like to use.
 For more information, see the django-crispy-forms_ documentation..
+
+Both CSS frameworks have a wide range of themes available, which should allow you to have a good layout for your Django forms.
+In fact, we would encourage to adopt django-crispy-forms_ for all your form layouts to have a consistent layout across all your forms.
 
 If your form CSS framework is not supported, you can create a template pack
 for it and submit a pull request to the django-crispy-forms_ authors for inclusion.
@@ -77,9 +78,9 @@ which can be enabled with the following settings::
 
     COMMENTS_APP = 'threadedcomments'
 
-Note however, that some improvements to django-treadedcomments_ are still open
+Note however, that some improvements to django-threadedcomments_ are still open
 (see `pull request #39 <https://github.com/HonzaKral/django-threadedcomments/pull/39>`_)
-and until that moment it is not possible to take full advantage of the treaded display.
+and until that moment it is not easy to take full advantage of the threaded display.
 
 
 Contributing
