@@ -26,7 +26,7 @@ Configuration
 To use comments, the following settings are required::
 
     INSTALLED_APPS += (
-        'fluent_contents',
+        'fluent_comments',
         'crispy_forms',
         'django.contrib.comments',
     )
