@@ -10,6 +10,7 @@ from django.contrib.comments.views.comments import CommentPostBadRequest
 from django.utils.html import escape
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
+from fluent_comments import appsettings
 
 
 @csrf_protect
@@ -121,8 +122,9 @@ def _ajax_result(request, form, action, comment=None):
     json_errors = {}
 
     if form.errors:
-        for field in form.errors:
-            json_errors.update({field: str(form.errors[field])})
+        for field_name in form.errors:
+            field = form[field_name]
+            json_errors.update({field_name: _render_errors(field)})
         success = False
 
     comment_html = None
@@ -143,3 +145,14 @@ def _ajax_result(request, form, action, comment=None):
     })
 
     return HttpResponse(json_response, mimetype="application/json")
+
+
+def _render_errors(field):
+    """
+    Render form errors in crispy-forms style.
+    """
+    template = '{0}/layout/field_errors.html'.format(appsettings.CRISPY_TEMPLATE_PACK)
+    return render_to_string(template, {
+        'field': field,
+        'form_show_errors': True,
+    })

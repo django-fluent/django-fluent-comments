@@ -136,6 +136,7 @@
             success: function(data) {
                 commentBusy = false;
                 removeWaitAnimation();
+                removeErrors();
 
                 if (data.success) {
                     var $added;
@@ -208,14 +209,22 @@
 
     function commentFailure(data)
     {
-        // Show errors
-        $('form.js-comments-form ul.errorlist').each(function() {
-          this.parentNode.removeChild(this);
-        });
+        // Show mew errors
+        for (var field_name in data.errors) {
+            if(field_name) {
+                var $field = $('#id_' + field_name);
 
-        for (var error in data.errors) {
-            $('#id_' + error).parent().before(data.errors[error])
+                // Twitter bootstrap style
+                $field.after('<span class="js-errors">' + data.errors[field_name] + '</span>');
+                $field.closest('.control-group').addClass('error');
+            }
         }
+    }
+
+    function removeErrors()
+    {
+        $('form.js-comments-form .js-errors').remove();
+        $('form.js-comments-form .control-group.error').removeClass('error');
     }
 
     function getCommentsDiv()
