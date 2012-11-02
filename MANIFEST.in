@@ -4,3 +4,9 @@ include LICENSE
 recursive-include fluent_comments/locale *.po *.mo
 recursive-include fluent_comments/templates *.html
 recursive-include fluent_comments/static *
+global-exclude .DS_Store
+global-exclude Thumbs.db
+global-exclude Desktop.ini
+global-exclude *.swp
+global-exclude *~
+global-exclude *.bak
