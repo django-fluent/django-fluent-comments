@@ -23,11 +23,11 @@ def post_comment_ajax(request, using=None):
         return HttpResponseBadRequest("Expecting Ajax call")
 
     # This is copied from django.contrib.comments.
-    # Basically this view does too much, and doesn't offer a hook to change the rendering
-    # (request is not passed to next_redirect for example)
+    # Basically that view does too much, and doesn't offer a hook to change the rendering.
+    # The request object is not passed to next_redirect for example.
     #
-    # This is a separate view, unlike the approach that django-ajaxcomments takes.
-    # However, the django-ajaxcomments solution is not thread safe, as it changes the comment view per request.
+    # This is a separate view to integrate both features. Previously this used django-ajaxcomments
+    # which is unfortunately not thread-safe (it it changes the comment view per request).
 
 
     # Fill out some initial data fields from an authenticated user, if present
@@ -47,20 +47,13 @@ def post_comment_ajax(request, using=None):
         model = models.get_model(*ctype.split(".", 1))
         target = model._default_manager.using(using).get(pk=object_pk)
     except TypeError:
-        return CommentPostBadRequest(
-            "Invalid content_type value: %r" % escape(ctype))
+        return CommentPostBadRequest("Invalid content_type value: {0!r}".format)
     except AttributeError:
-        return CommentPostBadRequest(
-            "The given content-type %r does not resolve to a valid model." %\
-            escape(ctype))
+        return CommentPostBadRequest("The given content-type {0} does not resolve to a valid model.".format)
     except ObjectDoesNotExist:
-        return CommentPostBadRequest(
-            "No object matching content-type %r and object PK %r exists." %\
-            (escape(ctype), escape(object_pk)))
+        return CommentPostBadRequest("No object matching content-type {0} and object PK {1} exists.".format(escape(ctype), escape(object_pk)))
     except (ValueError, ValidationError), e:
-        return CommentPostBadRequest(
-            "Attempting go get content-type %r and object PK %r exists raised %s" %\
-            (escape(ctype), escape(object_pk), e.__class__.__name__))
+        return CommentPostBadRequest("Attempting go get content-type {0!r} and object PK {1!r} exists raised {2}".format(escape(ctype), escape(object_pk), e.__class__.__name__))
 
     # Do we want to preview the comment?
     preview = "preview" in data
@@ -70,9 +63,7 @@ def post_comment_ajax(request, using=None):
 
     # Check security information
     if form.security_errors():
-        return CommentPostBadRequest(
-            "The comment form failed security verification: %s" %\
-            escape(str(form.security_errors())))
+        return CommentPostBadRequest("The comment form failed security verification: {0}".format)
 
     # If there are errors or if we requested a preview show the comment
     if preview:
@@ -96,9 +87,8 @@ def post_comment_ajax(request, using=None):
     )
 
     for (receiver, response) in responses:
-        if response == False:
-            return CommentPostBadRequest(
-                "comment_will_be_posted receiver %r killed the comment" % receiver.__name__)
+        if response is False:
+            return CommentPostBadRequest("comment_will_be_posted receiver {0} killed the comment".format(receiver.__name__))
 
     # Save the comment and signal that it was saved
     comment.save()
@@ -124,7 +114,7 @@ def _ajax_result(request, form, action, comment=None):
     if form.errors:
         for field_name in form.errors:
             field = form[field_name]
-            json_errors.update({field_name: _render_errors(field)})
+            json_errors[field_name] = _render_errors(field)
         success = False
 
     comment_html = None

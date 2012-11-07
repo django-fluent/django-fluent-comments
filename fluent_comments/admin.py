@@ -1,18 +1,16 @@
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.comments import get_model
+from django.contrib import comments
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 from fluent_comments import appsettings
 
-USE_THREADEDCOMMENTS = 'threadedcomments' in settings.INSTALLED_APPS
-
 
 # Ensure the admin app is loaded,
 # so the model is unregistered here, and not loaded twice.
-if USE_THREADEDCOMMENTS:
+if appsettings.USE_THREADEDCOMMENTS:
     # Avoid getting weird situations where both comment apps are loaded in the admin.
     if not hasattr(settings, 'COMMENTS_APP') or settings.COMMENTS_APP == 'comments':
         raise ImproperlyConfigured("To use 'threadedcomments', specify the COMMENTS_APP as well")
@@ -49,7 +47,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
     readonly_fields = ('object_link', 'user', 'ip_address', 'submit_date',)
 
     # Adjust the fieldsets for threaded comments
-    if USE_THREADEDCOMMENTS:
+    if appsettings.USE_THREADEDCOMMENTS:
         fieldsets[0][1]['fields'] = ('object_link', 'user_name', 'user_email', 'user_url', 'title', 'comment', 'submit_date',)  # add title field.
         fieldsets.insert(2, (_('Hierarchy'), {'fields': ('parent',)}))
         raw_id_fields = ('parent',)
@@ -74,7 +72,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
 
 # Replace the old admin screen.
 if appsettings.FLUENT_COMMENTS_REPLACE_ADMIN:
-    CommentModel = get_model()
+    CommentModel = comments.get_model()
     try:
         admin.site.unregister(CommentModel)
     except admin.sites.NotRegistered as e:
