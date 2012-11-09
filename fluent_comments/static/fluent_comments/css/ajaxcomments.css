@@ -11,3 +11,8 @@
 #comment-thanks {
   padding-left: 10px;
 }
+
+.comment-moderated-flag {
+  font-variant: small-caps;
+  margin-left: 5px;
+}

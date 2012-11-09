@@ -132,6 +132,7 @@ def _ajax_result(request, form, action, comment=None):
         'errors': json_errors,
         'html': comment_html,
         'comment_id': comment.id if comment else None,
+        'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
     })
 
     return HttpResponse(json_response, mimetype="application/json")

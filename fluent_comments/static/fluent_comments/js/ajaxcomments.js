@@ -90,11 +90,16 @@
     }
 
 
-    function onCommentPosted( comment_id, $comment )
+    function onCommentPosted( comment_id, is_moderated, $comment )
     {
-        $("#comment-added-message").fadeIn(200);
+        var $message_span;
+        if( is_moderated )
+            $message_span = $("#comment-moderated-message").fadeIn(200);
+        else
+            $message_span = $("#comment-added-message").fadeIn(200);
+
         setTimeout(function(){ scrollToComment(comment_id, 1000); }, 1000);
-        setTimeout(function(){ $("#comment-added-message").fadeOut(500) }, 4000);
+        setTimeout(function(){ $message_span.fadeOut(500) }, 4000);
     }
 
 
@@ -146,7 +151,7 @@
                         $added = commentSuccess(data);
 
                     if( onsuccess )
-                        args.onsuccess(data.comment_id, $added);
+                        args.onsuccess(data.comment_id, data.is_moderated, $added);
                 }
                 else {
                     commentFailure(data);
