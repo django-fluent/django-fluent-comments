@@ -1,3 +1,4 @@
+from urlparse import urljoin
 from django.conf import settings
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
@@ -104,16 +105,19 @@ class FluentCommentsModerator(CommentModerator):
         if not AKISMET_API_KEY:
             raise ImproperlyConfigured('You must set AKISMET_API_KEY to use comment moderation with Akismet.')
 
-        auto_blog_url = '{0}://{1}/'.format(request.is_secure() and 'https' or 'http', get_current_site(request).domain)
+        current_domain = get_current_site(request).domain
+        auto_blog_url = '{0}://{1}/'.format(request.is_secure() and 'https' or 'http', current_domain)
+        blog_url = appsettings.AKISMET_BLOG_URL or auto_blog_url
+
         akismet_api = Akismet(
             key=AKISMET_API_KEY,
-            blog_url=appsettings.AKISMET_BLOG_URL or auto_blog_url
+            blog_url=blog_url
         )
 
         if akismet_api.verify_key():
             akismet_data = {
                 # Comment info
-                'permalink': content_object.get_absolute_url(),
+                'permalink': urljoin(blog_url, content_object.get_absolute_url()),
                 'comment_type': 'comment',
                 'comment_author': getattr(comment, 'name', ''),
                 'comment_author_email': getattr(comment, 'email', ''),
