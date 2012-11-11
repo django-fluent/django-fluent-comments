@@ -147,6 +147,11 @@ class FluentCommentsModerator(CommentModerator):
             'HTTP_ACCEPT': request.META.get('HTTP_ACCEPT', ''),
         }
 
+        # Allow testing, see:
+        # http://blog.akismet.com/2012/07/20/pro-tip-testing-testing/
+        if appsettings.AKISMET_IS_TEST:
+            akismet_data['is_test'] = '1'
+
         return akismet_data
 
 

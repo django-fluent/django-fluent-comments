@@ -3,6 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 AKISMET_API_KEY = getattr(settings, 'AKISMET_API_KEY', None)
 AKISMET_BLOG_URL = getattr(settings, 'AKISMET_BLOG_URL', None)  # Optional, to override auto detection
+AKISMET_IS_TEST = getattr(settings, 'AKISMET_IS_TEST', False)   # Enable in case of testing
 
 CRISPY_TEMPLATE_PACK = getattr(settings, 'CRISPY_TEMPLATE_PACK', 'bootstrap')
 
