@@ -117,8 +117,13 @@ def _ajax_result(request, form, action, comment=None):
             json_errors[field_name] = _render_errors(field)
         success = False
 
-    comment_html = None
-    if comment:
+    json = {
+        'success': success,
+        'action': action,
+        'errors': json_errors,
+    }
+
+    if comment is not None:
         context = {
             'comment': comment,
             'action': action,
@@ -126,15 +131,13 @@ def _ajax_result(request, form, action, comment=None):
         }
         comment_html = render_to_string('comments/comment.html', context, context_instance=RequestContext(request))
 
-    json_response = simplejson.dumps({
-        'success': success,
-        'action': action,
-        'errors': json_errors,
-        'html': comment_html,
-        'comment_id': comment.id if comment else None,
-        'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
-    })
+        json.update({
+            'html': comment_html,
+            'comment_id': comment.id,
+            'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
+        })
 
+    json_response = simplejson.dumps(json)
     return HttpResponse(json_response, mimetype="application/json")
 
 
