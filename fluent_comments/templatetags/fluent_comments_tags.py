@@ -1,6 +1,6 @@
 from django.template import Library
 from django.core import context_processors
-from fluent_comments.moderation import comments_are_closed, comments_are_moderated
+from fluent_comments.moderation import comments_are_open, comments_are_moderated
 
 register = Library()
 
@@ -16,5 +16,5 @@ def ajax_comment_tags(context):
     return new_context
 
 
-register.filter('comments_are_closed', comments_are_closed)
+register.filter('comments_are_open', comments_are_open)
 register.filter('comments_are_moderated', comments_are_moderated)

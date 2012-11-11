@@ -2,7 +2,6 @@ from urlparse import urljoin
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpRequest
 from django.utils.encoding import smart_str
 from akismet import Akismet
 from fluent_comments import appsettings
@@ -13,7 +12,7 @@ __all__ = (
     'FluentCommentsModerator',
     'moderate_model',
     'get_model_moderator',
-    'comments_are_closed',
+    'comments_are_open',
     'comments_are_moderated',
 )
 
@@ -166,18 +165,17 @@ def get_model_moderator(model):
         return None
 
 
-def comments_are_closed(content_object):
+def comments_are_open(content_object):
     """
-    Return whether comments are closed for a given target object.
+    Return whether comments are still open for a given target object.
     """
     moderator = get_model_moderator(content_object.__class__)
     if moderator is None:
-        return False
+        return True
 
     # Check the 'enable_field', 'auto_close_field' and 'close_after',
     # by reusing the basic Django policies.
-    request = HttpRequest()
-    return not CommentModerator.allow(moderator, None, content_object, request)
+    return CommentModerator.allow(moderator, None, content_object, None)
 
 
 def comments_are_moderated(content_object):
@@ -190,5 +188,4 @@ def comments_are_moderated(content_object):
 
     # Check the 'auto_moderate_field', 'moderate_after',
     # by reusing the basic Django policies.
-    request = HttpRequest()
-    return CommentModerator.moderate(moderator, None, content_object, request)
+    return CommentModerator.moderate(moderator, None, content_object, None)
