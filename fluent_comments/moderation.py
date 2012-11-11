@@ -1,11 +1,8 @@
 from urlparse import urljoin
-from django.conf import settings
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
-from django.core.mail import send_mail
 from django.http import HttpRequest
-from django.shortcuts import render
 from django.utils.encoding import smart_str
 from akismet import Akismet
 from fluent_comments import appsettings
@@ -31,7 +28,7 @@ class FluentCommentsModerator(CommentModerator):
 
     close_after = appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS
     moderate_after = appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS
-    email_notification = appsettings.FLUENT_COMMENTS_USE_EMAIL_MODERATION
+    email_notification = False   # Using signals instead
     akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
     akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
 
@@ -72,27 +69,6 @@ class FluentCommentsModerator(CommentModerator):
                 return True
 
         return False
-
-
-    def email(self, comment, content_object, request):
-        """
-        Send email notification of a new comment to site staff when email notifications have been requested.
-        """
-        # This code is copied from django.contrib.comments.moderation,
-        # since it doesn't offer a RequestContext, making it really hard to generate URL's with FQDN in the email
-        if not self.email_notification:
-            return
-
-        recipient_list = [manager_tuple[1] for manager_tuple in settings.MANAGERS]
-        site = get_current_site(request)
-        subject = '[{0}] New comment posted on "{1}"'.format(site.name, content_object)
-        context = {
-            'site': site,
-            'comment': comment,
-            'content_object': content_object
-        }
-        message = render(request, "comments/comment_notification_email.txt", context)
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=True)
 
 
     def _akismet_check(self, comment, content_object, request):
