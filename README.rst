@@ -7,6 +7,7 @@ The features are:
 
 * Ajax-based preview and posting of comments
 * Configurable form layouts using django-crispy-forms_.
+* Comment moderationm, using Akismet_ integration and auto-closing after N days.
 
 The application is designed to be plug&play;
 installing it should already give a better comment layout.
@@ -97,6 +98,39 @@ If your form CSS framework is not supported, you can create a template pack
 for it and submit a pull request to the django-crispy-forms_ authors for inclusion.
 
 
+Comment moderation
+------------------
+
+Comment moderation can be enabled for the specific models using::
+
+
+    from fluent_comments.moderation import moderate_model
+    from myblog.models import BlogPost
+
+    moderate_model(BlogPost,
+        publication_date_field='publication_date',
+        enable_comments_field='enable_comments',
+    )
+
+This code can be placed in a ``models.py`` file.
+The provided field names are optional. By providing the field names,
+the comments can be auto-moderated or auto-closed after a number of days since the publication date.
+
+The following settings are available for comment moderation::
+
+    AKISMET_API_KEY = "your-api-key"
+    AKISMET_BLOG_URL = "http://example.com"        # Optional, to override auto detection
+    AKISMET_IS_TEST = False                        # Enable to make test runs
+
+    FLUENT_CONTENTS_USE_AKISMET = True             # Enabled by default when AKISMET_API_KEY is set.
+    FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True  # Enable email notification of new comments.
+    FLUENT_COMMENTS_CLOSE_AFTER_DAYS = None        # Auto-close comments after N days
+    FLUENT_COMMENTS_MODERATE_AFTER_DAYS = None     # Auto-moderate comments after N days.
+    FLUENT_COMMENTS_AKISMET_ACTION = 'moderate'    # Set to 'moderate' or 'delete'
+
+To use Akismet_ moderation, make sure the ``AKISMET_API_KEY`` setting is defined.
+
+
 Threaded comments
 -----------------
 
@@ -129,5 +163,6 @@ Pull requests are welcome too. :-)
 .. _django.contrib.comments: https://docs.djangoproject.com/en/dev/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
+.. _Akismet: http://akismet.com
 .. _`Bootstrap`: http://twitter.github.com/bootstrap/index.html
 .. _`Uni-form`: http://sprawsm.com/uni-form
