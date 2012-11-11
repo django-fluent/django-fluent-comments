@@ -8,6 +8,7 @@ The features are:
 * Ajax-based preview and posting of comments
 * Configurable form layouts using django-crispy-forms_.
 * Comment moderationm, using Akismet_ integration and auto-closing after N days.
+* E-mail notification to the site managers of new comments.
 
 The application is designed to be plug&play;
 installing it should already give a better comment layout.
@@ -123,12 +124,22 @@ The following settings are available for comment moderation::
     AKISMET_IS_TEST = False                        # Enable to make test runs
 
     FLUENT_CONTENTS_USE_AKISMET = True             # Enabled by default when AKISMET_API_KEY is set.
-    FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True  # Enable email notification of new comments.
     FLUENT_COMMENTS_CLOSE_AFTER_DAYS = None        # Auto-close comments after N days
     FLUENT_COMMENTS_MODERATE_AFTER_DAYS = None     # Auto-moderate comments after N days.
     FLUENT_COMMENTS_AKISMET_ACTION = 'moderate'    # Set to 'moderate' or 'delete'
 
 To use Akismet_ moderation, make sure the ``AKISMET_API_KEY`` setting is defined.
+
+
+E-mail notification
+-------------------
+
+By default, the ``MANAGERS`` of a Django site will receive an e-mail notification of new comments.
+This feature can be enabled or disabled using::
+
+    FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True
+
+The template ``comments/comment_notification_email.txt`` is used to generate the e-mail message.
 
 
 Threaded comments
