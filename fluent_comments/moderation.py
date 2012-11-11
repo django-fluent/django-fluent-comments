@@ -115,33 +115,39 @@ class FluentCommentsModerator(CommentModerator):
         )
 
         if akismet_api.verify_key():
-            akismet_data = {
-                # Comment info
-                'permalink': urljoin(blog_url, content_object.get_absolute_url()),
-                'comment_type': 'comment',
-                'comment_author': getattr(comment, 'name', ''),
-                'comment_author_email': getattr(comment, 'email', ''),
-                'comment_author_url': getattr(comment, 'url', ''),
-
-                # Request info
-                'referrer': request.META.get('HTTP_REFERER', ''),
-                'user_agent': request.META.get('HTTP_USER_AGENT', ''),
-                'user_ip': comment.ip_address,
-
-                # Server info
-                'SERVER_ADDR': request.META.get('SERVER_ADDR', ''),
-                'SERVER_ADMIN': request.META.get('SERVER_ADMIN', ''),
-                'SERVER_NAME': request.META.get('SERVER_NAME', ''),
-                'SERVER_PORT': request.META.get('SERVER_PORT', ''),
-                'SERVER_SIGNATURE': request.META.get('SERVER_SIGNATURE', ''),
-                'SERVER_SOFTWARE': request.META.get('SERVER_SOFTWARE', ''),
-                'HTTP_ACCEPT': request.META.get('HTTP_ACCEPT', ''),
-            }
-
+            akismet_data = self._get_akismet_data(blog_url, comment, content_object, request)
             if akismet_api.comment_check(smart_str(comment.comment), data=akismet_data, build_data=True):
                 return True
 
         return False
+
+    def _get_akismet_data(self, blog_url, comment, content_object, request):
+        # Field documentation:
+        # http://akismet.com/development/api/#comment-check
+        akismet_data = {
+            # Comment info
+            'permalink': urljoin(blog_url, content_object.get_absolute_url()),
+            'comment_type': 'comment',   # comment, trackback, pingback, see http://blog.akismet.com/2012/06/19/pro-tip-tell-us-your-comment_type/
+            'comment_author': getattr(comment, 'name', ''),
+            'comment_author_email': getattr(comment, 'email', ''),
+            'comment_author_url': getattr(comment, 'url', ''),
+
+            # Request info
+            'referrer': request.META.get('HTTP_REFERER', ''),
+            'user_agent': request.META.get('HTTP_USER_AGENT', ''),
+            'user_ip': comment.ip_address,
+
+            # Server info
+            'SERVER_ADDR': request.META.get('SERVER_ADDR', ''),
+            'SERVER_ADMIN': request.META.get('SERVER_ADMIN', ''),
+            'SERVER_NAME': request.META.get('SERVER_NAME', ''),
+            'SERVER_PORT': request.META.get('SERVER_PORT', ''),
+            'SERVER_SIGNATURE': request.META.get('SERVER_SIGNATURE', ''),
+            'SERVER_SOFTWARE': request.META.get('SERVER_SOFTWARE', ''),
+            'HTTP_ACCEPT': request.META.get('HTTP_ACCEPT', ''),
+        }
+
+        return akismet_data
 
 
 def moderate_model(ParentModel, publication_date_field=None, enable_comments_field=None):
