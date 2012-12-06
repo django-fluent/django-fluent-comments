@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.template import Library
 from django.core import context_processors
 from fluent_comments.models import get_comments_for_model
@@ -10,10 +11,19 @@ def ajax_comment_tags(context):
     """
     Display the required ``<div>`` elements to let the Ajax comment functionality work with your form.
     """
-    request = context['request']
+    new_context = {
+        'STATIC_URL': context.get('STATIC_URL', None)
+    }
 
-    new_context = {}
-    new_context.update(context_processors.static(request))
+    # Be configuration independent:
+    if new_context['STATIC_URL'] is None:
+        try:
+            request = context['request']
+        except KeyError:
+            new_context.update({'STATIC_URL': settings.STATIC_URL})
+        else:
+            new_context.update(context_processors.static(request))
+
     return new_context
 
 
