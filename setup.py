@@ -32,7 +32,7 @@ setup(
     url='https://github.com/edoburu/django-fluent-comments',
     download_url='https://github.com/edoburu/django-fluent-comments/zipball/master',
 
-    packages=find_packages(),
+    packages=find_packages(exclude=('example*',)),
     include_package_data=True,
 
     zip_safe=False,
