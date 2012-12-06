@@ -1,5 +1,6 @@
 from django.template import Library
 from django.core import context_processors
+from fluent_comments.models import get_comments_for_model
 from fluent_comments.moderation import comments_are_open, comments_are_moderated
 
 register = Library()
@@ -18,3 +19,13 @@ def ajax_comment_tags(context):
 
 register.filter('comments_are_open', comments_are_open)
 register.filter('comments_are_moderated', comments_are_moderated)
+
+
+@register.filter
+def comments_count(content_object):
+    """
+    Return the number of comments posted at a target object.
+
+    You can use this instead of the ``{% get_comment_count for [object] as [varname]  %}`` tag.
+    """
+    return get_comments_for_model(content_object).count()
