@@ -1,0 +1,61 @@
+{% extends "theme1/base.html" %}{% load i18n comments fluent_comments_tags %}
+
+{% block headtitle %}{{ article.title }}{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+{% endblock %}
+
+{% block main %}
+  <h1>{{ article.title }}</h1>
+
+  {{ article.content|linebreaks }}
+
+  {% comment %}
+
+    The minimal requirement to add comments is simply this:
+
+      <div>
+        {% render_comment_list for article %}
+        {% render_comment_form for article %}
+      </div>
+
+    However, to have a nice invitation to post comments,
+    you can use the following example below.
+
+  {% endcomment %}
+
+  {% get_comment_count for article as comments_count %}
+
+  <div id="comments-wrapper">
+    {% if comments_count %}
+    <h3 class="has-comments-title">{% blocktrans with entry_title=article.title count comments_count=comments_count %}{{ comments_count }} comment to {{ entry_title }}{% plural %}{{ comments_count }} comments to {{ entry_title }}{% endblocktrans %}</h3>
+      {% render_comment_list for object %}
+
+      {% if not article|comments_are_open %}
+        <p class="comments-closed">{% trans "Comments are closed." %}</p>
+      {% endif %}
+    {% else %}
+      {# no comments yet, invite #}
+      {% if article|comments_are_open %}
+        <h3 class="no-comments-title">{% trans "Leave a reply" %}</h3>
+
+        {# include the empty list, so the <div> is there for Ajax code #}
+        {% render_comment_list for object %}
+
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% if article|comments_are_open %}
+    <div id="comments-form-wrapper">
+      {% render_comment_form for object %}
+    </div>
+  {% endif %}
+
+
+{% endblock %}

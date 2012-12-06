@@ -1,0 +1,41 @@
+{% comment %}
+
+    This is the base template of the example project.
+
+{% endcomment %}<!DOCTYPE html>
+<html xml:lang="{{ LANGUAGE_CODE|default:"nl" }}" lang="{{ LANGUAGE_CODE|default:"nl" }}">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Powered by Python, and Django Fluent CMS" />
+    <title>{% block headtitle %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}theme1/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}theme1/site.css" type="text/css" />
+    {% block extrahead %}{% endblock %}
+    {% block scripts %}
+    <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
+    {% endblock %}
+  </head>
+
+  <body id="{% block bodyid %}{% endblock %}" class="{% block bodyclass %}{% endblock %}">
+    <div id="wrapper">
+      <div id="fullpage" class="clearfix">
+        <div id="header">
+          <h1>Example site</h1>
+        </div>
+
+        <div id="menu" class="clearfix">
+          <ul>
+            {% for child in simplecms_page.get_root.get_children %}
+              <li><a href="{{ child.get_absolute_url }}">{{ child.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div><!-- /menu -->
+
+        <div id="mainarea">
+          {% block main %}{% endblock %}
+        </div><!-- /mainarea -->
+        {% block after_main %}{% endblock %}
+      </div><!-- /fullpage -->
+    </div><!-- /wrapper -->
+  </body>
+</html>

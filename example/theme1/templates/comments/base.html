@@ -1,0 +1,34 @@
+{% extends "theme1/base.html" %}{% load i18n %}
+{% comment %}
+
+    This template only exists to support the non-Ajax pages. Those are:
+    - links to the moderation options in the email.
+    - Pages for visitors with JavaScript disabled.
+
+    Those pages are rendered with "comments/base.html" as base template.
+
+    This file simply maps those blocks (headtitle, extrahead and content)
+    to the blocks that are found in the site theme base template.
+    See for example:
+
+        http://127.0.0.1:8000/comments/posted/
+        http://127.0.0.1:8000/comments/flag/1/
+        http://127.0.0.1:8000/comments/flagged/
+        http://127.0.0.1:8000/comments/delete/1/
+        http://127.0.0.1:8000/comments/deleted/
+        http://127.0.0.1:8000/comments/approve/1/
+        http://127.0.0.1:8000/comments/approved/
+
+{% endcomment %}
+
+{% block headtitle %}{% block title %}{% trans "Responses for page" %}{% endblock %} - Example CMS{% endblock %}
+
+{% block main %}
+  <h1>Comments</h1>
+
+  <div id="content">
+    {% block content %}{% endblock %}
+  </div>
+{% endblock %}
+
+{# NOTE that the base template also needs to have an 'extrahead' block, or map it here like 'main' and 'headtitle' are mapped. #}
