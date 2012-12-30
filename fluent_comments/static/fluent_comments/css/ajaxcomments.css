@@ -16,3 +16,8 @@
   font-variant: small-caps;
   margin-left: 5px;
 }
+
+#div_id_honeypot {
+    /* Hide the honeypot from django.contrib.comments by default */
+    display: none;
+}
