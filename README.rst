@@ -7,7 +7,7 @@ The features are:
 
 * Ajax-based preview and posting of comments
 * Configurable form layouts using django-crispy-forms_.
-* Comment moderationm, using Akismet_ integration and auto-closing after N days.
+* Comment moderation, using Akismet_ integration and auto-closing after N days.
 * E-mail notification to the site managers of new comments.
 
 The application is designed to be plug&play;
