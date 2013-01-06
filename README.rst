@@ -16,10 +16,12 @@ installing it should already give a better comment layout.
 Installation
 ============
 
-First install the module, preferably in a virtual environment::
+First install the module, preferably in a virtual environment. It can be installed from PyPI::
 
-    git clone https://github.com/edoburu/django-fluent-comments.git
-    cd django-fluent-comments
+    pip install django-fluent-comments
+
+Or the current folder can be installed::
+
     pip install .
 
 Configuration
