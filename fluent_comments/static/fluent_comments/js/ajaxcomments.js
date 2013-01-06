@@ -173,7 +173,7 @@
     function commentSuccess(data)
     {
         // Clean form
-        $('form.js-comments-form textarea')[0].value = "";
+        $('form.js-comments-form textarea').last().val("");
         $('#id_comment').val('');
 
         // Show comment
