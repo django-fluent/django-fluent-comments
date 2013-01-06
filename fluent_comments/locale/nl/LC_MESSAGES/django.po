@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 22:46+0200\n"
+"POT-Creation-Date: 2013-01-06 13:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Diederik van der Boor <vdboor@edoburu.nl>\n"
 "Language-Team: Dutch <NL@li.org>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: admin.py:37
+#: admin.py:35
 msgid "Content"
 msgstr "Inhoud"
 
-#: admin.py:40
+#: admin.py:38
 msgid "Account information"
 msgstr "Account informatie"
 
-#: admin.py:43
+#: admin.py:41
 msgid "Moderation"
 msgstr "Moderatie"
 
-#: admin.py:54
+#: admin.py:52
 msgid "Hierarchy"
 msgstr "Hiërarchie"
 
-#: admin.py:63
+#: admin.py:61
 msgid "Page"
 msgstr "Pagina"
 
@@ -49,11 +49,54 @@ msgstr "Anoniem"
 msgid "on %(submit_date)s"
 msgstr "op %(submit_date)s"
 
-#: templates/comments/form.html:9 templates/comments/preview.html:26
+#: templates/comments/comment.html:29
+msgid "moderated"
+msgstr "gemodereerd"
+
+#: templates/comments/deleted.html:4
+msgid "Thanks for removing"
+msgstr "Bedankt voor het verwijderen"
+
+#: templates/comments/deleted.html:12
+msgid "Thanks for removing the comment"
+msgstr "Bedankt voor het verwijderen van de reactie"
+
+#: templates/comments/deleted.html:14 templates/comments/flagged.html:14
+msgid ""
+"\n"
+"      Thanks for taking the time to improve the quality of discussion on our "
+"site.<br/>\n"
+"      You will be sent back to the article...\n"
+"    "
+msgstr ""
+"\n"
+"      Bedankt voor je tijd om de kwaliteit van discussie op onze site te "
+"verbeteren.<br/>\n"
+"      Je wordt nu teruggestuurd naar de vorige pagina...\n"
+"      "
+
+#: templates/comments/deleted.html:20 templates/comments/flagged.html:20
+#: templates/comments/posted.html:24
+msgid "Back to the article"
+msgstr "Terug naar de pagina"
+
+#: templates/comments/flagged.html:4
+msgid "Thanks for flagging"
+msgstr "Bedankt voor je melding"
+
+#: templates/comments/flagged.html:12
+msgid "Thanks for flagging the comment"
+msgstr "Bedankt voor het rapporteren van de reactie"
+
+#: templates/comments/form.html:4
+msgid "Comments are closed."
+msgstr "Reacties zijn gesloten."
+
+#: templates/comments/form.html:13 templates/comments/preview.html:26
 msgid "Post"
 msgstr "Plaatsen"
 
-#: templates/comments/form.html:10 templates/comments/preview.html:27
+#: templates/comments/form.html:14 templates/comments/preview.html:27
 msgid "Preview"
 msgstr "Voorbeeld"
 
@@ -71,15 +114,11 @@ msgid ""
 "      We have received your comment, and posted it on the web site.<br/>\n"
 "      You will be sent back to the article...\n"
 "      "
-msgstr
+msgstr ""
 "\n"
 "      We hebben je reactie ontvangen, en geplaatst op de website.<br/>\n"
 "      Je wordt nu teruggestuurd naar de vorige pagina...\n"
 "      "
-
-#: templates/comments/posted.html:24
-msgid "Back to the article"
-msgstr "Terug naar de pagina"
 
 #: templates/comments/preview.html:3
 msgid "Preview your comment"
@@ -106,3 +145,11 @@ msgstr "Even geduld . . ."
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:5
 msgid "Your comment has been posted!"
 msgstr "Je reactie is geplaatst!"
+
+#: templates/fluent_comments/templatetags/ajax_comment_tags.html:6
+msgid ""
+"Your comment has been posted, it will be visible for other users after "
+"approval."
+msgstr ""
+"Je reactie is geplaatst en wordt pas na goedkeuring zichtbaar voor andere "
+"gebruikers."
