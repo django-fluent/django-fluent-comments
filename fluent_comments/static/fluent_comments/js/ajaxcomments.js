@@ -25,12 +25,13 @@
         $('html, body').each(function()
         {
             // See which tag updates the scrollTop attribute
-            var initScrollTop = $(this).attr('scrollTop');
-            $(this).attr('scrollTop', initScrollTop + 1);
-            if( $(this).attr('scrollTop') == initScrollTop + 1 )
+            var $rootEl = $(this);
+            var initScrollTop = $rootEl.attr('scrollTop');
+            $rootEl.attr('scrollTop', initScrollTop + 1);
+            if( $rootEl.attr('scrollTop') == initScrollTop + 1 )
             {
                 scrollElement = this.nodeName.toLowerCase();
-                $(this).attr('scrollTop', initScrollTop);  // Firefox 2 reset
+                $rootEl.attr('scrollTop', initScrollTop);  // Firefox 2 reset
                 return false;
             }
         });
