@@ -6,7 +6,7 @@ of the django.contrib.comments_ application to be directly usable in web sites.
 The features are:
 
 * Ajax-based preview and posting of comments
-* Configurable form layouts using django-crispy-forms_.
+* Configurable form layouts using django-crispy-forms_ and settings to exclude fields.
 * Comment moderation, using Akismet_ integration and auto-closing after N days.
 * E-mail notification to the site managers of new comments.
 
