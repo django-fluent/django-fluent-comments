@@ -2,11 +2,7 @@ include AUTHORS
 include README.rst
 include LICENSE
 recursive-include fluent_comments/locale *.po *.mo
-recursive-include fluent_comments/templates *.html
-recursive-include fluent_comments/static *
+recursive-include fluent_comments/templates *.html *.txt
+recursive-include fluent_comments/static *.css *.gif *.js
 global-exclude .DS_Store
 global-exclude Thumbs.db
-global-exclude Desktop.ini
-global-exclude *.swp
-global-exclude *~
-global-exclude *.bak
