@@ -41,7 +41,8 @@
         if( hash.substring(0, 2) == "#c" )
         {
             var id = parseInt(hash.substring(2));
-            scrollToComment(id, 1000);
+            if( ! isNaN(id))   // e.g. #comments in URL
+                scrollToComment(id, 1000);
         }
     });
 
