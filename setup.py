@@ -19,9 +19,11 @@ setup(
     license='Apache License, Version 2.0',
 
     install_requires=[
-        'Django>=1.2.0',
         'django-crispy-forms>=1.1.1',
         'akismet>=0.2',
+    ],
+    requires=[
+        'Django (>=1.2)',
     ],
     description='A modern, ajax-based appearance for django.contrib.comments',
     long_description=open('README.rst').read(),
