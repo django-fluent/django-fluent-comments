@@ -99,6 +99,17 @@ If your form CSS framework is not supported, you can create a template pack
 for it and submit a pull request to the django-crispy-forms_ authors for inclusion.
 
 
+Hiding form fields
+~~~~~~~~~~~~~~~~~~
+
+Form fields can be hidden using the following settings::
+
+    FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
+    COMMENTS_APP = 'fluent_comments'
+
+When `django-threadedcomments`_ in used, the ``title`` field can also be removed.
+
+
 Comment moderation
 ------------------
 
@@ -152,7 +163,7 @@ which can be enabled with the following settings::
         'threadedcomments',
     )
 
-    COMMENTS_APP = 'threadedcomments'
+    COMMENTS_APP = 'fluent_comments'
 
 Note however, that some improvements to django-threadedcomments_ are still open
 (see `pull request #39 <https://github.com/HonzaKral/django-threadedcomments/pull/39>`_)
