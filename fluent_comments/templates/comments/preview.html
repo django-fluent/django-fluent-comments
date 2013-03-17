@@ -14,7 +14,7 @@
       <blockquote class="comment-preview">{{ comment|linebreaks }}</blockquote>
 
       <div class="form-actions">
-        <input type="submit" name="submit" class="btn btn-submit" value="{% trans "Post your comment" %}" id="submit" />
+        <input type="submit" name="submit" class="btn btn-primary" value="{% trans "Post your comment" %}" id="submit" />
       </div>
 
       <p>{% trans "Or make changes" %}:</p>
@@ -23,8 +23,8 @@
     {{ form|crispy }}
 
     <div class="form-actions">
-      <input type="submit" name="post" class="btn btn-submit" value="{% trans "Post" %}" />
-      <input type="submit" name="preview" class="btn btn-submit" value="{% trans "Preview" %}" />
+      <input type="submit" name="post" class="btn btn-primary" value="{% trans "Post" %}" />
+      <input type="submit" name="preview" class="btn" value="{% trans "Preview" %}" />
     </div>
   </form>
 {% endblock %}

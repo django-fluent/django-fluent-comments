@@ -1,3 +1,9 @@
+Version 0.8.1
+-------------
+
+* Fix CSS class for primary submit button, is now ``.btn-primary``.
+
+
 Version 0.8.0
 -------------
 
