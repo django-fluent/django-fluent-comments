@@ -167,10 +167,6 @@ which can be enabled with the following settings::
 
     COMMENTS_APP = 'fluent_comments'
 
-Note however, that some improvements to django-threadedcomments_ are still open
-(see `pull request #39 <https://github.com/HonzaKral/django-threadedcomments/pull/39>`_)
-and until that moment it is not easy to take full advantage of the threaded display.
-
 
 Contributing
 ------------
