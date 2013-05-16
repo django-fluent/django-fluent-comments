@@ -6,6 +6,10 @@ from fluent_comments import appsettings
 from fluent_comments.forms import FluentCommentForm
 
 
+# following PEP 386
+__version__ = "0.8.0"
+
+
 if appsettings.USE_THREADEDCOMMENTS:
     # Extend the API provided by django-threadedcomments,
     # in case this app uses more hooks of Django's custom comment app API.
