@@ -18,6 +18,30 @@
 }
 
 #div_id_honeypot {
-    /* Hide the honeypot from django.contrib.comments by default */
-    display: none;
+  /* Hide the honeypot from django.contrib.comments by default */
+  display: none;
+}
+
+
+/* ---- threaded comments ---- */
+
+ul.comment-list-wrapper {
+  /* to avoid touching our own "ul" tags, our tags are explicitly decorated with a class selector */
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul.comment-list-wrapper ul.comment-list-wrapper {
+  margin-left: 1em;
+  padding-left: 0;
+}
+
+li.comment-wrapper {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.js-comments-form-orig-position .comment-cancel-reply-link {
+  display: none;
 }

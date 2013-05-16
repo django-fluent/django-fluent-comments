@@ -128,14 +128,18 @@ def _ajax_result(request, form, action, comment=None):
             'comment': comment,
             'action': action,
             'preview': (action == 'preview'),
+            'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
         }
         comment_html = render_to_string('comments/comment.html', context, context_instance=RequestContext(request))
 
         json.update({
             'html': comment_html,
             'comment_id': comment.id,
+            'parent_id': None,
             'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
         })
+        if appsettings.USE_THREADEDCOMMENTS:
+            json['parent_id'] = comment.parent_id
 
     json_response = simplejson.dumps(json)
     return HttpResponse(json_response, mimetype="application/json")

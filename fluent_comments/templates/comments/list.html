@@ -1,10 +1,14 @@
 {% comment %}
-  The normal list, spiced up.
 
-  The id="comments" is required for JavaScript,
-  the 'comments/comment.html template is also used by the Ajax view.
+  Since we support both flat comments, and threadedcomments,
+  the 'fluent_comments_list' templatetag loads the proper template.
+
+  It either loads:
+  - fluent_comments/templatetags/flat_html.html
+  - fluent_comments/templatetags/threaded_list.html
+
+  Both reuse comments/comment.html eventually.
+  To style comments, consider overwriting that template.
+
 {% endcomment %}
-
-<div id="comments"{% if not comment_list %} class="empty"{% endif %}>
-  {% for comment in comment_list %}{% include "comments/comment.html" %}{% endfor %}
-</div>
+{% load fluent_comments_tags %}{% fluent_comments_list %}

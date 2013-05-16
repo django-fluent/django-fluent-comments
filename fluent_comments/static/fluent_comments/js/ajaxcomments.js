@@ -20,6 +20,12 @@
         }
 
 
+        // Bind events for threaded comment reply
+        $('.comment-reply-link').live('click', showThreadedReplyForm);
+        $('.comment-cancel-reply-link').click(cancelThreadedReplyForm);
+        $('.js-comments-form').wrap('<div class="js-comments-form-orig-position"></div>');
+
+
         // Find the element to use for scrolling.
         // This code is much shorter then jQuery.scrollTo()
         $('html, body').each(function()
@@ -105,6 +111,27 @@
     }
 
 
+    function showThreadedReplyForm(event) {
+        event.preventDefault();
+
+        var $a = $(this);
+        var comment_id = $a.data('comment-id');
+
+        $('#id_parent').val(comment_id);
+        $('.js-comments-form').insertAfter($a.closest('.comment-item'));
+    };
+
+
+    function cancelThreadedReplyForm(event) {
+        if(event)
+            event.preventDefault();
+
+        $('#id_comment').val('');
+        $('#id_parent').val('');
+        $('.js-comments-form').appendTo($('.js-comments-form-orig-position'));
+    }
+
+
     /*
       Based on django-ajaxcomments, BSD licensed.
       Copyright (c) 2009 Brandon Konkle and individual contributors.
@@ -176,12 +203,11 @@
         // Clean form
         $('form.js-comments-form textarea').last().val("");
         $('#id_comment').val('');
+        cancelThreadedReplyForm();  // in case threaded comments are used.
 
         // Show comment
         var had_preview = removePreview();
-        var $comments = getCommentsDiv();
-        $comments.append(data['html']).removeClass('empty');
-        var $new_comment = $comments.children("div.comment-item:last");
+        var $new_comment = addComment(data);
 
         if( had_preview )
             // Avoid double jump when preview was removed. Instead refade to final comment.
@@ -191,6 +217,30 @@
             $new_comment.hide().show(600);
 
         return $new_comment;
+    }
+
+    function addComment(data)
+    {
+        // data contains the server-side response.
+        var html = data['html']
+        var parent_id = data['parent_id'];
+
+        var $new_comment;
+        if(parent_id)
+        {
+            var $parentLi = $("#c" + parseInt(parent_id)).parent('li.comment-wrapper');
+            var $commentUl = $parentLi.children('ul');
+            if( $commentUl.length == 0 )
+                $commentUl = $parentLi.append('<ul class="comment-list-wrapper"></ul>').children('ul.comment-list-wrapper');
+            $commentUl.append('<li class="comment-wrapper">' + html + '</li>');
+        }
+        else
+        {
+            var $comments = getCommentsDiv();
+            $comments.append(html).removeClass('empty');
+        }
+
+        return $("#c" + parseInt(data.comment_id));
     }
 
     function commentPreview(data)
