@@ -1,3 +1,9 @@
+Version 0.9.1 (dev)
+-------------------
+
+* Fix running at Django 1.6
+
+
 Version 0.9
 -----------
 
