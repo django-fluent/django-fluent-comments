@@ -9,6 +9,7 @@ The features are:
 * Configurable form layouts using django-crispy-forms_ and settings to exclude fields.
 * Comment moderation, using Akismet_ integration and auto-closing after N days.
 * E-mail notification to the site managers of new comments.
+* Optional threaded comments support via django-threadedcomments_.
 
 The application is designed to be plug&play;
 installing it should already give a better comment layout.
@@ -158,14 +159,17 @@ The template ``comments/comment_notification_email.txt`` is used to generate the
 Threaded comments
 -----------------
 
-There is rudimentary support for `django-threadedcomments`_ in this module,
-which can be enabled with the following settings::
+There is build-in support for django-threadedcomments_ in this module.
+It can be enabled using the following settings::
 
     INSTALLED_APPS += (
         'threadedcomments',
     )
 
     COMMENTS_APP = 'fluent_comments'
+
+The templates and admin interface adapt themselves automatically
+to show the threaded comments.
 
 
 Contributing

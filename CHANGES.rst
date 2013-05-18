@@ -1,7 +1,7 @@
 Version 0.9
 -----------
 
-* Support django-threadedcomments_ out of the box.
+* Full support for django-threadedcomments_ out of the box.
 * Fix CSS class for primary submit button, is now ``.btn-primary``.
 
 
