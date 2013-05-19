@@ -1,7 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.utils import simplejson
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.contrib import comments
@@ -11,6 +10,7 @@ from django.utils.html import escape
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from fluent_comments import appsettings
+import json
 
 
 @csrf_protect
@@ -141,7 +141,7 @@ def _ajax_result(request, form, action, comment=None):
         if appsettings.USE_THREADEDCOMMENTS:
             json['parent_id'] = comment.parent_id
 
-    json_response = simplejson.dumps(json)
+    json_response = json.dumps(json)
     return HttpResponse(json_response, mimetype="application/json")
 
 
