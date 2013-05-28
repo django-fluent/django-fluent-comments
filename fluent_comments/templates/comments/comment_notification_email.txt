@@ -9,7 +9,7 @@ Email: {{ comment.user_email }}
 Homepage: {{ comment.user_url }}
 Moderated: {{ comment.is_public|yesno:'no,yes' }}
 
-Comments:
+Comment:
 {{ comment.comment }}
 
 ----
