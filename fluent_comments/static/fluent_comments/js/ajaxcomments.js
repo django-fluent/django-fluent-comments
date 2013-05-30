@@ -7,7 +7,6 @@
     var COMMENT_SCROLL_TOP_OFFSET = 40;
     var PREVIEW_SCROLL_TOP_OFFSET = 20;
 
-
     $.fn.ready(function()
     {
         var commentform = $('form.js-comments-form');
@@ -21,8 +20,14 @@
 
 
         // Bind events for threaded comment reply
-        $('.comment-reply-link').live('click', showThreadedReplyForm);
-        $('.comment-cancel-reply-link').click(cancelThreadedReplyForm);
+        var commentReplyLink = $('.comment-reply-link');
+        if ( commentReplyLink.length > 0 )
+            commentReplyLink.live('click', showThreadedReplyForm);
+
+        var commentCancelReplyLink = $('.comment-cancel-reply-link');
+        if ( commentCancelReplyLink.length > 0 )
+            commentCancelReplyLink.click(cancelThreadedReplyForm);
+
         $('.js-comments-form').wrap('<div class="js-comments-form-orig-position"></div>');
 
 
@@ -237,6 +242,7 @@
         else
         {
             var $comments = getCommentsDiv();
+            $comments.children('.empty-message').hide().fadeOut(600);
             $comments.append(html).removeClass('empty');
         }
 
