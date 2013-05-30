@@ -237,6 +237,7 @@
         else
         {
             var $comments = getCommentsDiv();
+            $comments.children('.empty-message').hide().fadeOut(600);
             $comments.append(html).removeClass('empty');
         }
 
