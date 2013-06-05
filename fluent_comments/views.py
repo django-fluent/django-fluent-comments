@@ -117,7 +117,7 @@ def _ajax_result(request, form, action, comment=None):
             json_errors[field_name] = _render_errors(field)
         success = False
 
-    json = {
+    json_return = {
         'success': success,
         'action': action,
         'errors': json_errors,
@@ -132,16 +132,16 @@ def _ajax_result(request, form, action, comment=None):
         }
         comment_html = render_to_string('comments/comment.html', context, context_instance=RequestContext(request))
 
-        json.update({
+        json_return.update({
             'html': comment_html,
             'comment_id': comment.id,
             'parent_id': None,
             'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
         })
         if appsettings.USE_THREADEDCOMMENTS:
-            json['parent_id'] = comment.parent_id
+            json_return['parent_id'] = comment.parent_id
 
-    json_response = json.dumps(json)
+    json_response = json.dumps(json_return)
     return HttpResponse(json_response, mimetype="application/json")
 
 
