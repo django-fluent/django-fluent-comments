@@ -226,7 +226,7 @@
     function addComment(data)
     {
         // data contains the server-side response.
-        var html = data['html']
+        var html = $(data['html']) // create the domElement and thus fire appropriate events
         var parent_id = data['parent_id'];
 
         var $new_comment;
@@ -240,12 +240,12 @@
             var $commentUl = $parentLi.children('ul');
             if( $commentUl.length == 0 )
                 $commentUl = $parentLi.append('<ul class="comment-list-wrapper"></ul>').children('ul.comment-list-wrapper');
-            $commentUl[insert_action]('<li class="comment-wrapper">' + html + '</li>');
+            $commentUl[insert_action]('<li class="comment-wrapper">' + html.html() + '</li>');
         }
         else
         {
             var $comments = getCommentsDiv();
-            $comments[insert_action](html).removeClass('empty');
+            $comments[insert_action](html.html()).removeClass('empty');
         }
 
         return $("#c" + parseInt(data.comment_id));
