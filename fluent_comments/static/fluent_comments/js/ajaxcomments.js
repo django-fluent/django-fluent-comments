@@ -98,7 +98,7 @@
 
     function scrollToElement( $element, speed, offset )
     {
-        if( $element.length )
+        if( $element.length && COMMENT_CONTROLS.scroll_to_comment === true )
             $(scrollElement).animate( {scrollTop: $element.offset().top - (offset || 0) }, speed || 1000 );
     }
 
