@@ -12,6 +12,7 @@
 
         var COMMENT_CONTROLS = (window.COMMENT_CONTROLS !== undefined) ? window.COMMENT_CONTROLS : {
             'is_reversed': false,
+            'scroll_to_comment': true,
         };
 
         var commentform = $('form.js-comments-form');
@@ -240,12 +241,12 @@
             var $commentUl = $parentLi.children('ul');
             if( $commentUl.length == 0 )
                 $commentUl = $parentLi.append('<ul class="comment-list-wrapper"></ul>').children('ul.comment-list-wrapper');
-            $commentUl[insert_action]('<li class="comment-wrapper">' + html.html() + '</li>');
+            $commentUl[insert_action]('<li class="comment-wrapper">' + html.prop('outerHTML') + '</li>');
         }
         else
         {
             var $comments = getCommentsDiv();
-            $comments[insert_action](html.html()).removeClass('empty');
+            $comments[insert_action](html.prop('outerHTML')).removeClass('empty');
         }
 
         return $("#c" + parseInt(data.comment_id));

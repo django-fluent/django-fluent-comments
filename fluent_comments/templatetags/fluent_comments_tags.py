@@ -71,7 +71,7 @@ class RenderCommentListReversedNode(RenderCommentListNode):
                 "comments/%s/list.html" % ctype.app_label,
                 "comments/list.html"
             ]
-            qs = self.get_query_set(context).select_related('user').order_by('-id')
+            qs = self.get_query_set(context).prefetch_related('user').order_by('-id')
             context.push()
             liststr = render_to_string(template_search_list, {
                 "comment_list" : self.get_context_value_from_queryset(context, qs)
