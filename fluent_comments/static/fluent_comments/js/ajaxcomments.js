@@ -7,9 +7,14 @@
     var COMMENT_SCROLL_TOP_OFFSET = 40;
     var PREVIEW_SCROLL_TOP_OFFSET = 20;
 
-
     $.fn.ready(function()
     {
+
+        var COMMENT_CONTROLS = (window.COMMENT_CONTROLS !== undefined) ? window.COMMENT_CONTROLS : {
+            'is_reversed': false,
+            'scroll_to_comment': true,
+        };
+
         var commentform = $('form.js-comments-form');
         if( commentform.length > 0 )
         {
@@ -93,7 +98,7 @@
 
     function scrollToElement( $element, speed, offset )
     {
-        if( $element.length )
+        if( $element.length && COMMENT_CONTROLS.scroll_to_comment === true )
             $(scrollElement).animate( {scrollTop: $element.offset().top - (offset || 0) }, speed || 1000 );
     }
 
@@ -222,22 +227,26 @@
     function addComment(data)
     {
         // data contains the server-side response.
-        var html = data['html']
+        var html = $(data['html']) // create the domElement and thus fire appropriate events
         var parent_id = data['parent_id'];
 
         var $new_comment;
+
+        // define the action by which the comment is inserted at the top of the list or the bottom
+        var insert_action = (COMMENT_CONTROLS.is_reversed === true) ? 'prepend' : 'append' ;
+
         if(parent_id)
         {
             var $parentLi = $("#c" + parseInt(parent_id)).parent('li.comment-wrapper');
             var $commentUl = $parentLi.children('ul');
             if( $commentUl.length == 0 )
                 $commentUl = $parentLi.append('<ul class="comment-list-wrapper"></ul>').children('ul.comment-list-wrapper');
-            $commentUl.append('<li class="comment-wrapper">' + html + '</li>');
+            $commentUl[insert_action]('<li class="comment-wrapper">' + html.prop('outerHTML') + '</li>');
         }
         else
         {
             var $comments = getCommentsDiv();
-            $comments.append(html).removeClass('empty');
+            $comments[insert_action](html.prop('outerHTML')).removeClass('empty');
         }
 
         return $("#c" + parseInt(data.comment_id));

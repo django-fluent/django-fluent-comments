@@ -172,6 +172,24 @@ The templates and admin interface adapt themselves automatically
 to show the threaded comments.
 
 
+Javascript Controls
+-------------------
+
+You are able to control various output settings via javascript.
+
+1. is_reversed: Will use prepend instead of append to insert the ajax created comment
+
+
+Insert the following code, that does not wait for document.ready
+
+```
+<script>
+var COMMENT_CONTROLS = {
+    'is_reversed': true,
+}
+</script>
+```
+
 Contributing
 ------------
 

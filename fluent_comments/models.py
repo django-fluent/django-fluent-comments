@@ -34,8 +34,8 @@ def on_comment_posted(sender, comment, request, **kwargs):
         'content_object': content_object
     }
 
-    message = render(request, "comments/comment_notification_email.txt", context)
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=True)
+    message = unicode(render(request, "comments/comment_notification_email.txt", context))
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=False)
 
 
 def get_comments_for_model(content_object, include_moderated=False):
