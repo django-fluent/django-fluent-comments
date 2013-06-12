@@ -52,7 +52,7 @@ def post_comment_ajax(request, using=None):
         return CommentPostBadRequest("The given content-type {0} does not resolve to a valid model.".format)
     except ObjectDoesNotExist:
         return CommentPostBadRequest("No object matching content-type {0} and object PK {1} exists.".format(escape(ctype), escape(object_pk)))
-    except (ValueError, ValidationError), e:
+    except (ValueError, ValidationError) as e:
         return CommentPostBadRequest("Attempting go get content-type {0!r} and object PK {1!r} exists raised {2}".format(escape(ctype), escape(object_pk), e.__class__.__name__))
 
     # Do we want to preview the comment?
