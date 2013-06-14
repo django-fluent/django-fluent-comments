@@ -6,6 +6,7 @@
     // Settings
     var COMMENT_SCROLL_TOP_OFFSET = 40;
     var PREVIEW_SCROLL_TOP_OFFSET = 20;
+    var DISABLE_COMMENT_SCROLL = false;
 
 
     $.fn.ready(function()
@@ -21,7 +22,11 @@
 
 
         // Bind events for threaded comment reply
-        $('.comment-reply-link').live('click', showThreadedReplyForm);
+        if($.isFunction($.live))
+        {
+            $('.comment-reply-link').live('click', showThreadedReplyForm);
+        }
+        
         $('.comment-cancel-reply-link').click(cancelThreadedReplyForm);
         $('.js-comments-form').wrap('<div class="js-comments-form-orig-position"></div>');
 
@@ -75,7 +80,11 @@
 
 
     function scrollToComment(id, speed)
-    {
+    {        
+        if( DISABLE_COMMENT_SCROLL ) {
+            return;
+        }
+        
         // Allow initialisation before scrolling.
         var $comment = $("#c" + id);
         if( $comment.length == 0 ) {
@@ -93,6 +102,10 @@
 
     function scrollToElement( $element, speed, offset )
     {
+        if( DISABLE_COMMENT_SCROLL ) {
+            return;
+        }
+        
         if( $element.length )
             $(scrollElement).animate( {scrollTop: $element.offset().top - (offset || 0) }, speed || 1000 );
     }
@@ -126,9 +139,16 @@
         if(event)
             event.preventDefault();
 
-        $('#id_comment').val('');
-        $('#id_parent').val('');
-        $('.js-comments-form').appendTo($('.js-comments-form-orig-position'));
+        cancelThreadedReplyFormHelper({})
+    }
+
+    function cancelThreadedReplyFormHelper(data) {
+        var object_id = data['object_id'];
+        var the_form = $('#comment-form-' + object_id);   
+
+        $('#id_comment').val('', the_form);
+        $('#id_parent').val('', the_form);
+        $('.js-comments-form', the_form).appendTo($('.js-comments-form-orig-position', the_form));
     }
 
 
@@ -200,13 +220,16 @@
 
     function commentSuccess(data)
     {
+        var object_id = data['object_id'];
+        var the_form = $('#comment-form-' + object_id);
+
         // Clean form
-        $('form.js-comments-form textarea').last().val("");
-        $('#id_comment').val('');
-        cancelThreadedReplyForm();  // in case threaded comments are used.
+        $('form.js-comments-form textarea', the_form).last().val("");
+        $('#id_comment', the_form).val('');
+        cancelThreadedReplyFormHelper(data);  // in case threaded comments are used.
 
         // Show comment
-        var had_preview = removePreview();
+        var had_preview = removePreview(data);
         var $new_comment = addComment(data);
 
         if( had_preview )
@@ -224,6 +247,7 @@
         // data contains the server-side response.
         var html = data['html']
         var parent_id = data['parent_id'];
+        var object_id = data['object_id'];
 
         var $new_comment;
         if(parent_id)
@@ -236,7 +260,7 @@
         }
         else
         {
-            var $comments = getCommentsDiv();
+            var $comments = getCommentsDiv(object_id);
             $comments.append(html).removeClass('empty');
         }
 
@@ -245,12 +269,13 @@
 
     function commentPreview(data)
     {
+        var object_id = data['object_id'];
         var $previewarea = $("#comment-preview-area");
         if( $previewarea.length == 0 )
         {
             // If not explicitly added to the HTML, include a previewarea in the comments.
             // This should at least give the same markup.
-            getCommentsDiv().append('<div id="comment-preview-area"></div>').addClass('has-preview');
+            getCommentsDiv(object_id).append('<div id="comment-preview-area"></div>').addClass('has-preview');
             $previewarea = $("#comment-preview-area");
             previewAutoAdded = true;
         }
@@ -284,17 +309,21 @@
         $('form.js-comments-form .control-group.error').removeClass('error');
     }
 
-    function getCommentsDiv()
+    function getCommentsDiv(object_id)
     {
-        var $comments = $("#comments");
+        var $comments = $("#comments-" + object_id);
         if( $comments.length == 0 )
             alert("Internal error - unable to display comment.\n\nreason: container is missing in the page.");
         return $comments;
     }
 
-    function removePreview()
+    function removePreview(data)
     {
-        var $previewarea = $("#comment-preview-area");
+        var object_id = data['object_id'];
+        var the_form = $('#comment-form-' + object_id);
+        var the_list = $('#comments-' + object_id);
+        
+        var $previewarea = $("#comment-preview-area", the_list);
         var had_preview = $previewarea.hasClass('has-preview-loaded');
 
         if( previewAutoAdded )
@@ -304,7 +333,7 @@
 
         // Update classes. allowing CSS to add/remove margins for example.
         $previewarea.removeClass('has-preview-loaded')
-        $("#comments").removeClass('has-preview');
+        $(the_list).removeClass('has-preview');
 
         return had_preview;
     }
