@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
+from django.views.generic import RedirectView
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -9,5 +10,5 @@ urlpatterns = patterns('',
     url(r'^comments/', include('fluent_comments.urls')),
     url(r'^articles/', include('article.urls')),
 
-    url(r'^$', 'django.views.generic.simple.redirect_to', {'url': 'articles/', 'permanent': False}),
+    url(r'^$', RedirectView.as_view(url='articles/', permanent=False)),
 )
