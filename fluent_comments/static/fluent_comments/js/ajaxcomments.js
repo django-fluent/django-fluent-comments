@@ -22,11 +22,14 @@
 
 
         // Bind events for threaded comment reply
-        if($.isFunction($.live))
-        {
+        if($.fn.on) {
+            // jQuery 1.7+
+            $('body').on('click', '.comment-reply-link', showThreadedReplyForm);
+        }
+        else {
             $('.comment-reply-link').live('click', showThreadedReplyForm);
         }
-        
+
         $('.comment-cancel-reply-link').click(cancelThreadedReplyForm);
         $('.js-comments-form').wrap('<div class="js-comments-form-orig-position"></div>');
 
