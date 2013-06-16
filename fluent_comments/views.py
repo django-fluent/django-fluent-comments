@@ -68,9 +68,9 @@ def post_comment_ajax(request, using=None):
     # If there are errors or if we requested a preview show the comment
     if preview:
         comment = form.get_comment_object() if not form.errors else None
-        return _ajax_result(request, form, "preview", comment)
+        return _ajax_result(request, form, "preview", comment, object_id=object_pk)
     if form.errors:
-        return _ajax_result(request, form, "post")
+        return _ajax_result(request, form, "post", object_id=object_pk)
 
 
     # Otherwise create the comment
@@ -98,10 +98,10 @@ def post_comment_ajax(request, using=None):
         request = request
     )
 
-    return _ajax_result(request, form, "post", comment)
+    return _ajax_result(request, form, "post", comment, object_id=object_pk)
 
 
-def _ajax_result(request, form, action, comment=None):
+def _ajax_result(request, form, action, comment=None, object_id=None):
     # Based on django-ajaxcomments, BSD licensed.
     # Copyright (c) 2009 Brandon Konkle and individual contributors.
     #
@@ -136,6 +136,7 @@ def _ajax_result(request, form, action, comment=None):
             'html': comment_html,
             'comment_id': comment.id,
             'parent_id': None,
+            'object_id': object_id,
             'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
         })
         if appsettings.USE_THREADEDCOMMENTS:
