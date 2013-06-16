@@ -6,7 +6,7 @@
     // Settings
     var COMMENT_SCROLL_TOP_OFFSET = 40;
     var PREVIEW_SCROLL_TOP_OFFSET = 20;
-    var DISABLE_COMMENT_SCROLL = false;
+    var ENABLE_COMMENT_SCROLL = true;
 
 
     $.fn.ready(function()
@@ -84,7 +84,7 @@
 
     function scrollToComment(id, speed)
     {        
-        if( DISABLE_COMMENT_SCROLL ) {
+        if( ! ENABLE_COMMENT_SCROLL ) {
             return;
         }
         
@@ -105,7 +105,7 @@
 
     function scrollToElement( $element, speed, offset )
     {
-        if( DISABLE_COMMENT_SCROLL ) {
+        if( ! ENABLE_COMMENT_SCROLL ) {
             return;
         }
         
