@@ -3,7 +3,7 @@
 {% if not form.target_object|comments_are_open %}
     <p>{% trans "Comments are closed." %}</p>
 {% else %}
-    <form id="comment-form-{{form.target_object.pk}}" action="{% comment_form_target %}" method="post" class="js-comments-form comments-form form-horizontal"
+    <form id="comment-form-{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="js-comments-form comments-form form-horizontal"
           data-ajax-action="{% url 'comments-post-comment-ajax' %}">{% csrf_token %}
       {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
 
