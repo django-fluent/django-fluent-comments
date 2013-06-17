@@ -1,4 +1,4 @@
-from urlparse import urljoin
+from urllib.parse import urljoin
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
