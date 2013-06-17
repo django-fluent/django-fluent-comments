@@ -1,0 +1,32 @@
+{% extends "theme1/base.html" %}{% load i18n comments %}{% load url from future %}
+
+{% block headtitle %}Articles{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
+{% endblock %}
+
+{% block scripts %}{{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+{% endblock %}
+
+{% block main %}
+    <h1>List of articles (with comments)</h1>
+    <p>(<a href="{% url 'article-list' %}">show headlines only</a>)</p>
+
+    {% if object_list %}
+        <section class="articles">
+            {% for article in object_list %}
+                <article>
+                  <h2><a href="{{ article.get_absolute_url }}">{{ article }}</a></h2>
+
+                  {% render_comment_list for article %}
+                  {% render_comment_form for article %}
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <p>No articles posted</p>
+    {% endif %}
+
+{% endblock %}
