@@ -44,8 +44,11 @@ def post_comment_ajax(request, using=None):
     if ctype is None or object_pk is None:
         return CommentPostBadRequest("Missing content_type or object_pk field.")
     try:
+        object_pk = long(object_pk)
         model = models.get_model(*ctype.split(".", 1))
         target = model._default_manager.using(using).get(pk=object_pk)
+    except ValueError:
+        return CommentPostBadRequest("Invalid object_pk value: {0}".format(escape(object_pk)))
     except TypeError:
         return CommentPostBadRequest("Invalid content_type value: {0}".format(escape(ctype)))
     except AttributeError:
@@ -121,6 +124,7 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
         'success': success,
         'action': action,
         'errors': json_errors,
+        'object_id': object_id,
     }
 
     if comment is not None:
@@ -136,7 +140,6 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
             'html': comment_html,
             'comment_id': comment.id,
             'parent_id': None,
-            'object_id': object_id,
             'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
         })
         if appsettings.USE_THREADEDCOMMENTS:
