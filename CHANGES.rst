@@ -1,3 +1,16 @@
+Version 0.9.2
+-------------
+
+* Fix errors in Ajax view, due to a ``json`` variable name conflict
+* Fix support for old jQuery and new jQuery (.on vs .live)
+* Fix running the example project with Django 1.5
+* Fix error messages in ``post_comment_ajax`` view.
+* Fix empty user name column in the admin list.
+* Fix undesired "reply" link in the preview while using django-threadedcomments_.
+* Fix HTML layout of newly added threaded comments.
+* Fix Python 3 support
+
+
 Version 0.9.1
 -------------
 

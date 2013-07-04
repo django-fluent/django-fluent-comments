@@ -284,6 +284,11 @@
         }
         else
         {
+            // Each top-level of django-threadedcomments starts in a new <ul>
+            // when you use the comment.open / comment.close logic as prescribed.
+            if(data['use_threadedcomments'])
+                html = '<ul class="comment-list-wrapper"><li class="comment-wrapper">' + html + '</li></ul>';
+
             var $comments = getCommentsDiv(object_id);
             $comments.append(html).removeClass('empty');
         }

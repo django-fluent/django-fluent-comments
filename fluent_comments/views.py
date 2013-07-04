@@ -125,6 +125,7 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
         'action': action,
         'errors': json_errors,
         'object_id': object_id,
+        'use_threadedcomments': bool(appsettings.USE_THREADEDCOMMENTS),
     }
 
     if comment is not None:
