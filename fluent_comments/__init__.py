@@ -7,7 +7,7 @@ from fluent_comments.forms import FluentCommentForm
 
 
 # following PEP 386
-__version__ = "0.9.1"
+__version__ = "1.0a1"
 
 
 if appsettings.USE_THREADEDCOMMENTS:
