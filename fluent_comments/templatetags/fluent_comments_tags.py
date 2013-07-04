@@ -59,6 +59,9 @@ class FluentCommentsList(Node):
         # HACK: Determine the parent object based on the comment list queryset.
         # the {% render_comment_list for article %} tag does not pass the object in a general form to the template.
         # Not assuming that 'object.pk' holds the correct value.
+        #
+        # This obviously doesn't work when the list is empty.
+        # To address that, the client-side code also fixes that, by looking for the object ID in the nearby form.
         target_object_id = context.get('target_object_id', None)
         if not target_object_id:
             comment_list = context['comment_list']
