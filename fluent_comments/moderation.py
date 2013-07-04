@@ -1,10 +1,15 @@
-from urlparse import urljoin
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from akismet import Akismet
 from fluent_comments import appsettings
+
+try:
+    from urllib.parse import urljoin  # Python 3
+except ImportError:
+    from urlparse import urljoin  # Python 2
+
 
 # Akismet code originally based on django-comments-spamfighter.
 
