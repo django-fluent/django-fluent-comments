@@ -7,6 +7,7 @@ Version 0.9.2
 * Fix error messages in ``post_comment_ajax`` view.
 * Fix empty user name column in the admin list.
 * Fix undesired "reply" link in the preview while using django-threadedcomments_.
+* Fix HTML layout of newly added threaded comments.
 * Fix Python 3 support
 
 
