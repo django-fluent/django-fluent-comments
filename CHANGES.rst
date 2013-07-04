@@ -1,3 +1,11 @@
+New in development version
+--------------------------
+
+* Support multiple comment area's in the same page.
+  **NOTE:** any custom templates need to be updated, to
+  use the new ``id``, ``class`` and ``data-object-id`` attributes.
+
+
 Version 0.9.2
 -------------
 
