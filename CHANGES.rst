@@ -5,6 +5,7 @@ Version 0.9.2
 * Fix support for old jQuery and new jQuery (.on vs .live)
 * Fix running the example project with Django 1.5
 * Fix error messages in ``post_comment_ajax`` view.
+* Fix empty user name column in the admin list.
 * Fix Python 3 support
 
 
