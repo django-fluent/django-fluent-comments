@@ -37,7 +37,7 @@
           .each(function(){
             var $form = $(this);
             var object_id = parseInt($form.attr('data-object-id'));  // Supported in all jQuery versions.
-            $form.wrap('<div class="js-comments-form-orig-position"></div>').parent().attr('id', 'comment-form-orig-position-' + object_id);
+            $form.wrap('<div class="js-comments-form-orig-position" id="comments-form-orig-position-' + object_id + '"></div>');
           });
 
         // HACK HACK HACK
@@ -170,8 +170,7 @@
         if(event)
             event.preventDefault();
 
-        var object_id = data['object_id'];
-        var $form = $('#comment-form-' + object_id);
+        var $form = $(event.target).closest('form.js-comments-form');
         resetForm($form);
     }
 
