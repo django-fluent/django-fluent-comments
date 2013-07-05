@@ -160,9 +160,10 @@
 
         var $a = $(this);
         var comment_id = $a.data('comment-id');
+        var $comment = $a.closest('.comment-wrapper');
 
         $('#id_parent').val(comment_id);
-        $('.js-comments-form').insertAfter($a.closest('.comment-item'));
+        $('.js-comments-form').appendTo($comment);
     }
 
 
