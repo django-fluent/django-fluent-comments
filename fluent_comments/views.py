@@ -147,7 +147,7 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
             json_return['parent_id'] = comment.parent_id
 
     json_response = json.dumps(json_return)
-    return HttpResponse(json_response, mimetype="application/json")
+    return HttpResponse(json_response, content_type="application/json")
 
 
 def _render_errors(field):
