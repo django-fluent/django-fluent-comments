@@ -55,8 +55,11 @@ class FluentCommentsAdmin(CommentsAdminBase):
 
     def object_link(self, comment):
         object = comment.content_object
-        title = unicode(object)
-        return u'<a href="{0}">{1}</a>'.format(escape(object.get_absolute_url()), escape(title))
+        if object is not None and hasattr(object, 'get_absolute_url'):
+            title = unicode(object)
+            return u'<a href="{0}">{1}</a>'.format(escape(object.get_absolute_url()), escape(title))
+        else:
+            return u'{1}'.format('#', 'Comment Content_Object does not exist')
 
     object_link.short_description = _("Page")
     object_link.allow_tags = True
