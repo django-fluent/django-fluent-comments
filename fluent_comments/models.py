@@ -5,7 +5,8 @@ from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.contrib.comments import signals
-from django.shortcuts import render
+from django.template import RequestContext
+from django.template.loader import render_to_string
 from fluent_comments import appsettings
 
 
@@ -34,7 +35,7 @@ def on_comment_posted(sender, comment, request, **kwargs):
         'content_object': content_object
     }
 
-    message = render(request, "comments/comment_notification_email.txt", context)
+    message = render_to_string("comments/comment_notification_email.txt", context, RequestContext(request))
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=True)
 
 
