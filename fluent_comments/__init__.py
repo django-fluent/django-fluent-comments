@@ -1,8 +1,8 @@
 """
 API for :ref:`custom-comment-app-api`
 """
-from django.contrib.comments import Comment
 from fluent_comments import appsettings
+from fluent_comments.models import LightComment
 from fluent_comments.forms import FluentCommentForm
 
 
@@ -23,7 +23,7 @@ def get_model():
     if appsettings.USE_THREADEDCOMMENTS:
         return ThreadedComment
     else:
-        return Comment
+        return LightComment
 
 
 def get_form():
