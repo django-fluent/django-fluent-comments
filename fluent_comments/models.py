@@ -11,14 +11,24 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from fluent_comments import appsettings
 
-class LightCommentManager(CommentManager):
-    def get_query_set(self):
-        return (super(CommentManager, self).get_query_set().select_related('user'))
 
-class LightComment(Comment):
-    objects = LightCommentManager()
+class FluentCommentManager(CommentManager):
+    """
+    Manager to optimize SQL queries for comments.
+    """
+    def get_query_set(self):
+        return super(CommentManager, self).get_query_set().select_related('user')
+
+
+class FluentComment(Comment):
+    """
+    Proxy model to make sure that a ``select_related()`` is performed on the ``user`` field.
+    """
+    objects = FluentCommentManager()
+
     class Meta:
         proxy = True
+
 
 @receiver(signals.comment_was_posted)
 def on_comment_posted(sender, comment, request, **kwargs):

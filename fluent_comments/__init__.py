@@ -2,7 +2,7 @@
 API for :ref:`custom-comment-app-api`
 """
 from fluent_comments import appsettings
-from fluent_comments.models import LightComment
+from fluent_comments.models import FluentComment
 from fluent_comments.forms import FluentCommentForm
 
 
@@ -23,7 +23,8 @@ def get_model():
     if appsettings.USE_THREADEDCOMMENTS:
         return ThreadedComment
     else:
-        return LightComment
+        # Our proxy model that performs select_related('user') for the comments
+        return FluentComment
 
 
 def get_form():
