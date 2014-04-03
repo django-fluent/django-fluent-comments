@@ -352,6 +352,11 @@ ul.messages {
   margin: 2px 0;
 }
 
+ul.comment-list-wrapper {
+  border-left: 2px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+
 
 /* ---- standard resets and utils ---- */
 
