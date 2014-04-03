@@ -159,11 +159,12 @@
         event.preventDefault();
 
         var $a = $(this);
-        var comment_id = $a.data('comment-id');
+        var comment_id = $a.attr('data-comment-id');
         var $comment = $a.closest('.comment-wrapper');
 
-        $('#id_parent').val(comment_id);
+        removeThreadedPreview();
         $('.js-comments-form').appendTo($comment);
+        $('#id_parent').val(comment_id);
     }
 
 
@@ -173,6 +174,22 @@
 
         var $form = $(event.target).closest('form.js-comments-form');
         resetForm($form);
+        removeThreadedPreview();
+    }
+
+    function removeThreadedPreview() {
+        // And remove the preview (everywhere! on all comments)
+        var $previewLi = $('li.comment-preview');
+        if($previewLi.length == 0)
+            return false;
+
+        var $ul = $previewLi.parent();
+        if($ul.children('li').length == 1)
+            $ul.remove();  // the preview was the only node.
+        else
+            $previewLi.remove();
+
+        return true
     }
 
     function resetForm($form) {
@@ -269,50 +286,86 @@
     function addComment(data)
     {
         // data contains the server-side response.
-        var html = data['html'];
+        var $newCommentTarget = addCommentWrapper(data, '')
+        $newCommentTarget.html(data['html']).removeClass('empty');
+        return $("#c" + parseInt(data.comment_id));
+    }
+
+    function addCommentWrapper(data, for_preview)
+    {
         var parent_id = data['parent_id'];
         var object_id = data['object_id'];
 
-        var $new_comment;
-        if(parent_id)
-        {
-            var $parentLi = $("#c" + parseInt(parent_id)).parent('li.comment-wrapper');
-            var $commentUl = $parentLi.children('ul');
-            if( $commentUl.length == 0 )
-                $commentUl = $parentLi.append('<ul class="comment-list-wrapper"></ul>').children('ul.comment-list-wrapper');
-            $commentUl.append('<li class="comment-wrapper">' + html + '</li>');
+        var $parent;
+        if(parent_id) {
+            $parent = $("#c" + parseInt(parent_id)).parent('li.comment-wrapper');
         }
-        else
-        {
+        else {
+            $parent = getCommentsDiv(object_id);
+        }
+
+        if(data['use_threadedcomments']) {
             // Each top-level of django-threadedcomments starts in a new <ul>
             // when you use the comment.open / comment.close logic as prescribed.
-            if(data['use_threadedcomments'])
-                html = '<ul class="comment-list-wrapper"><li class="comment-wrapper">' + html + '</li></ul>';
+            var $commentUl = $parent.children('ul');
+            if( $commentUl.length == 0 ) {
+                var $form = $parent.children('.js-comments-form');
+                if($form.length > 0) {
+                    // Make sure to insert the <ul> before the comment form.
+                    $form.before('<ul class="comment-list-wrapper"></ul>')
+                    $commentUl = $parent.children('ul');
+                }
+                else {
+                    $parent.append('<ul class="comment-list-wrapper"></ul>');
+                    $commentUl = $parent.children('ul:last');
+                }
+            }
 
-            var $comments = getCommentsDiv(object_id);
-            $comments.append(html).removeClass('empty');
+            if(for_preview) {
+              // Reuse existing one if found. This is used for the preview.
+              var $previewLi = $commentUl.find('li.comment-preview');
+              if($previewLi.length == 0) {
+                  $commentUl.append('<li class="comment-wrapper comment-preview"></li>');
+                  $previewLi = $commentUl.find('li.comment-preview');
+              }
+              return $previewLi;
+            }
+            else {
+                // Just add a new one!
+                $commentUl.append('<li class="comment-wrapper"></li>');
+                return $commentUl.children('li:last');
+            }
         }
-
-        return $("#c" + parseInt(data.comment_id));
+        else {
+            return $parent;
+        }
     }
 
     function commentPreview(data)
     {
         var object_id = data['object_id'];
+        var parent_id = data['parent_id'];
         var $comments = getCommentsDiv(object_id);
 
-        var $previewarea = $comments.find(".comment-preview-area");
-        if( $previewarea.length == 0 )
-        {
-            // If not explicitly added to the HTML, include a previewarea in the comments.
-            // This should at least give the same markup.
-            $comments.append('<div class="comment-preview-area"></div>').addClass('has-preview');
-            $previewarea = $comments.children(".comment-preview-area");
-            previewAutoAdded = true;
+        if(data['use_threadedcomments']) {
+            var $newCommentTarget = addCommentWrapper(data, true);
+            $previewarea = $newCommentTarget;
+        }
+        else {
+            // Allow to explicitly define in the HTML (for regular comments only)
+            var $previewarea = $comments.find(".comment-preview-area");
+
+            if( $previewarea.length == 0 ) {
+                // For regular comments, if previewarea is not explicitly added to the HTML,
+                // include a previewarea in the comments. This should at least give the same markup.
+                $comments.append('<div class="comment-preview-area"></div>').addClass('has-preview');
+                $previewarea = $comments.children(".comment-preview-area");
+                previewAutoAdded = true;
+            }
         }
 
         var had_preview = $previewarea.hasClass('has-preview-loaded');
-        $previewarea.html(data.html).addClass('has-preview-loaded');
+        $previewarea.html('<div class="comment-preview">' + data.html + '</div>').addClass('has-preview-loaded');
         if( ! had_preview )
             $previewarea.hide().show(600);
 
@@ -355,20 +408,25 @@
     {
         var object_id = data['object_id'];
         var $comments_list = $('#comments-' + object_id);
-        
-        var $previewarea = $comments_list.find(".comment-preview-area");
-        var had_preview = $previewarea.hasClass('has-preview-loaded');
 
-        if( previewAutoAdded )
-            $previewarea.remove();  // make sure it's added at the end again later.
-        else
-            $previewarea.html('');
+        if(data['use_threadedcomments']) {
+            return removeThreadedPreview();
+        }
+        else {
+            var $previewarea = $comments_list.find(".comment-preview-area");
+            var had_preview = $previewarea.hasClass('has-preview-loaded');
 
-        // Update classes. allowing CSS to add/remove margins for example.
-        $previewarea.removeClass('has-preview-loaded');
-        $comments_list.removeClass('has-preview');
+            if( previewAutoAdded )
+                $previewarea.remove();  // make sure it's added at the end again later.
+            else
+                $previewarea.html('');
 
-        return had_preview;
+            // Update classes. allowing CSS to add/remove margins for example.
+            $previewarea.removeClass('has-preview-loaded');
+            $comments_list.removeClass('has-preview');
+
+            return had_preview;
+        }
     }
 
     function removeWaitAnimation($form)
