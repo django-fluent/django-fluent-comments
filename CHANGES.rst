@@ -1,7 +1,9 @@
-New in development version
---------------------------
+Version 1.0.0 (in development)
+------------------------------
 
-* Support multiple comment area's in the same page.
+* Added support for Python 3 (with the exception of Akismet_ support).
+* Added support for multiple comment area's in the same page.
+
   **NOTE:** any custom templates need to be updated, to
   use the new ``id``, ``class`` and ``data-object-id`` attributes.
 
@@ -43,5 +45,6 @@ First public release
 * E-mail notification to the site managers of new comments.
 * Rudimentary support for django-threadedcomments_
 
+.. _Akismet: https://pypi.python.org/pypi/akismet
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
