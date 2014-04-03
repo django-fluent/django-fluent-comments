@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from article.views import ArticleListView, ArticleFullListView, ArticleDetailView
 
 urlpatterns = patterns('',
