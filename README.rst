@@ -36,6 +36,8 @@ To use comments, the following settings are required::
         'django.contrib.comments',
     )
 
+    COMMENTS_APP = 'fluent_comments'
+
 Add the following in ``urls.py``::
 
     urlpatterns += patterns('',
