@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.contrib import comments
+from django.contrib.comments import Comment
+from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
@@ -9,6 +11,14 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from fluent_comments import appsettings
 
+class LightCommentManager(CommentManager):
+    def get_query_set(self):
+        return (super(CommentManager, self).get_query_set().select_related('user'))
+
+class LightComment(Comment):
+    objects = LightCommentManager()
+    class Meta:
+        proxy = True
 
 @receiver(signals.comment_was_posted)
 def on_comment_posted(sender, comment, request, **kwargs):
