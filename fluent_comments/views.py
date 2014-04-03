@@ -11,6 +11,10 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from fluent_comments import appsettings
 import json
+import sys
+
+if sys.version_info.major >= 3:
+    long = int
 
 
 @csrf_protect
