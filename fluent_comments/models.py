@@ -28,7 +28,8 @@ class FluentComment(Comment):
 
     class Meta:
         proxy = True
-
+        app_label = 'comments'
+        
 
 @receiver(signals.comment_was_posted)
 def on_comment_posted(sender, comment, request, **kwargs):
