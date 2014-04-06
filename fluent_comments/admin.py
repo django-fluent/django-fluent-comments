@@ -78,6 +78,12 @@ class FluentCommentsAdmin(CommentsAdminBase):
     def has_add_permission(self, request):
         return False
 
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('comments.change_fluentcomment')
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.has_perm('comments.delete_fluentcomment')
+    
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'title':
             kwargs['widget'] = AdminTextInputWidget
