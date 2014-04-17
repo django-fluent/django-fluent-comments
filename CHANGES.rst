@@ -1,6 +1,11 @@
 Version 1.0.0 (in development)
 ------------------------------
 
+* Fix installation at Python 2.6
+
+Released as 1.0a1:
+------------------
+
 * Added support for Python 3 (with the exception of Akismet_ support).
 * Added support for multiple comment area's in the same page.
 

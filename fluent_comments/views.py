@@ -13,7 +13,7 @@ from fluent_comments import appsettings
 import json
 import sys
 
-if sys.version_info.major >= 3:
+if sys.version_info[0] >= 3:
     long = int
 
 
