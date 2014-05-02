@@ -253,7 +253,7 @@
                 }
             },
             error: function(data) {
-                commentBusy = false;
+                form.commentBusy = false;
                 removeWaitAnimation();
 
                 // Submit as non-ajax instead
