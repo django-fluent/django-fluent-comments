@@ -287,7 +287,7 @@
     {
         // data contains the server-side response.
         var $newCommentTarget = addCommentWrapper(data, '')
-        $newCommentTarget.html(data['html']).removeClass('empty');
+        $newCommentTarget.append(data['html']).removeClass('empty');
         return $("#c" + parseInt(data.comment_id));
     }
 
