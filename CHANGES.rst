@@ -1,6 +1,15 @@
 Version 1.0.0 (in development)
 ------------------------------
 
+Released as 1.0b1:
+------------------
+
+* Fixed ajax-comment-busy check
+* Fixed clearing the whole container on adding comment
+
+Released as 1.0a2:
+------------------
+
 * Fix installation at Python 2.6
 
 Released as 1.0a1:
