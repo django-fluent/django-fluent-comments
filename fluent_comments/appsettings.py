@@ -19,6 +19,8 @@ FLUENT_COMMENTS_AKISMET_ACTION = getattr(settings, 'FLUENT_COMMENTS_AKISMET_ACTI
 
 FLUENT_COMMENTS_EXCLUDE_FIELDS = getattr(settings, 'FLUENT_COMMENTS_EXCLUDE_FIELDS', ()) or ()
 
+FLUENT_COMMENTS_ORDER_REVERSED = getattr(settings, 'FLUENT_COMMENTS_ORDER_REVERSED', False)
+
 if FLUENT_COMMENTS_AKISMET_ACTION not in ('moderate', 'delete'):
     raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'moderate' or 'delete'")
 

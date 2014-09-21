@@ -112,7 +112,7 @@
 
     function scrollToComment(id, speed)
     {        
-        if( ! ENABLE_COMMENT_SCROLL ) {
+        if( (! ENABLE_COMMENT_SCROLL) || data['order_reversed'] ) {
             return;
         }
         
@@ -133,7 +133,7 @@
 
     function scrollToElement( $element, speed, offset )
     {
-        if( ! ENABLE_COMMENT_SCROLL ) {
+        if( (! ENABLE_COMMENT_SCROLL) || data['order_reversed'] ) {
             return;
         }
         
@@ -287,7 +287,15 @@
     {
         // data contains the server-side response.
         var $newCommentTarget = addCommentWrapper(data, '')
-        $newCommentTarget.append(data['html']).removeClass('empty');
+
+        // prepend or append the comment depending on the settings
+        if (data['order_reversed']) {
+            $newCommentTarget.prepend(data['html']).removeClass('empty');
+        }
+        else {
+            $newCommentTarget.append(data['html']).removeClass('empty');
+        }
+
         return $("#c" + parseInt(data.comment_id));
     }
 
