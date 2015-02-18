@@ -48,7 +48,7 @@ def on_comment_posted(sender, comment, request, **kwargs):
     site = get_current_site(request)
     content_object = comment.content_object
 
-    subject = '[{0}] New comment posted on "{1}"'.format(site.name, content_object)
+    subject = u'[{0}] New comment posted on "{1}"'.format(site.name, content_object)
     context = {
         'site': site,
         'comment': comment,
