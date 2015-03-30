@@ -16,8 +16,8 @@ class FluentCommentManager(CommentManager):
     """
     Manager to optimize SQL queries for comments.
     """
-    def get_query_set(self):
-        return super(CommentManager, self).get_query_set().select_related('user')
+    def get_queryset(self):
+        return super(CommentManager, self).get_queryset().select_related('user')
 
 
 class FluentComment(Comment):
