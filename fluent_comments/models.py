@@ -1,12 +1,12 @@
 from django.conf import settings
 from django.contrib import comments
-from django.contrib.comments import Comment
-from django.contrib.comments.managers import CommentManager
+from django_comments import Comment
+from django_comments.managers import CommentManager
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
-from django.contrib.comments import signals
+from django_comments import signals
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from fluent_comments import appsettings
@@ -35,7 +35,7 @@ def on_comment_posted(sender, comment, request, **kwargs):
     """
     Send email notification of a new comment to site staff when email notifications have been requested.
     """
-    # This code is copied from django.contrib.comments.moderation.
+    # This code is copied from django_comments.moderation.
     # That code doesn't offer a RequestContext, which makes it really
     # hard to generate proper URL's with FQDN in the email
     #

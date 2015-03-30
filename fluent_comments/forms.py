@@ -1,4 +1,4 @@
-from django.contrib.comments import CommentForm
+from django_comments import CommentForm
 from django.core.exceptions import ImproperlyConfigured
 from fluent_comments import appsettings
 

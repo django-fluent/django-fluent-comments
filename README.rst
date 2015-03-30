@@ -2,7 +2,7 @@ Introduction
 ============
 
 The *django-fluent-comments* module enhances the default appearance
-of the django.contrib.comments_ application to be directly usable in web sites.
+of the django_comments_ application to be directly usable in web sites.
 The features are:
 
 * Ajax-based preview and posting of comments
@@ -17,9 +17,9 @@ installing it should already give a better comment layout.
 Installation
 ============
 
-First install the module, preferably in a virtual environment. It can be installed from PyPI::
+First install the module and django_comments, preferably in a virtual environment. It can be installed from PyPI::
 
-    pip install django-fluent-comments
+    pip install django_comments django-fluent-comments
 
 Or the current folder can be installed::
 
@@ -33,7 +33,7 @@ To use comments, the following settings are required::
     INSTALLED_APPS += (
         'fluent_comments',
         'crispy_forms',
-        'django.contrib.comments',
+        'django_comments',
     )
 
     COMMENTS_APP = 'fluent_comments'
@@ -62,7 +62,7 @@ The database can be created afterwards::
 Template for non-ajax pages
 ---------------------------
 
-The templates which django.contrib.comments_ renders use a single base template for all layouts.
+The templates which django_comments_ renders use a single base template for all layouts.
 This template is empty by default since it's only serves as a placeholder.
 To complete the configuration of the comments module, create a ``comments/base.html`` file
 that maps the template blocks onto your website base template. For example::
@@ -78,7 +78,7 @@ that maps the template blocks onto your website base template. For example::
     {% endblock %}
 
 In this example, the base template has a ``headtitle`` and ``main`` block,
-which contain the ``content`` and ``title`` blocks that django.contrib.comments_ needs to see.
+which contain the ``content`` and ``title`` blocks that django_comments_ needs to see.
 This application also outputs an ``extrahead`` block for a meta-refresh tag.
 The ``extrahead`` block can be included in the site base template directly,
 so it doesn't have to be included in the ``comments/base.html`` file.
@@ -186,7 +186,7 @@ please let us know as well because we will look into it.
 Pull requests are welcome too. :-)
 
 
-.. _django.contrib.comments: https://docs.djangoproject.com/en/dev/ref/contrib/comments/
+.. _django_comments: https://docs.djangoproject.com/en/dev/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
 .. _Akismet: http://akismet.com

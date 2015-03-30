@@ -56,7 +56,7 @@ setup(
     extras_require = {
         'threadedcomments': ['django-threadedcomments>=0.9'],
     },
-    description='A modern, ajax-based appearance for django.contrib.comments',
+    description='A modern, ajax-based appearance for django_comments',
     long_description=read('README.rst'),
 
     author='Diederik van der Boor',
