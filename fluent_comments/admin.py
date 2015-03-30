@@ -53,8 +53,8 @@ class FluentCommentsAdmin(CommentsAdminBase):
         raw_id_fields = ('parent',)
 
 
-    def queryset(self, request):
-        return super(FluentCommentsAdmin, self).queryset(request).select_related('user')
+    def get_queryset(self, request):
+        return super(FluentCommentsAdmin, self).get_queryset(request).select_related('user')
 
     def object_link(self, comment):
         object = comment.content_object
