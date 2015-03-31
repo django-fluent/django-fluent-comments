@@ -12,8 +12,8 @@ import sys
 if 'sdist' in sys.argv or 'develop' in sys.argv:
     try:
         os.chdir('fluent_comments')
-        from django.core.management.commands.compilemessages import Command
-        Command.compile_messages(sys.stderr)
+        # from django.core.management.commands.compilemessages import Command
+        # Command.compile_messages(sys.stderr)
     finally:
         os.chdir('..')
 
