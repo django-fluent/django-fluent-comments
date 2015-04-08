@@ -83,7 +83,7 @@ INSTALLED_APPS = (
     # Required modules
     'crispy_forms',
     'fluent_comments',
-    'django.contrib.comments',  # below theme1 and fluent_comments
+    'django_comments',  # below theme1 and fluent_comments
 
     ## Optional, uncomment to enable:
     #'threadedcomments',

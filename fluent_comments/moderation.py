@@ -1,5 +1,5 @@
 import warnings
-from django.contrib.comments.moderation import CommentModerator, moderator
+from django_comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
@@ -170,7 +170,7 @@ def get_model_moderator(model):
     :param model: The Django model registered with :func:`moderate_model`
     :type model: :class:`~django.db.models.Model`
     :return: The moderator class which holds the moderation policies.
-    :rtype: :class:`~django.contrib.comments.moderation.CommentModerator`
+    :rtype: :class:`~django_comments.moderation.CommentModerator`
     """
     try:
         return moderator._registry[model]

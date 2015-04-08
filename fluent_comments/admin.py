@@ -18,7 +18,7 @@ if appsettings.USE_THREADEDCOMMENTS:
 
     from threadedcomments.admin import ThreadedCommentsAdmin as CommentsAdminBase
 else:
-    from django.contrib.comments.admin import CommentsAdmin as CommentsAdminBase
+    from django_comments.admin import CommentsAdmin as CommentsAdminBase
 
 
 class FluentCommentsAdmin(CommentsAdminBase):
@@ -29,7 +29,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
     Adding comments can happen at the frontend instead.
 
     The fieldsets are more logically organized, and the generic relation is a readonly field instead of a massive pulldown + textarea.
-    The class supports both the standard ``django.contrib.comments`` and the ``threadedcomments`` applications.
+    The class supports both the standard ``django_comments`` and the ``threadedcomments`` applications.
     """
 
     fieldsets = [
@@ -54,8 +54,8 @@ class FluentCommentsAdmin(CommentsAdminBase):
         raw_id_fields = ('parent',)
 
 
-    def queryset(self, request):
-        return super(FluentCommentsAdmin, self).queryset(request).select_related('user')
+    def get_queryset(self, request):
+        return super(FluentCommentsAdmin, self).get_queryset(request).select_related('user')
 
     def object_link(self, comment):
         object = comment.content_object
