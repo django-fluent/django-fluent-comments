@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib import comments
+from django_comments import get_model as get_comments_model
 from django_comments import Comment
 from django_comments.managers import CommentManager
 from django.contrib.contenttypes.generic import GenericRelation
@@ -63,7 +63,7 @@ def get_comments_for_model(content_object, include_moderated=False):
     """
     Return the QuerySet with all comments for a given model.
     """
-    qs = comments.get_model().objects.for_model(content_object)
+    qs = get_comments_model().objects.for_model(content_object)
 
     if not include_moderated:
         qs = qs.filter(is_public=True, is_removed=False)
@@ -83,7 +83,7 @@ class CommentsRelation(GenericRelation):
     """
     def __init__(self, *args, **kwargs):
         super(CommentsRelation, self).__init__(
-            to=comments.get_model(),
+            to=get_comments_model(),
             content_type_field='content_type',
             object_id_field='object_pk',
             **kwargs

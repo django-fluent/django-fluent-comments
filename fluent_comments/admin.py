@@ -1,11 +1,11 @@
 import sys
 from django.conf import settings
 from django.contrib import admin
-from django.contrib import comments
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
+from django_comments import get_model as get_comments_model
 from fluent_comments import appsettings
 
 
@@ -93,7 +93,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
 
 # Replace the old admin screen.
 if appsettings.FLUENT_COMMENTS_REPLACE_ADMIN:
-    CommentModel = comments.get_model()
+    CommentModel = get_comments_model()
     try:
         admin.site.unregister(CommentModel)
     except admin.sites.NotRegistered as e:
