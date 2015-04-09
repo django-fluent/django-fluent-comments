@@ -3,12 +3,10 @@ from django.db import models
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
 from django.template import RequestContext
-from django_comments import signals
-from django_comments.views.comments import CommentPostBadRequest
 from django.utils.html import escape
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django_comments import get_form as get_comments_form
+from .compat import get_form as get_comments_form, signals, CommentPostBadRequest
 from fluent_comments import appsettings
 import json
 import sys

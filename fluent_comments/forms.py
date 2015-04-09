@@ -1,4 +1,3 @@
-from django_comments import CommentForm
 from django.core.exceptions import ImproperlyConfigured
 from fluent_comments import appsettings
 
@@ -6,7 +5,7 @@ from fluent_comments import appsettings
 if appsettings.USE_THREADEDCOMMENTS:
     from threadedcomments.forms import ThreadedCommentForm as base_class
 else:
-    base_class = CommentForm
+    from .compat import CommentForm as base_class
 
 
 class FluentCommentForm(base_class):

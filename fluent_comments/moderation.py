@@ -1,9 +1,9 @@
 import warnings
-from django_comments.moderation import CommentModerator, moderator
 from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from fluent_comments import appsettings
+from .compat import CommentModerator, moderator
 
 try:
     from urllib.parse import urljoin  # Python 3

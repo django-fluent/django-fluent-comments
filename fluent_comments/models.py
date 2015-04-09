@@ -1,15 +1,13 @@
+import django
 from django.conf import settings
-from django_comments import get_model as get_comments_model
-from django_comments import Comment
-from django_comments.managers import CommentManager
 from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
-from django_comments import signals
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from fluent_comments import appsettings
+from .compat import CommentManager, Comment, signals
 
 
 class FluentCommentManager(CommentManager):
@@ -18,6 +16,11 @@ class FluentCommentManager(CommentManager):
     """
     def get_queryset(self):
         return super(CommentManager, self).get_queryset().select_related('user')
+
+    if django.VERSION >= (1,7):
+        # This is a workaround to let django-contrib-comments 1.5 work.
+        def get_query_set(self):
+            return self.get_queryset()
 
 
 class FluentComment(Comment):
