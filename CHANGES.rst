@@ -1,5 +1,5 @@
-Version 1.0.0 (in development)
-------------------------------
+Version 1.0.0
+-------------
 
 * Added Django 1.8 support, can use either the django_comments_ or the django.contrib.comments_ package now.
 * Fixed Python 3 issue in the admin
