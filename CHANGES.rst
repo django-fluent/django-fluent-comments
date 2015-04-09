@@ -1,6 +1,9 @@
 Version 1.0.0 (in development)
 ------------------------------
 
+* Added Django 1.8 support, can use either the django_comments_ or the django.contrib.comments_ package now.
+* Fixed Python 3 issue in the admin
+
 Released as 1.0b1:
 ------------------
 
@@ -60,5 +63,7 @@ First public release
 * Rudimentary support for django-threadedcomments_
 
 .. _Akismet: https://pypi.python.org/pypi/akismet
+.. _django_comments: https://github.com/django/django-contrib-comments
+.. _django.contrib.comments: https://docs.djangoproject.com/en/1.7/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git

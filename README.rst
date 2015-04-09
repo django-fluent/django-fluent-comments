@@ -2,7 +2,7 @@ Introduction
 ============
 
 The *django-fluent-comments* module enhances the default appearance
-of the django_comments_ application to be directly usable in web sites.
+of the django_comments_ or django.contrib.comments_ application to be directly usable in web sites.
 The features are:
 
 * Ajax-based preview and posting of comments
@@ -19,7 +19,7 @@ Installation
 
 First install the module and django_comments, preferably in a virtual environment. It can be installed from PyPI::
 
-    pip install django_comments django-fluent-comments
+    pip install django-fluent-comments
 
 Or the current folder can be installed::
 
@@ -37,6 +37,10 @@ To use comments, the following settings are required::
     )
 
     COMMENTS_APP = 'fluent_comments'
+
+.. note::
+   For older Django versions (up till 1.7), you can also use django.contrib.comments_ in the ``INSTALLED_APPS``.
+   This packages uses either of those packages, depending on what is installed.
 
 Add the following in ``urls.py``::
 
@@ -186,7 +190,8 @@ please let us know as well because we will look into it.
 Pull requests are welcome too. :-)
 
 
-.. _django_comments: https://docs.djangoproject.com/en/dev/ref/contrib/comments/
+.. _django_comments: https://github.com/django/django-contrib-comments
+.. _django.contrib.comments: https://docs.djangoproject.com/en/1.7/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
 .. _Akismet: http://akismet.com
