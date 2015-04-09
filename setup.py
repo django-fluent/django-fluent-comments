@@ -30,18 +30,18 @@ def find_version(*parts):
         return str(version_match.group(1))
     raise RuntimeError("Unable to find version string.")
 
+install_requires=[
+    'django-crispy-forms>=1.1.1',
+]
 
 if sys.version_info[0] >= 3:
     # Akismet 0.2 does not support Python 3.
-    install_requires=[
-        'django-crispy-forms>=1.1.1',
-    ]
-    if 'install' in sys.argv:
+    if 'install' in sys.argv or 'develop' in sys.argv:
         print("\nwarning: skipped Akismet as dependency because it does not have a Python 3 version.")
 else:
-    install_requires=[
-        'django-crispy-forms>=1.1.1',
+    install_requires += [
         'akismet>=0.2',
+        'django-contrib-comments>=1.5',
     ]
 
 setup(
