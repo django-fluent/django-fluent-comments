@@ -47,7 +47,7 @@ else:
 setup(
     name='django-fluent-comments',
     version=find_version('fluent_comments', '__init__.py'),
-    license='Apache License, Version 2.0',
+    license='Apache 2.0',
 
     install_requires=install_requires,
     requires=[
