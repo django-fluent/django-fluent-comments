@@ -1,3 +1,9 @@
+Version 1.0.1
+-------------
+
+* Fix app registry errors in Django 1.7
+* Fix security hash formatting errors on bad requests.
+
 Version 1.0.0
 -------------
 
