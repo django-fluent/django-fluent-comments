@@ -68,7 +68,7 @@ def post_comment_ajax(request, using=None):
 
     # Check security information
     if form.security_errors():
-        return CommentPostBadRequest("The comment form failed security verification: {0}".format)
+        return CommentPostBadRequest("The comment form failed security verification: {0}".format(form.security_errors()))
 
     # If there are errors or if we requested a preview show the comment
     if preview:
