@@ -3,7 +3,14 @@ from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from fluent_comments import appsettings
-from .compat import CommentModerator, moderator
+from .compat import is_installed
+
+if is_installed('django.contrib.comments'):
+    from django.contrib.comments.moderation import moderator, CommentModerator
+elif is_installed('django_comments'):
+    from django_comments.moderation import moderator, CommentModerator
+else:
+    raise ImproperlyConfigured("Missing django_comments or django.contrib.comments in INSTALLED_APPS")
 
 try:
     from urllib.parse import urljoin  # Python 3

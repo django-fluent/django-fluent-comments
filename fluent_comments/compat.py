@@ -27,7 +27,6 @@ if is_installed('django.contrib.comments'):
     from django.contrib.comments.forms import CommentForm
     from django.contrib.comments.models import Comment
     from django.contrib.comments.managers import CommentManager
-    from django.contrib.comments.moderation import moderator, CommentModerator
     from django.contrib.comments.views.comments import CommentPostBadRequest
 elif is_installed('django_comments'):
     # as of Django 1.8, this is a separate app.
@@ -36,7 +35,6 @@ elif is_installed('django_comments'):
     from django_comments.forms import CommentForm
     from django_comments.models import Comment
     from django_comments.managers import CommentManager
-    from django_comments.moderation import moderator, CommentModerator
     from django_comments.views.comments import CommentPostBadRequest
 else:
     raise ImproperlyConfigured("Missing django_comments or django.contrib.comments in INSTALLED_APPS")
