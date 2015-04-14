@@ -34,6 +34,7 @@ To use comments, the following settings are required::
         'fluent_comments',
         'crispy_forms',
         'django_comments',
+        'django.contrib.sites',
     )
 
     COMMENTS_APP = 'fluent_comments'
