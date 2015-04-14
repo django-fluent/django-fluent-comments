@@ -1,4 +1,4 @@
-from .compat import is_installed
+from .compat import BASE_APP
 from . import views
 
 try:
@@ -11,13 +11,5 @@ except ImportError:
 
 urlpatterns = [
     url(r'^post/ajax/$', views.post_comment_ajax, name='comments-post-comment-ajax'),
+    url(r'', include('{0}.urls'.format(BASE_APP))),  # django_comments.urls or django.contrib.comments.urls
 ]
-
-if is_installed('django.contrib.comments'):
-    urlpatterns += [
-        url(r'', include('django.contrib.comments.urls')),
-    ]
-else:
-    urlpatterns += [
-        url(r'', include('django_comments.urls')),
-    ]

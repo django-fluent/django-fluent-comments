@@ -22,6 +22,7 @@ if is_installed('django.contrib.comments'):
         raise ImproperlyConfigured("Django 1.8 no longer provides django.contrib.comments.\nUse 'django_comments' in INSTALLED_APPS instead.")
 
     # Django 1.7 and below
+    BASE_APP = 'django.contrib.comments'
     from django.contrib import comments as django_comments
     from django.contrib.comments import get_model, get_form, signals
     from django.contrib.comments.forms import CommentForm
@@ -30,6 +31,7 @@ if is_installed('django.contrib.comments'):
     from django.contrib.comments.views.comments import CommentPostBadRequest
 elif is_installed('django_comments'):
     # as of Django 1.8, this is a separate app.
+    BASE_APP = 'django_comments'
     import django_comments
     from django_comments import get_model, get_form, signals
     from django_comments.forms import CommentForm
@@ -41,6 +43,7 @@ else:
 
 
 __all__ = (
+    'BASE_APP',
     'is_installed',
     'django_comments',
     'signals',
