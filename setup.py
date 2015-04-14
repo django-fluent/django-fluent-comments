@@ -54,7 +54,7 @@ setup(
         'Django (>=1.3)',   # Using staticfiles
     ],
     extras_require = {
-        'threadedcomments': ['django-threadedcomments>=0.9'],
+        'threadedcomments': ['django-threadedcomments>=1.0b1'],
     },
     description='A modern, ajax-based appearance for django_comments',
     long_description=read('README.rst'),

@@ -1,3 +1,8 @@
+Version 1.0.2
+-------------
+
+* Fixed packaging bug
+
 Version 1.0.1
 -------------
 
