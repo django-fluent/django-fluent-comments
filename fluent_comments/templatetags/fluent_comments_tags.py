@@ -9,7 +9,7 @@ from fluent_comments.moderation import comments_are_open, comments_are_moderated
 register = Library()
 
 @register.inclusion_tag("fluent_comments/templatetags/ajax_comment_tags.html", takes_context=True)
-def ajax_comment_tags(context, for_, target_object):
+def ajax_comment_tags(context, target_object):
     """
     Display the required ``<div>`` elements to let the Ajax comment functionality work with your form.
     """

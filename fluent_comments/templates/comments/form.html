@@ -12,7 +12,7 @@
       <div class="form-actions">
         <input type="submit" name="post" class="btn btn-primary" value="{% trans "Post" %}" />
         <input type="submit" name="preview" class="btn" value="{% trans "Preview" %}" />
-        {% ajax_comment_tags for form.target_object %}
+        {% ajax_comment_tags form.target_object %}
       </div>
     </form>
 {% endif %}
