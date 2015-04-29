@@ -1,3 +1,8 @@
+Version 1.0.3 (git)
+-------------------
+
+* Fix support for ``TEMPLATE_STRING_IF_INVALID``, avoid parsing the "for" argument in ``{% ajax_comment_tags for object %}``.
+
 Version 1.0.2
 -------------
 

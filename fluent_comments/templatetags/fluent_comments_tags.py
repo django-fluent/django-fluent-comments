@@ -2,33 +2,78 @@ from django.conf import settings
 from django.template import Library, Node
 from django.core import context_processors
 from django.template.loader import get_template
+from tag_parser import parse_token_kwargs
+from tag_parser.basetags import BaseInclusionNode
 from fluent_comments import appsettings
 from fluent_comments.models import get_comments_for_model
 from fluent_comments.moderation import comments_are_open, comments_are_moderated
 
 register = Library()
 
-@register.inclusion_tag("fluent_comments/templatetags/ajax_comment_tags.html", takes_context=True)
-def ajax_comment_tags(context, for_, target_object):
+
+class AjaxCommentTags(BaseInclusionNode):
+    """
+    Custom inclusion node with some special parsing features.
+    Using the ``@register.inclusion_tag`` is not sufficient,
+    because some keywords require custom parsing.
+    """
+    template_name = "fluent_comments/templatetags/ajax_comment_tags.html"
+    min_args = 1
+    max_args = 1
+
+    @classmethod
+    def parse(cls, parser, token):
+        """
+        Custom parsing for the ``{% ajax_comment_tags for ... %}`` tag.
+        """
+        # Process the template line.
+        tag_name, args, kwargs = parse_token_kwargs(
+            parser, token,
+            allowed_kwargs=cls.allowed_kwargs,
+            compile_args=False,  # Only overrule here, keep at render() phase.
+            compile_kwargs=cls.compile_kwargs
+        )
+
+        # remove "for" keyword, so all other args can be resolved in render().
+        if args[0] == 'for':
+            args.pop(0)
+
+        # And apply the compilation afterwards
+        for i in range(len(args)):
+            args[i] = parser.compile_filter(args[i])
+
+        cls.validate_args(tag_name, *args, **kwargs)
+        return cls(tag_name, *args, **kwargs)
+
+    def get_context_data(self, parent_context, *tag_args, **tag_kwargs):
+        """
+        The main logic for the inclusion node, analogous to ``@register.inclusion_node``.
+        """
+        target_object = tag_args[0]  # moved one spot due to .pop(0)
+        new_context = {
+            'STATIC_URL': parent_context.get('STATIC_URL', None),
+            'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
+            'target_object': target_object,
+        }
+
+        # Be configuration independent:
+        if new_context['STATIC_URL'] is None:
+            try:
+                request = parent_context['request']
+            except KeyError:
+                new_context.update({'STATIC_URL': settings.STATIC_URL})
+            else:
+                new_context.update(context_processors.static(request))
+
+        return new_context
+
+
+@register.tag
+def ajax_comment_tags(parser, token):
     """
     Display the required ``<div>`` elements to let the Ajax comment functionality work with your form.
     """
-    new_context = {
-        'STATIC_URL': context.get('STATIC_URL', None),
-        'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
-        'target_object': target_object,
-    }
-
-    # Be configuration independent:
-    if new_context['STATIC_URL'] is None:
-        try:
-            request = context['request']
-        except KeyError:
-            new_context.update({'STATIC_URL': settings.STATIC_URL})
-        else:
-            new_context.update(context_processors.static(request))
-
-    return new_context
+    return AjaxCommentTags.parse(parser, token)
 
 
 register.filter('comments_are_open', comments_are_open)

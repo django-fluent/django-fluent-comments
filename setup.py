@@ -32,6 +32,7 @@ def find_version(*parts):
 
 install_requires=[
     'django-crispy-forms>=1.1.1',
+    'django-tag-parser>=2.1',
 ]
 
 if sys.version_info[0] >= 3:
