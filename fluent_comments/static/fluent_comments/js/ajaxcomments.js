@@ -164,7 +164,7 @@
 
         removeThreadedPreview();
         $('.js-comments-form').appendTo($comment);
-        $('#id_parent').val(comment_id);
+        $($comment.find('#id_parent')[0]).val(comment_id);
     }
 
 
