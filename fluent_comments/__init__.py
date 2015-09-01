@@ -6,7 +6,7 @@ from fluent_comments.models import FluentComment
 from fluent_comments.forms import FluentCommentForm
 
 
-# following PEP 386
+# following PEP 440
 __version__ = "1.0.2"
 
 
