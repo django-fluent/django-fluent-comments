@@ -2,6 +2,8 @@ Version 1.0.3 (git)
 -------------------
 
 * Fix support for ``TEMPLATE_STRING_IF_INVALID``, avoid parsing the "for" argument in ``{% ajax_comment_tags for object %}``.
+* Look for the correct ``#id_parent`` node (in case there are multiple)
+* Improve Bootstrap 3 appearance (template can be overwritten).
 
 Version 1.0.2
 -------------
