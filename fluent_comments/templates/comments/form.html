@@ -3,16 +3,18 @@
 {% if not form.target_object|comments_are_open %}
     <p>{% trans "Comments are closed." %}</p>
 {% else %}
-    <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="js-comments-form comments-form form-horizontal"
-          data-ajax-action="{% url 'comments-post-comment-ajax' %}">{% csrf_token %}
+    <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}"
+          data-ajax-action="{% url 'comments-post-comment-ajax' %}">
       {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
 
-      {{ form|crispy }}
+      {% crispy form %}
 
-      <div class="form-actions">
-        <input type="submit" name="post" class="btn btn-primary" value="{% trans "Post" %}" />
-        <input type="submit" name="preview" class="btn" value="{% trans "Preview" %}" />
-        {% ajax_comment_tags for form.target_object %}
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input type="submit" name="post" class="btn btn-primary" value="{% trans 'Post' %}" />
+          <input type="submit" name="preview" class="btn btn-default" value="{% trans 'Preview' %}" />
+          {% ajax_comment_tags for form.target_object %}
+        </div>
       </div>
     </form>
 {% endif %}

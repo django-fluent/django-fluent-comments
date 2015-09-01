@@ -1,4 +1,5 @@
 from django.core.exceptions import ImproperlyConfigured
+from crispy_forms.helper import FormHelper
 from fluent_comments import appsettings
 
 
@@ -12,6 +13,15 @@ class FluentCommentForm(base_class):
     """
     The comment form, applies various settings.
     """
+
+    #: Helper for {% crispy %} template tag
+    helper = FormHelper()
+    helper.form_class = 'js-comments-form comments-form form-horizontal'
+    helper.form_tag = False
+    helper.label_class = 'col-sm-2'
+    helper.field_class = 'col-sm-10'
+
+
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
 
