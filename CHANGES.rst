@@ -1,5 +1,5 @@
-Version 1.0.3 (git)
--------------------
+Version 1.0.3 (2015-09-01)
+--------------------------
 
 * Fix support for ``TEMPLATE_STRING_IF_INVALID``, avoid parsing the "for" argument in ``{% ajax_comment_tags for object %}``.
 * Look for the correct ``#id_parent`` node (in case there are multiple)
