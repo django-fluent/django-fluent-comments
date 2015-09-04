@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from fluent_comments import appsettings
-from .compat import CommentManager, Comment, signals
+from .compat import CommentManager, Comment, signals, get_model as get_comments_model
 
 
 class FluentCommentManager(CommentManager):
