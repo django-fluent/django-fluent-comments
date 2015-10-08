@@ -13,7 +13,8 @@ __version__ = "1.0.4"
 if appsettings.USE_THREADEDCOMMENTS:
     # Extend the API provided by django-threadedcomments,
     # in case this app uses more hooks of Django's custom comment app API.
-    from threadedcomments import *
+    from threadedcomments.models import *
+    from threadedcomments.forms import *
 
 
 def get_model():
