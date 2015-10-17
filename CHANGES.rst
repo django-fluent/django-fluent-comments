@@ -1,3 +1,10 @@
+Version 1.0.5 (2015-10-17)
+--------------------------
+
+* Fix Django 1.9 issue with importing models in ``__init__.py``.
+* Fix django-threadedcomments_ 1.0.1 support
+
+
 Version 1.0.4 (2015-10-01)
 --------------------------
 
