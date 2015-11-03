@@ -10,10 +10,13 @@ import sys
 
 # When creating the sdist, make sure the django.mo file also exists:
 if 'sdist' in sys.argv or 'develop' in sys.argv:
+    os.chdir('fluent_comments')
     try:
-        os.chdir('fluent_comments')
-        # from django.core.management.commands.compilemessages import Command
-        # Command.compile_messages(sys.stderr)
+        from django.core import management
+        management.call_command('compilemessages', stdout=sys.stderr, verbosity=1)
+    except ImportError:
+        if 'sdist' in sys.argv:
+            raise
     finally:
         os.chdir('..')
 
@@ -55,7 +58,7 @@ setup(
         'Django (>=1.3)',   # Using staticfiles
     ],
     extras_require = {
-        'threadedcomments': ['django-threadedcomments>=1.0'],
+        'threadedcomments': ['django-threadedcomments>=1.0.1'],
     },
     description='A modern, ajax-based appearance for django_comments',
     long_description=read('README.rst'),
