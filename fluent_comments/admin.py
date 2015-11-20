@@ -67,12 +67,20 @@ class FluentCommentsAdmin(CommentsAdminBase):
         return super(FluentCommentsAdmin, self).get_queryset(request).select_related('user')
 
     def object_link(self, comment):
-        object = comment.content_object
+        try:
+            object = comment.content_object
+        except AttributeError:
+            return ''
+
         if sys.version_info[0] >= 3:
             title = str(object)
         else:
             title = unicode(object)
-        return u'<a href="{0}">{1}</a>'.format(escape(object.get_absolute_url()), escape(title))
+
+        if object:
+            return u'<a href="{0}">{1}</a>'.format(escape(object.get_absolute_url()), escape(title))
+        else:
+            return u''
 
     object_link.short_description = _("Page")
     object_link.allow_tags = True
