@@ -1,7 +1,13 @@
 import django
 from django.conf import settings
-from django.contrib.contenttypes.generic import GenericRelation
-from django.contrib.sites.models import get_current_site
+try:
+    from django.contrib.contenttypes.fields import GenericRelation
+except:
+    from django.contrib.contenttypes.generic import GenericRelation
+try:
+    from django.contrib.sites.shortcuts import get_current_site
+except:
+    from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.template import RequestContext
