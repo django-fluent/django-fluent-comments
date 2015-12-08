@@ -15,6 +15,15 @@ if sys.version_info[0] >= 3:
     long = int
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 @csrf_protect
 @require_POST
 def post_comment_ajax(request, using=None):
@@ -80,7 +89,7 @@ def post_comment_ajax(request, using=None):
 
     # Otherwise create the comment
     comment = form.get_comment_object()
-    comment.ip_address = request.META.get("REMOTE_ADDR", None)
+    comment.ip_address = get_client_ip(request)
     if request.user.is_authenticated():
         comment.user = request.user
 
