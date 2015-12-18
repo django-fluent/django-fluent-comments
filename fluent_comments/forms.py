@@ -21,7 +21,6 @@ class FluentCommentForm(base_class):
     helper.label_class = 'col-sm-2'
     helper.field_class = 'col-sm-10'
 
-
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
 
@@ -33,7 +32,6 @@ class FluentCommentForm(base_class):
                 self.fields.pop(name)
             except KeyError:
                 raise ImproperlyConfigured("Field name '{0}' in FLUENT_COMMENTS_EXCLUDE_FIELDS is invalid, it does not exist in the comment form.")
-
 
     def get_comment_create_data(self):
         # Fake form data for excluded fields, so there are no KeyError exceptions

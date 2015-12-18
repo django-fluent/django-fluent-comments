@@ -14,10 +14,11 @@ class FluentCommentManager(CommentManager):
     """
     Manager to optimize SQL queries for comments.
     """
+
     def get_queryset(self):
         return super(CommentManager, self).get_queryset().select_related('user')
 
-    if django.VERSION >= (1,7):
+    if django.VERSION >= (1, 7):
         # This is a workaround to let django-contrib-comments 1.5 work.
         def get_query_set(self):
             return self.get_queryset()
@@ -84,6 +85,7 @@ class CommentsRelation(GenericRelation):
         class Article(models.Model):
             comments_set = CommentsRelation()
     """
+
     def __init__(self, *args, **kwargs):
         super(CommentsRelation, self).__init__(
             to=get_comments_model(),

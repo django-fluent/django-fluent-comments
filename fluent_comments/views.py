@@ -31,7 +31,6 @@ def post_comment_ajax(request, using=None):
     # This is a separate view to integrate both features. Previously this used django-ajaxcomments
     # which is unfortunately not thread-safe (it it changes the comment view per request).
 
-
     # Fill out some initial data fields from an authenticated user, if present
     data = request.POST.copy()
     if request.user.is_authenticated():
@@ -76,7 +75,6 @@ def post_comment_ajax(request, using=None):
         return _ajax_result(request, form, "preview", comment, object_id=object_pk)
     if form.errors:
         return _ajax_result(request, form, "post", object_id=object_pk)
-
 
     # Otherwise create the comment
     comment = form.get_comment_object()

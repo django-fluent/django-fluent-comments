@@ -91,6 +91,7 @@ def comments_count(content_object):
 
 
 class FluentCommentsList(Node):
+
     def render(self, context):
         # Include proper template, avoid parsing it twice by operating like @register.inclusion_tag()
         if not getattr(self, 'nodelist', None):

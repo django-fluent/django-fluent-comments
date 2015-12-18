@@ -51,7 +51,6 @@ class FluentCommentsModerator(CommentModerator):
     akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET and Akismet is not None
     akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
 
-
     def allow(self, comment, content_object, request):
         """
         Determine whether a given comment is allowed to be posted on a given object.
@@ -68,7 +67,6 @@ class FluentCommentsModerator(CommentModerator):
                 return False  # Akismet marked the comment as spam.
 
         return True
-
 
     def moderate(self, comment, content_object, request):
         """
@@ -88,7 +86,6 @@ class FluentCommentsModerator(CommentModerator):
                 return True
 
         return False
-
 
     def _akismet_check(self, comment, content_object, request):
         """

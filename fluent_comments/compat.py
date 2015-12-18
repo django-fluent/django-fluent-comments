@@ -16,7 +16,7 @@ else:
 
 
 if is_installed('django.contrib.comments'):
-    if django.VERSION >= (1,8):
+    if django.VERSION >= (1, 8):
         # Help users migrate their projects easier without having to debug our import errors.
         # The django-contrib-comments package is already installed via setup.py, so changing INSTALLED_APPS is enough.
         raise ImproperlyConfigured("Django 1.8 no longer provides django.contrib.comments.\nUse 'django_comments' in INSTALLED_APPS instead.")

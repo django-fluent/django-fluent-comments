@@ -33,7 +33,7 @@ def find_version(*parts):
         return str(version_match.group(1))
     raise RuntimeError("Unable to find version string.")
 
-install_requires=[
+install_requires = [
     'django-crispy-forms>=1.1.1',
     'django-tag-parser>=2.1',
 ]
