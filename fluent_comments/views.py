@@ -1,5 +1,4 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import models
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -46,7 +45,12 @@ def post_comment_ajax(request, using=None):
         return CommentPostBadRequest("Missing content_type or object_pk field.")
     try:
         object_pk = long(object_pk)
-        model = models.get_model(*ctype.split(".", 1))
+        try:
+            from django.db import models
+            model = models.get_model(*ctype.split(".", 1))
+        except:
+            from django.apps.registry import apps
+            model = apps.get_model(*ctype.split(".", 1))
         target = model._default_manager.using(using).get(pk=object_pk)
     except ValueError:
         return CommentPostBadRequest("Invalid object_pk value: {0}".format(escape(object_pk)))
