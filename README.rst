@@ -187,7 +187,7 @@ The IP Address is read from the ``REMOTE_ADDR`` meta field.
 In case your site is behind a HTTP proxy (e.g. using Gunicorn or a load balancer),
 this would make all comments appear to be posted from the load balancer IP.
 
-The best, and more secure, way to fix this, is using WsgiUnproxy_ middleware in your ``wsgi.py``:
+The best and most secure way to fix this, is using WsgiUnproxy_ middleware in your ``wsgi.py``:
 
 .. code-block:: python
 
@@ -198,7 +198,8 @@ The best, and more secure, way to fix this, is using WsgiUnproxy_ middleware in 
     application = get_wsgi_application()
     application = unproxy(trusted_proxies=settings.TRUSTED_X_FORWARDED_FOR_IPS)(application)
 
-In your ``settings.py``, you can define which hosts are trusted. For example:
+In your ``settings.py``, you can define which hosts may pass the ``X-Forwarded-For``
+header in the HTTP request. For example:
 
 .. code-block:: python
 
