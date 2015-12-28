@@ -179,6 +179,35 @@ The templates and admin interface adapt themselves automatically
 to show the threaded comments.
 
 
+IP-Address detection
+--------------------
+
+This package stores the remote IP of the visitor in the model, and passes it to Akismet_.
+The IP Address is read from the ``REMOTE_ADDR`` meta field.
+In case your site is behind a HTTP proxy (e.g. using Gunicorn or a load balancer),
+this would make all comments appear to be posted from the load balancer IP.
+
+The best, and more secure, way to fix this, is using WsgiUnproxy_ middleware in your ``wsgi.py``:
+
+.. code-block:: python
+
+    from django.core.wsgi import get_wsgi_application
+    from django.conf import settings
+    from wsgiunproxy import unproxy
+
+    application = get_wsgi_application()
+    application = unproxy(trusted_proxies=settings.TRUSTED_X_FORWARDED_FOR_IPS)(application)
+
+In your ``settings.py``, you can define which hosts are trusted. For example:
+
+.. code-block:: python
+
+    TRUSTED_X_FORWARDED_FOR_IPS = (
+        '11.22.33.44',
+        '192.168.0.1',
+    )
+
+
 Contributing
 ------------
 
@@ -198,3 +227,4 @@ Pull requests are welcome too. :-)
 .. _Akismet: http://akismet.com
 .. _`Bootstrap`: http://twitter.github.com/bootstrap/index.html
 .. _`Uni-form`: http://sprawsm.com/uni-form
+.. _WsgiUnproxy: https://pypi.python.org/pypi/WsgiUnproxy

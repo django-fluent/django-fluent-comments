@@ -1,3 +1,10 @@
+Version 1.1 (2015-12-28)
+------------------------
+
+* Fix Django 1.9 issue with imports.
+* Drop Django 1.4 compatibility (in the templates).
+
+
 Version 1.0.5 (2015-10-17)
 --------------------------
 
