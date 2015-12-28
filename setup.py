@@ -33,31 +33,27 @@ def find_version(*parts):
         return str(version_match.group(1))
     raise RuntimeError("Unable to find version string.")
 
-install_requires = [
-    'django-crispy-forms>=1.1.1',
-    'django-tag-parser>=2.1',
-]
-
 if sys.version_info[0] >= 3:
     # Akismet 0.2 does not support Python 3.
     if 'install' in sys.argv or 'develop' in sys.argv:
         print("\nwarning: skipped Akismet as dependency because it does not have a Python 3 version.")
-else:
-    install_requires += [
-        'akismet>=0.2',
-        'django-contrib-comments>=1.5',
-    ]
+
 
 setup(
     name='django-fluent-comments',
     version=find_version('fluent_comments', '__init__.py'),
     license='Apache 2.0',
 
-    install_requires=install_requires,
+    install_requires = [
+        'django-crispy-forms>=1.1.1',
+        'django-tag-parser>=2.1',
+        'django-contrib-comments>=1.5',
+    ],
     requires=[
-        'Django (>=1.3)',   # Using staticfiles
+        'Django (>=1.5)',
     ],
     extras_require = {
+        ':python_version in "2.6,2.7"': ['akismet>=0.2',],
         'threadedcomments': ['django-threadedcomments>=1.0.1'],
     },
     description='A modern, ajax-based appearance for django_comments',
