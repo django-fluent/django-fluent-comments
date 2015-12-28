@@ -1,12 +1,13 @@
 import warnings
-try:
-    from django.contrib.sites.shortcuts import get_current_site
-except:
-    from django.contrib.sites.models import get_current_site
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from fluent_comments import appsettings
 from .compat import BASE_APP
+
+try:
+    from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
+except ImportError:
+    from django.contrib.sites.models import get_current_site
 
 if BASE_APP == 'django.contrib.comments':
     from django.contrib.comments.moderation import moderator, CommentModerator

@@ -1,19 +1,21 @@
 import django
 from django.conf import settings
-try:
-    from django.contrib.contenttypes.fields import GenericRelation
-except:
-    from django.contrib.contenttypes.generic import GenericRelation
-try:
-    from django.contrib.sites.shortcuts import get_current_site
-except:
-    from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from fluent_comments import appsettings
 from .compat import CommentManager, Comment, signals, get_model as get_comments_model
+
+try:
+    from django.contrib.contenttypes.fields import GenericRelation  # Django 1.9+
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericRelation
+
+try:
+    from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
+except ImportError:
+    from django.contrib.sites.models import get_current_site
 
 
 class FluentCommentManager(CommentManager):
