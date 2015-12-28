@@ -4,7 +4,7 @@ API for :ref:`custom-comment-app-api`
 from fluent_comments import appsettings
 
 # following PEP 440
-__version__ = "1.0.5"
+__version__ = "1.1"
 
 
 def get_model():
