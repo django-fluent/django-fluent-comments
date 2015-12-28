@@ -1,4 +1,4 @@
-{% load url from future %}{% autoescape off %}{% comment %}
+{% autoescape off %}{% comment %}
 {% endcomment %}A new comment has been posted on your site "{{ site }}, to the page entitled "{{ content_object }}".
 Link to the page: http://{{ site.domain }}{{ content_object.get_absolute_url }}
 
