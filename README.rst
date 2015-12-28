@@ -151,6 +151,17 @@ The following settings are available for comment moderation::
 
 To use Akismet_ moderation, make sure the ``AKISMET_API_KEY`` setting is defined.
 
+Python 3 notes
+~~~~~~~~~~~~~~
+
+The ``akismet`` 0.2 release does not support Python 3.
+Hence, it's only installed for Python 2 environments.
+
+For Python 3 systems, install one of the forks from the Akismet_ library
+to have proper Python 3 support. For example by including the following in your ``requirements.txt``::
+
+    -e git+https://github.com/allieus/python-akismet.git#egg=akismet
+
 
 E-mail notification
 -------------------

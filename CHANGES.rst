@@ -2,6 +2,8 @@ Version 1.1 (2015-12-28)
 ------------------------
 
 * Fix Django 1.9 issue with imports.
+* Fix error in the admin for non-existing objects.
+* Fix Python 3 installation error (dropped Akismet_ requirement).
 * Drop Django 1.4 compatibility (in the templates).
 
 
