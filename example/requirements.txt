@@ -10,6 +10,3 @@ akismet>=0.2; python_version in '2.6,2.7'
 
 # Python 3 compatible fork:
 #-e git+https://github.com/allieus/python-akismet.git#egg=akismet
-
-freezegun
-
