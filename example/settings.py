@@ -53,7 +53,10 @@ TEMPLATES = [
         'OPTIONS': {
             'debug': DEBUG,
             'context_processors': {
-                'django.contrib.auth.context_processors.auth'
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.contrib.messages.context_processors.messages',
             }
         },
     },
@@ -80,9 +83,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
+    # Site theme
+    'frontend',
+
     # Example app
     'article',
-    'theme1',
 
     # Required modules
     'crispy_forms',
@@ -111,12 +116,15 @@ LOGGING = {
     }
 }
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # fluent-comments settings:
 COMMENTS_APP = 'fluent_comments'
+
 FLUENT_COMMENTS_USE_EMAIL_MODERATION = True
 FLUENT_COMMENTS_MODERATE_AFTER_DAYS = 14
 FLUENT_COMMENTS_CLOSE_AFTER_DAYS = 60
 FLUENT_COMMENTS_AKISMET_ACTION = 'moderate'
+
 AKISMET_API_KEY = None  # Add your Akismet key here to enable Akismet support
 AKISMET_IS_TEST = True  # for development/example apps.
