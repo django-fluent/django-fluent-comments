@@ -46,9 +46,6 @@ SECRET_KEY = '-#@bi6bue%#1j)6+4b&#i0g-*xro@%f@_#zwv=2-g_@n3n_kj5'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            join(dirname(__file__), "templates"),
-        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': DEBUG,
