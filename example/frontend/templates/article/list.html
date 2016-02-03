@@ -1,10 +1,9 @@
-{% extends "theme1/base.html" %}{% load i18n comments %}{% load url from future %}
+{% extends "base.html" %}{% load i18n comments %}
 
 {% block headtitle %}Articles{% endblock %}
 
 {% block main %}
     <h1>List of articles</h1>
-    <p>(<a href="{% url 'article-full-list' %}">show full list</a>)</p>
 
     {% if object_list %}
         <ul>

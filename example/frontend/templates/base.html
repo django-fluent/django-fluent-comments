@@ -1,0 +1,43 @@
+{% comment %}
+
+    This is the base template of the example project.
+
+{% endcomment %}<!DOCTYPE html>
+<html xml:lang="{{ LANGUAGE_CODE|default:"nl" }}" lang="{{ LANGUAGE_CODE|default:"nl" }}">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Powered by Python, and Django Fluent CMS" />
+    <title>{% block headtitle %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}vendor/bootstrap.css" type="text/css" />
+    {% block extrahead %}{% endblock %}
+    {% block scripts %}
+    <script type="text/javascript" src="{{ STATIC_URL }}vendor/jquery-2.2.0.min.js"></script>
+    {% endblock %}
+  </head>
+
+  <body id="{% block bodyid %}{% endblock %}" class="{% block bodyclass %}{% endblock %}">
+    <div id="wrapper">
+
+      <header id="top" class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">django-fluent-comments</a>
+          </div>
+
+          <div id="main-menu">
+            <ul class="nav navbar-nav">
+              <li><a href="{% url 'article-list' %}">Headlines</a></li>
+              <li><a href="{% url 'article-full-list' %}">Full list</a></li>
+              <li><a href="{% url 'admin:index' %}">Admin</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <section id="main">
+        <div class="container">
+          {% block main %}{% endblock %}
+        </div>
+      </section>
+  </body>
+</html>

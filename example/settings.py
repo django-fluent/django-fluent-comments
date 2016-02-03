@@ -7,7 +7,6 @@ import sys
 sys.path.insert(0, dirname(dirname(realpath(__file__))))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -44,12 +43,24 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-#@bi6bue%#1j)6+4b&#i0g-*xro@%f@_#zwv=2-g_@n3n_kj5'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            join(dirname(__file__), "templates"),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': {
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.contrib.messages.context_processors.messages',
+            }
+        },
+    },
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -62,10 +73,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (
-    join(dirname(__file__), "templates"),
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,9 +83,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
+    # Site theme
+    'frontend',
+
     # Example app
     'article',
-    'theme1',
 
     # Required modules
     'crispy_forms',
@@ -107,12 +116,15 @@ LOGGING = {
     }
 }
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # fluent-comments settings:
 COMMENTS_APP = 'fluent_comments'
+
 FLUENT_COMMENTS_USE_EMAIL_MODERATION = True
 FLUENT_COMMENTS_MODERATE_AFTER_DAYS = 14
 FLUENT_COMMENTS_CLOSE_AFTER_DAYS = 60
 FLUENT_COMMENTS_AKISMET_ACTION = 'moderate'
+
 AKISMET_API_KEY = None  # Add your Akismet key here to enable Akismet support
 AKISMET_IS_TEST = True  # for development/example apps.
