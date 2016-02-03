@@ -46,11 +46,7 @@ class CommentsTests(TestCase):
     def test_admin_comments_access(self):
         self.client.login(username=self.admin.username, password='secret')
         response = self.client.get(reverse('admin:fluent_comments_fluentcomment_changelist'))
-        if django.VERSION < (1, 7):
-            # Comment.__str__() has a different result.
-            self.assertContains(response, "Test-Name", status_code=200)
-        else:
-            self.assertContains(response, "Test-Comment", status_code=200)
+        self.assertContains(response, ">Test-Name<", status_code=200)
 
     def test_get_article_with_comment(self):
         response = self.client.get(reverse('article-details', kwargs={"slug": "testing-article"}))
