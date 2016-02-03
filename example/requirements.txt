@@ -1,5 +1,9 @@
 Django>=1.4.10
 django-crispy-forms>=1.1.1
-#akismet>=0.2
-django-contrib-comments
+
+# Akismet still doesn't have a Python 3 version, handle with environment markers
+akismet>=0.2; python_version in '2.6,2.7'
+-e git+https://github.com/allieus/python-akismet.git#egg=akismet; python_version >= '3.0'
+
+django-contrib-comments>=1.6.2
 freezegun
