@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.utils.html import escape
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from .compat import get_form as get_comments_form, signals, CommentPostBadRequest
+from .compat import get_form as get_comments_form, get_django_model, signals, CommentPostBadRequest
 from fluent_comments import appsettings
 import json
 import sys
@@ -44,12 +44,7 @@ def post_comment_ajax(request, using=None):
         return CommentPostBadRequest("Missing content_type or object_pk field.")
     try:
         object_pk = long(object_pk)
-        try:
-            from django.db import models
-            model = models.get_model(*ctype.split(".", 1))
-        except:
-            from django.apps.registry import apps
-            model = apps.get_model(*ctype.split(".", 1))
+        model = get_django_model(*ctype.split(".", 1))
         target = model._default_manager.using(using).get(pk=object_pk)
     except ValueError:
         return CommentPostBadRequest("Invalid object_pk value: {0}".format(escape(object_pk)))
