@@ -69,7 +69,7 @@ msgstr "Ďakujeme za odstránenie"
 
 #: templates/comments/deleted.html:12
 msgid "Thanks for removing the comment"
-msgstr "Ďakujeme za odstranění komentára"
+msgstr "Ďakujeme za odstránenie komentára"
 
 #: templates/comments/deleted.html:14 templates/comments/flagged.html:14
 msgid ""
@@ -92,7 +92,7 @@ msgstr "Naspäť k diskusii"
 
 #: templates/comments/flagged.html:4
 msgid "Thanks for flagging"
-msgstr "Děkujeme za označkování"
+msgstr "Ďakujeme za označenie"
 
 #: templates/comments/flagged.html:12
 msgid "Thanks for flagging the comment"
@@ -158,7 +158,7 @@ msgstr "Počkajte, prosím . . ."
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:6
 msgid "Your comment has been posted!"
-msgstr "Váš komentář byl publikován!"
+msgstr "Váš komentář bol publikovaný!"
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:7
 msgid ""
