@@ -24,7 +24,7 @@ msgstr "Obsah"
 
 #: admin.py:48
 msgid "Account information"
-msgstr "Informace o účte"
+msgstr "Informácie o účte"
 
 #: admin.py:51
 msgid "Moderation"
