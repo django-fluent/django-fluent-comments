@@ -158,7 +158,7 @@ msgstr "Počkajte, prosím . . ."
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:6
 msgid "Your comment has been posted!"
-msgstr "Váš komentář bol publikovaný!"
+msgstr "Váš komentár bol publikovaný!"
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:7
 msgid ""
