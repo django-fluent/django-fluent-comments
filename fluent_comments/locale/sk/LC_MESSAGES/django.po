@@ -82,7 +82,7 @@ msgstr ""
 "\n"
 "      Vďaka, že ste si našli čas na zlepšenie kvality diskusie na našom "
 "webe.<br/>\n"
-"      Budete presmerovaný späť na diskusiu...\n"
+"      Presmerujeme vás späť na diskusiu...\n"
 "    "
 
 #: templates/comments/deleted.html:20 templates/comments/flagged.html:20
@@ -127,7 +127,7 @@ msgid ""
 msgstr ""
 "\n"
 "      Dostali sme váš komentár a zobrazili sme ho na stránke.<br/>\n"
-"      Budete presmerovaný späť na diskusiu...\n"
+"      Presmerujeme vás späť na diskusiu...\n"
 "      "
 
 #: templates/comments/preview.html:3
