@@ -53,7 +53,7 @@ msgstr "Anonym"
 #: templates/comments/comment.html:27
 #, python-format
 msgid "on %(submit_date)s"
-msgstr "poslal %(submit_date)s"
+msgstr "odoslané %(submit_date)s"
 
 #: templates/comments/comment.html:28
 msgid "moderated"
