@@ -252,9 +252,16 @@
                     commentFailure(data);
                 }
             },
-            error: function(data) {
+            error: function(xhr, textStatus, ex) {
                 form.commentBusy = false;
                 removeWaitAnimation($form);
+
+                response = xhr.responseText;
+                if(response && window.console && response.indexOf('DJANGO_SETTINGS_MODULE') != -1) {
+                    console.error(response);
+                }
+
+                alert("Internal CMS error: failed to post comment data!");    // can't yet rely on $.ajaxError
 
                 // Submit as non-ajax instead
                 //$form.unbind('submit').submit();
