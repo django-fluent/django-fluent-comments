@@ -254,7 +254,7 @@
             },
             error: function(data) {
                 form.commentBusy = false;
-                removeWaitAnimation();
+                removeWaitAnimation($form);
 
                 // Submit as non-ajax instead
                 //$form.unbind('submit').submit();
