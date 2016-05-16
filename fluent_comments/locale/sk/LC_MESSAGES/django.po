@@ -142,7 +142,7 @@ msgstr[1] "Prosím opravte nasledujúce chyby"
 
 #: templates/comments/preview.html:17
 msgid "Post your comment"
-msgstr "Odoslať komentář"
+msgstr "Odoslať komentár"
 
 #: templates/comments/preview.html:20
 msgid "Or make changes"
@@ -150,7 +150,7 @@ msgstr "Alebo spravte zmeny"
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:2
 msgid "cancel reply"
-msgstr "zrušit odpověď"
+msgstr "zrušiť odpověď"
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:4
 msgid "Please wait . . ."
