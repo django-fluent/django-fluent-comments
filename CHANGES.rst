@@ -1,3 +1,9 @@
+Version 1.2.1 (2016-05-23)
+--------------------------
+
+* Fixed error handling in JavaScript when server reports an error.
+
+
 Version 1.2 (2015-02-03)
 ------------------------
 
