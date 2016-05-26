@@ -8,5 +8,9 @@
 
 {% endcomment %}
 <div id="comments-{{ target_object_id }}" data-object-id="{{ target_object_id }}" class="comments {% if not comment_list %} empty{% endif %}">
-  {% for comment in comment_list %}{% include "comments/comment.html" %}{% endfor %}
+  {% if ORDER_REVERSED %}
+    {% for comment in comment_list reversed %}{% include "comments/comment.html" %}{% endfor %}
+  {% else %}
+    {% for comment in comment_list %}{% include "comments/comment.html" %}{% endfor %}
+  {% endif %}
 </div>

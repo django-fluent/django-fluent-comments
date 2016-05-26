@@ -202,6 +202,17 @@ It can be enabled using the following settings::
 The templates and admin interface adapt themselves automatically
 to show the threaded comments.
 
+Other settings
+--------------
+
+For reversing the order of the comments (new comments are appended
+at the top of the list, rather than at the end), use the following
+option.
+
+    FLUENT_COMMENTS_ORDER_REVERSED = True
+
+Currently, this supports only simple comments (no threads). This also
+blocks the scrolling for newly posted comments.
 
 IP-Address detection
 --------------------

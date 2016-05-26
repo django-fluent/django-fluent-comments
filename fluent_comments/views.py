@@ -124,6 +124,7 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
         'errors': json_errors,
         'object_id': object_id,
         'use_threadedcomments': bool(appsettings.USE_THREADEDCOMMENTS),
+        'order_reversed': bool(appsettings.FLUENT_COMMENTS_ORDER_REVERSED),
     }
 
     if comment is not None:
@@ -132,6 +133,7 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
             'action': action,
             'preview': (action == 'preview'),
             'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
+            'ORDER_REVERSED': appsettings.FLUENT_COMMENTS_ORDER_REVERSED,
         }
         comment_html = render_to_string('comments/comment.html', context)
 
