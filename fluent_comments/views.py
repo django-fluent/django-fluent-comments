@@ -43,7 +43,6 @@ def post_comment_ajax(request, using=None):
     if ctype is None or object_pk is None:
         return CommentPostBadRequest("Missing content_type or object_pk field.")
     try:
-        object_pk = long(object_pk)
         model = get_django_model(*ctype.split(".", 1))
         target = model._default_manager.using(using).get(pk=object_pk)
     except ValueError:
