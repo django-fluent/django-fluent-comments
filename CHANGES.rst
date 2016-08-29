@@ -1,3 +1,10 @@
+Version 1.2.2 (2016-08-29)
+--------------------------
+
+* Allow non-integer primary key
+* Added Slovak translation
+
+
 Version 1.2.1 (2016-05-23)
 --------------------------
 
