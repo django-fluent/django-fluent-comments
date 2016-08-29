@@ -5,10 +5,6 @@ django-fluent-comments
     :target: http://travis-ci.org/django-fluent/django-fluent-comments
 .. image:: https://img.shields.io/pypi/v/django-fluent-comments.svg
     :target: https://pypi.python.org/pypi/django-fluent-comments/
-.. image:: https://img.shields.io/pypi/dm/django-fluent-comments.svg
-    :target: https://pypi.python.org/pypi/django-fluent-comments/
-.. image:: https://img.shields.io/badge/wheel-yes-green.svg
-    :target: https://pypi.python.org/pypi/django-fluent-comments/
 .. image:: https://img.shields.io/pypi/l/django-fluent-comments.svg
     :target: https://pypi.python.org/pypi/django-fluent-comments/
 .. image:: https://img.shields.io/codecov/c/github/django-fluent/django-fluent-comments/master.svg
