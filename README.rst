@@ -1,8 +1,8 @@
 django-fluent-comments
 ======================
 
-.. image:: https://travis-ci.org/edoburu/django-fluent-comments.svg?branch=master
-    :target: http://travis-ci.org/edoburu/django-fluent-comments
+.. image:: https://travis-ci.org/django-fluent/django-fluent-comments.svg?branch=master
+    :target: http://travis-ci.org/django-fluent/django-fluent-comments
 .. image:: https://img.shields.io/pypi/v/django-fluent-comments.svg
     :target: https://pypi.python.org/pypi/django-fluent-comments/
 .. image:: https://img.shields.io/pypi/dm/django-fluent-comments.svg
@@ -11,8 +11,8 @@ django-fluent-comments
     :target: https://pypi.python.org/pypi/django-fluent-comments/
 .. image:: https://img.shields.io/pypi/l/django-fluent-comments.svg
     :target: https://pypi.python.org/pypi/django-fluent-comments/
-.. image:: https://img.shields.io/codecov/c/github/edoburu/django-fluent-comments/master.svg
-    :target: https://codecov.io/github/edoburu/django-fluent-comments?branch=master
+.. image:: https://img.shields.io/codecov/c/github/django-fluent/django-fluent-comments/master.svg
+    :target: https://codecov.io/github/django-fluent/django-fluent-comments?branch=master
 
 The *django-fluent-comments* module enhances the default appearance
 of the django_comments_ or django.contrib.comments_ application to be directly usable in web sites.
