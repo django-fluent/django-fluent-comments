@@ -48,12 +48,12 @@ setup(
         'django-crispy-forms>=1.1.1',
         'django-tag-parser>=2.1',
         'django-contrib-comments>=1.5',
+        'python-akismet>=0.2.3',  # Python 3 port, replaces Python 2-only "akismet" library.
     ],
     requires=[
         'Django (>=1.5)',
     ],
     extras_require = {
-        ':python_version in "2.6,2.7"': ['akismet>=0.2',],
         'threadedcomments': ['django-threadedcomments>=1.0.1'],
     },
     description='A modern, ajax-based appearance for django_comments',
