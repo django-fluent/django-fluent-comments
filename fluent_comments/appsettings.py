@@ -11,7 +11,7 @@ USE_THREADEDCOMMENTS = 'threadedcomments' in settings.INSTALLED_APPS
 
 FLUENT_COMMENTS_REPLACE_ADMIN = getattr(settings, "FLUENT_COMMENTS_REPLACE_ADMIN", True)
 
-FLUENT_CONTENTS_USE_AKISMET = getattr(settings, 'FLUENT_CONTENTS_USE_AKISMET', bool(AKISMET_API_KEY))
+FLUENT_CONTENTS_USE_AKISMET = getattr(settings, 'FLUENT_CONTENTS_USE_AKISMET', bool(AKISMET_API_KEY))  # enable when an API key is set.
 FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = getattr(settings, 'FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION', True)  # enable by default
 FLUENT_COMMENTS_CLOSE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_CLOSE_AFTER_DAYS', None)
 FLUENT_COMMENTS_MODERATE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_MODERATE_AFTER_DAYS', None)
@@ -26,4 +26,4 @@ if FLUENT_COMMENTS_EXCLUDE_FIELDS:
     # The exclude option only works when our form is used.
     # Allow derived packages to inherit our form class too.
     if not hasattr(settings, 'COMMENTS_APP') or settings.COMMENTS_APP == 'comments':
-        raise ImproperlyConfigured("To use 'FLUENT_COMMENTS_EXCLUDE_FIELDS', also specify: COMMENTS_APP = 'fluent_comments'")
+        raise ImproperlyConfigured("To use django-fluent-comments, also specify: COMMENTS_APP = 'fluent_comments'")

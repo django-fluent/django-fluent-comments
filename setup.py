@@ -86,6 +86,7 @@ setup(
         'Framework :: Django :: 1.6',
         'Framework :: Django :: 1.7',
         'Framework :: Django :: 1.8',
+        'Framework :: Django :: 1.9',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
