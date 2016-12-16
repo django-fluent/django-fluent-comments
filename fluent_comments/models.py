@@ -1,23 +1,33 @@
 import django
 from django.conf import settings
-from django.contrib.contenttypes.generic import GenericRelation
-from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.template import RequestContext
 from django.template.loader import render_to_string
+
 from fluent_comments import appsettings
 from .compat import CommentManager, Comment, signals, get_model as get_comments_model
+
+try:
+    from django.contrib.contenttypes.fields import GenericRelation  # Django 1.9+
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericRelation
+
+try:
+    from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
+except ImportError:
+    from django.contrib.sites.models import get_current_site
 
 
 class FluentCommentManager(CommentManager):
     """
     Manager to optimize SQL queries for comments.
     """
+
     def get_queryset(self):
         return super(CommentManager, self).get_queryset().select_related('user')
 
-    if django.VERSION >= (1,7):
+    if django.VERSION >= (1, 7):
         # This is a workaround to let django-contrib-comments 1.5 work.
         def get_query_set(self):
             return self.get_queryset()
@@ -58,7 +68,10 @@ def on_comment_posted(sender, comment, request, **kwargs):
         'content_object': content_object
     }
 
-    message = render_to_string("comments/comment_notification_email.txt", context, RequestContext(request))
+    if django.VERSION >= (1, 8):
+        message = render_to_string("comments/comment_notification_email.txt", context, request=request)
+    else:
+        message = render_to_string("comments/comment_notification_email.txt", context, context_instance=RequestContext(request))
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=True)
 
 
@@ -84,6 +97,7 @@ class CommentsRelation(GenericRelation):
         class Article(models.Model):
             comments_set = CommentsRelation()
     """
+
     def __init__(self, *args, **kwargs):
         super(CommentsRelation, self).__init__(
             to=get_comments_model(),

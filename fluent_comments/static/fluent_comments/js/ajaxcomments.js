@@ -36,7 +36,7 @@
         $all_forms
           .each(function(){
             var $form = $(this);
-            var object_id = parseInt($form.attr('data-object-id'));  // Supported in all jQuery versions.
+            var object_id = $form.attr('data-object-id');  // Supported in all jQuery versions.
             $form.wrap('<div class="js-comments-form-orig-position" id="comments-form-orig-position-' + object_id + '"></div>');
           });
 
@@ -50,7 +50,7 @@
             for(var i = 0; i < 4; i++) {
                 var $form = $(node).find('.js-comments-form');
                 if($form.length) {
-                    var target_object_id = parseInt($form.attr('data-object-id'));
+                    var target_object_id = $form.attr('data-object-id');
                     if(target_object_id) {
                         $(this).attr('id', 'comments-' + target_object_id).attr('data-object-id', target_object_id);
                     }
@@ -111,11 +111,11 @@
 
 
     function scrollToComment(id, speed)
-    {        
+    {
         if( ! ENABLE_COMMENT_SCROLL ) {
             return;
         }
-        
+
         // Allow initialisation before scrolling.
         var $comment = $("#c" + id);
         if( $comment.length == 0 ) {
@@ -136,7 +136,7 @@
         if( ! ENABLE_COMMENT_SCROLL ) {
             return;
         }
-        
+
         if( $element.length )
             $(scrollElement).animate( {scrollTop: $element.offset().top - (offset || 0) }, speed || 1000 );
     }
@@ -193,7 +193,7 @@
     }
 
     function resetForm($form) {
-        var object_id = parseInt($form.attr('data-object-id'));
+        var object_id = $form.attr('data-object-id');
         $($form[0].elements['comment']).val('');  // Wrapped in jQuery to silence errors for missing elements.
         $($form[0].elements['parent']).val('');   // Reset parent field in case threaded comments are used.
         $form.appendTo($('#comments-form-orig-position-' + object_id));
@@ -252,9 +252,16 @@
                     commentFailure(data);
                 }
             },
-            error: function(data) {
+            error: function(xhr, textStatus, ex) {
                 form.commentBusy = false;
-                removeWaitAnimation();
+                removeWaitAnimation($form);
+
+                response = xhr.responseText;
+                if(response && window.console && response.indexOf('DJANGO_SETTINGS_MODULE') != -1) {
+                    console.error(response);
+                }
+
+                alert("Internal CMS error: failed to post comment data!");    // can't yet rely on $.ajaxError
 
                 // Submit as non-ajax instead
                 //$form.unbind('submit').submit();
@@ -288,7 +295,7 @@
         // data contains the server-side response.
         var $newCommentTarget = addCommentWrapper(data, '')
         $newCommentTarget.append(data['html']).removeClass('empty');
-        return $("#c" + parseInt(data.comment_id));
+        return $("#c" + data.comment_id);
     }
 
     function addCommentWrapper(data, for_preview)
@@ -375,7 +382,7 @@
 
     function commentFailure(data)
     {
-        var form = $('form#comment-form-' + parseInt(data.object_id))[0];
+        var form = $('form#comment-form-' + data.object_id)[0];
 
         // Show mew errors
         for (var field_name in data.errors) {
@@ -397,7 +404,7 @@
 
     function getCommentsDiv(object_id)
     {
-        var selector = "#comments-" + parseInt(object_id);
+        var selector = "#comments-" + object_id;
         var $comments = $(selector);
         if( $comments.length == 0 )
             alert("Internal error - unable to display comment.\n\nreason: container " + selector + " is missing in the page.");

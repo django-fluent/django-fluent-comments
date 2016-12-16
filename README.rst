@@ -1,5 +1,14 @@
-Introduction
-============
+django-fluent-comments
+======================
+
+.. image:: https://travis-ci.org/django-fluent/django-fluent-comments.svg?branch=master
+    :target: http://travis-ci.org/django-fluent/django-fluent-comments
+.. image:: https://img.shields.io/pypi/v/django-fluent-comments.svg
+    :target: https://pypi.python.org/pypi/django-fluent-comments/
+.. image:: https://img.shields.io/pypi/l/django-fluent-comments.svg
+    :target: https://pypi.python.org/pypi/django-fluent-comments/
+.. image:: https://img.shields.io/codecov/c/github/django-fluent/django-fluent-comments/master.svg
+    :target: https://codecov.io/github/django-fluent/django-fluent-comments?branch=master
 
 The *django-fluent-comments* module enhances the default appearance
 of the django_comments_ or django.contrib.comments_ application to be directly usable in web sites.
@@ -151,6 +160,17 @@ The following settings are available for comment moderation::
 
 To use Akismet_ moderation, make sure the ``AKISMET_API_KEY`` setting is defined.
 
+Python 3 notes
+~~~~~~~~~~~~~~
+
+The ``akismet`` 0.2 release does not support Python 3.
+Hence, it's only installed for Python 2 environments.
+
+For Python 3 systems, install one of the forks from the Akismet_ library
+to have proper Python 3 support. For example by including the following in your ``requirements.txt``::
+
+    -e git+https://github.com/allieus/python-akismet.git#egg=akismet
+
 
 E-mail notification
 -------------------
@@ -179,6 +199,36 @@ The templates and admin interface adapt themselves automatically
 to show the threaded comments.
 
 
+IP-Address detection
+--------------------
+
+This package stores the remote IP of the visitor in the model, and passes it to Akismet_.
+The IP Address is read from the ``REMOTE_ADDR`` meta field.
+In case your site is behind a HTTP proxy (e.g. using Gunicorn or a load balancer),
+this would make all comments appear to be posted from the load balancer IP.
+
+The best and most secure way to fix this, is using WsgiUnproxy_ middleware in your ``wsgi.py``:
+
+.. code-block:: python
+
+    from django.core.wsgi import get_wsgi_application
+    from django.conf import settings
+    from wsgiunproxy import unproxy
+
+    application = get_wsgi_application()
+    application = unproxy(trusted_proxies=settings.TRUSTED_X_FORWARDED_FOR_IPS)(application)
+
+In your ``settings.py``, you can define which hosts may pass the ``X-Forwarded-For``
+header in the HTTP request. For example:
+
+.. code-block:: python
+
+    TRUSTED_X_FORWARDED_FOR_IPS = (
+        '11.22.33.44',
+        '192.168.0.1',
+    )
+
+
 Contributing
 ------------
 
@@ -198,3 +248,4 @@ Pull requests are welcome too. :-)
 .. _Akismet: http://akismet.com
 .. _`Bootstrap`: http://twitter.github.com/bootstrap/index.html
 .. _`Uni-form`: http://sprawsm.com/uni-form
+.. _WsgiUnproxy: https://pypi.python.org/pypi/WsgiUnproxy
