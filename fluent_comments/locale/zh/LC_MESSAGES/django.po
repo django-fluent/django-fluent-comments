@@ -6,57 +6,58 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 20:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Zhiwei Wang <wangzw04@126.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: Chinese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: admin.py:45
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: admin.py:48
 msgid "Account information"
-msgstr ""
+msgstr "账户信息"
 
 #: admin.py:51
 msgid "Moderation"
-msgstr ""
+msgstr "审核"
 
 #: admin.py:62
 msgid "Hierarchy"
-msgstr ""
+msgstr "层级"
 
 #: admin.py:84
 msgid "Page"
-msgstr ""
+msgstr "页面"
 
 #: admin.py:99
 msgid "user's name"
-msgstr ""
+msgstr "用户名称"
 
 #: templates/comments/comment.html:21 templates/comments/preview.html:12
 msgid "Preview of your comment"
-msgstr ""
+msgstr "预览评论"
 
 #: templates/comments/comment.html:24
 msgid "Anonymous"
-msgstr ""
+msgstr "匿名"
 
 #: templates/comments/comment.html:27
 #, python-format
 msgid "on %(submit_date)s"
-msgstr ""
+msgstr "于%(submit_date)s"
 
 #: templates/comments/comment.html:28
 msgid "moderated"
-msgstr ""
+msgstr "正在审核"
 
 #: templates/comments/comment.html:29
 msgid "reply"
@@ -64,11 +65,11 @@ msgstr "回复"
 
 #: templates/comments/deleted.html:4
 msgid "Thanks for removing"
-msgstr ""
+msgstr "感谢移除"
 
 #: templates/comments/deleted.html:12
 msgid "Thanks for removing the comment"
-msgstr ""
+msgstr "感谢移除该评论"
 
 #: templates/comments/deleted.html:14 templates/comments/flagged.html:14
 msgid ""
@@ -78,23 +79,27 @@ msgid ""
 "      You will be sent back to the article...\n"
 "    "
 msgstr ""
+"\n"
+"      感谢您花时间提升我们网站的评论质量。<br/>\n"
+"      您将回到文章页面。。。\n"
+"    "
 
 #: templates/comments/deleted.html:20 templates/comments/flagged.html:20
 #: templates/comments/posted.html:24
 msgid "Back to the article"
-msgstr ""
+msgstr "返回文章"
 
 #: templates/comments/flagged.html:4
 msgid "Thanks for flagging"
-msgstr ""
+msgstr "感谢标记"
 
 #: templates/comments/flagged.html:12
 msgid "Thanks for flagging the comment"
-msgstr ""
+msgstr "感谢标记该评论"
 
 #: templates/comments/form.html:4
 msgid "Comments are closed."
-msgstr ""
+msgstr "评论已关闭"
 
 #: templates/comments/form.html:14 templates/comments/preview.html:26
 msgid "Post"
@@ -106,11 +111,11 @@ msgstr "预览"
 
 #: templates/comments/posted.html:3
 msgid "Thanks for commenting"
-msgstr ""
+msgstr "感谢评论"
 
 #: templates/comments/posted.html:11
 msgid "Thanks for posting your comment"
-msgstr ""
+msgstr "感谢发布您的评论"
 
 #: templates/comments/posted.html:13
 msgid ""
@@ -119,6 +124,10 @@ msgid ""
 "      You will be sent back to the article...\n"
 "      "
 msgstr ""
+"\n"
+"      我们已经收到您的评论并发布在了网站上。<br/>\n"
+"      您将回到文章页面。。。\n"
+"      "
 
 #: templates/comments/preview.html:3
 msgid "Preview your comment"
@@ -127,8 +136,8 @@ msgstr "预览评论"
 #: templates/comments/preview.html:10
 msgid "Please correct the error below"
 msgid_plural "Please correct the errors below"
-msgstr[0] "请修正以下错误"
-msgstr[1] "请修正以下错误"
+msgstr[0] "请修正下面的错误"
+msgstr[1] "请修正以下这些错误"
 
 #: templates/comments/preview.html:17
 msgid "Post your comment"
