@@ -6,7 +6,7 @@
     <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}"
           data-ajax-action="{% url 'comments-post-comment-ajax' %}">
       {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-
+      {% block fluent_form %}
       {% crispy form %}
 
       <div class="form-group">
@@ -16,5 +16,6 @@
           {% ajax_comment_tags for form.target_object %}
         </div>
       </div>
+      {% endblock %}
     </form>
 {% endif %}
