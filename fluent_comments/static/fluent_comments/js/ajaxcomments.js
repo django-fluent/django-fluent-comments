@@ -160,7 +160,7 @@
 
         var $a = $(this);
         var comment_id = $a.attr('data-comment-id');
-        var $comment = $a.closest('.comment-wrapper');
+        var $comment = $a.closest('.comment-item');
 
         removeThreadedPreview();
         $('.js-comments-form').appendTo($comment);
