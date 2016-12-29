@@ -9,17 +9,25 @@ else:
     from .compat import CommentForm as base_class
 
 
+class CommentFormHelper(FormHelper):
+    """
+    The django-crispy-forms configuration that handles form appearance.
+    The default is configured to show bootstrap forms nicely.
+    """
+    form_tag = True
+    form_class = 'js-comments-form {0}'.format(appsettings.FLUENT_COMMENTS_FORM_CSS_CLASS)
+    label_class = appsettings.FLUENT_COMMENTS_LABEL_CSS_CLASS
+    field_class = appsettings.FLUENT_COMMENTS_FIELD_CSS_CLASS
+
+
 class FluentCommentForm(base_class):
     """
     The comment form, applies various settings.
     """
 
     #: Helper for {% crispy %} template tag
-    helper = FormHelper()
-    helper.form_class = 'js-comments-form comments-form form-horizontal'
+    helper = CommentFormHelper()
     helper.form_tag = False
-    helper.label_class = 'col-sm-2'
-    helper.field_class = 'col-sm-10'
 
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)

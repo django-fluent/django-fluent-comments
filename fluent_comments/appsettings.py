@@ -18,6 +18,9 @@ FLUENT_COMMENTS_MODERATE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_MODERAT
 FLUENT_COMMENTS_AKISMET_ACTION = getattr(settings, 'FLUENT_COMMENTS_AKISMET_ACTION', 'moderate')  # or 'delete'
 
 FLUENT_COMMENTS_EXCLUDE_FIELDS = getattr(settings, 'FLUENT_COMMENTS_EXCLUDE_FIELDS', ()) or ()
+FLUENT_COMMENTS_FORM_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_FORM_CSS_CLASS', 'comments-form form-horizontal')
+FLUENT_COMMENTS_LABEL_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_LABEL_CSS_CLASS', 'col-sm-2')
+FLUENT_COMMENTS_FIELD_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_FIELD_CSS_CLASS', 'col-sm-10')
 
 if FLUENT_COMMENTS_AKISMET_ACTION not in ('moderate', 'delete'):
     raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'moderate' or 'delete'")
