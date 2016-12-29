@@ -18,6 +18,7 @@
 {% endcomment %}
 {% load i18n %}
         <div{% if preview %} id="comment-preview"{% else %} id="c{{ comment.id }}"{% endif %} class="comment-item">
+        {% block fluent_comment %}
           {% if preview %}<h3>{% trans "Preview of your comment" %}</h3>{% endif %}
             <h4>
               {% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}
@@ -26,7 +27,8 @@
               <span class="comment-date">{% blocktrans with submit_date=comment.submit_date %}on {{ submit_date }}{% endblocktrans %}</span>
               {% if not comment.is_public %}<span class="comment-moderated-flag">({% trans "moderated" %})</span>{% endif %}
               {% if USE_THREADEDCOMMENTS and not preview %}<a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment-reply-link">{% trans "reply" %}</a>{% endif %}
-            </h4>
+          </h4>
 
             <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+        {% endblock %}
         </div>
