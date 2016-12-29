@@ -4,6 +4,8 @@ from django.template.loader import render_to_string
 from django.utils.html import escape
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
+from fluent_comments.utils import get_comment_template_name, get_comment_context_data
+
 from .compat import get_form as get_comments_form, get_django_model, signals, CommentPostBadRequest
 from fluent_comments import appsettings
 import json
@@ -126,13 +128,10 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
     }
 
     if comment is not None:
-        context = {
-            'comment': comment,
-            'action': action,
-            'preview': (action == 'preview'),
-            'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
-        }
-        comment_html = render_to_string('comments/comment.html', context)
+        # Render the comment, like {% render_comment comment %} does
+        context = get_comment_context_data(comment, action)
+        template_name = get_comment_template_name(comment)
+        comment_html = render_to_string(template_name, context)
 
         json_return.update({
             'html': comment_html,

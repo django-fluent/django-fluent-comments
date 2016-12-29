@@ -7,6 +7,7 @@
   the 'comments/comment.html template is also used by the Ajax view.
 
 {% endcomment %}
+{% load fluent_comments_tags %}
 <div id="comments-{{ target_object_id }}" data-object-id="{{ target_object_id }}" class="comments {% if not comment_list %} empty{% endif %}">
-  {% for comment in comment_list %}{% include "comments/comment.html" %}{% endfor %}
+  {% for comment in comment_list %}{% render_comment comment %}{% endfor %}
 </div>

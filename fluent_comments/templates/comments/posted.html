@@ -1,4 +1,4 @@
-{% extends "comments/base.html" %}{% load i18n %}
+{% extends "comments/base.html" %}{% load i18n fluent_comments_tags %}
 
 {% block title %}{% trans "Thanks for commenting" %}{% endblock %}
 
@@ -18,7 +18,7 @@
 
     {# Use identical formatting to normal comment list #}
     <div id="comments">
-    {% include "comments/comment.html" %}
+      {% render_comment comment %}
     </div>
 
   <p><a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">{% trans "Back to the article" %}</a></p>

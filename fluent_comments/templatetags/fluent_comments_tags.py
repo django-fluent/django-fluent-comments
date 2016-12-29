@@ -1,6 +1,8 @@
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.template import Library, Node
 from django.template.loader import get_template
+from fluent_comments.utils import get_comment_template_name, get_comment_context_data
 from tag_parser import parse_token_kwargs
 from tag_parser.basetags import BaseInclusionNode
 from fluent_comments import appsettings
@@ -130,3 +132,24 @@ def fluent_comments_list(parser, token):
     A tag to select the proper template for the current comments app.
     """
     return FluentCommentsList()
+
+
+class RenderCommentNode(BaseInclusionNode):
+    min_args = 1
+    max_args = 1
+
+    def get_template_name(self, *tag_args, **tag_kwargs):
+        return get_comment_template_name(comment=tag_args[0])
+
+    def get_context_data(self, parent_context, *tag_args, **tag_kwargs):
+        return get_comment_context_data(comment=tag_args[0])
+
+
+@register.tag
+def render_comment(parser, token):
+    """
+    Render a single comment.
+    This tag does not exist in the standard django_comments,
+    because it only renders a complete list.
+    """
+    return RenderCommentNode.parse(parser, token)
