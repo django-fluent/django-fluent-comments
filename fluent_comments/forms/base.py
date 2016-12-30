@@ -6,7 +6,7 @@ from fluent_comments import appsettings
 if appsettings.USE_THREADEDCOMMENTS:
     from threadedcomments.forms import ThreadedCommentForm as base_class
 else:
-    from .compat import CommentForm as base_class
+    from fluent_comments.compat import CommentForm as base_class
 
 
 class CommentFormHelper(FormHelper):
