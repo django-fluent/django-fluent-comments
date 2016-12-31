@@ -115,7 +115,7 @@ LOGGING = {
 }
 
 if django.VERSION >= (1, 6):
-    TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+    TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
