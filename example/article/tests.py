@@ -79,3 +79,39 @@ class CommentsTests(TestCase):
         response = self.client.post(url, post_data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertContains(response, "Testing comment", status_code=200)
         self.assertEqual(response.status_code, 200, response.content.decode("utf-8"))
+
+    def test_comment_post_errors(self):
+
+        content_type = "article.article"
+        timestamp = str(int(time.time()))
+        form = CommentForm(self.article)
+        security_hash = form.generate_security_hash(content_type, str(self.article.pk), timestamp)
+        correct_data = {
+            "content_type": content_type,
+            "object_pk": self.article.pk,
+            "name": "Testing name",
+            "email": "test@email.com",
+            "comment": "Testing comment",
+            "timestamp": timestamp,
+            "security_hash": security_hash,
+        }
+        url = reverse("comments-post-comment-ajax")
+        headers = dict(HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # No data
+        self.assertEqual(self.client.post(url, {}, **headers).status_code, 400)
+
+        # invalid pk
+        post_data = correct_data.copy()
+        post_data['object_pk'] = 999
+        self.assertEqual(self.client.post(url, post_data, **headers).status_code, 400)
+
+        # invalid content type
+        post_data = correct_data.copy()
+        post_data['content_type'] = 'article.foo'
+        self.assertEqual(self.client.post(url, post_data, **headers).status_code, 400)
+
+        # invalid security hash
+        post_data = correct_data.copy()
+        post_data['timestamp'] = 0
+        self.assertEqual(self.client.post(url, post_data, **headers).status_code, 400)

@@ -49,7 +49,7 @@ def post_comment_ajax(request, using=None):
         target = model._default_manager.using(using).get(pk=object_pk)
     except ValueError:
         return CommentPostBadRequest("Invalid object_pk value: {0}".format(escape(object_pk)))
-    except TypeError:
+    except (TypeError, LookupError):
         return CommentPostBadRequest("Invalid content_type value: {0}".format(escape(ctype)))
     except AttributeError:
         return CommentPostBadRequest("The given content-type {0} does not resolve to a valid model.".format(escape(ctype)))
