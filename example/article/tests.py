@@ -1,3 +1,5 @@
+import json
+
 import django
 import time
 from django.core.urlresolvers import reverse
@@ -78,10 +80,39 @@ class CommentsTests(TestCase):
         url = reverse("comments-post-comment-ajax")
         response = self.client.post(url, post_data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertContains(response, "Testing comment", status_code=200)
-        self.assertEqual(response.status_code, 200, response.content.decode("utf-8"))
+        self.assertEqual(response.status_code, 200)
 
-    def test_comment_post_errors(self):
+        json_response = json.loads(response.content.decode("utf-8"))
+        self.assertTrue(json_response['success'])
+        self.assertEqual(json_response['errors'], {})
+        self.assertIn('Testing name', json_response['html'])
 
+    def test_comment_post_missing(self):
+        """
+        Make an ajax post.
+        """
+        content_type = "article.article"
+        timestamp = str(int(time.time()))
+        form = CommentForm(self.article)
+        security_hash = form.generate_security_hash(content_type, str(self.article.pk), timestamp)
+        post_data = {
+            "content_type": content_type,
+            "object_pk": self.article.pk,
+            "timestamp": timestamp,
+            "security_hash": security_hash,
+        }
+        url = reverse("comments-post-comment-ajax")
+        response = self.client.post(url, post_data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+
+        json_response = json.loads(response.content.decode("utf-8"))
+        self.assertFalse(json_response['success'])
+        self.assertEqual(list(json_response['errors'].keys()), ['name', 'email', 'comment'])
+
+    def test_comment_post_bad_requests(self):
+        """
+        See how error handling works on bad requests
+        """
         content_type = "article.article"
         timestamp = str(int(time.time()))
         form = CommentForm(self.article)
@@ -89,9 +120,6 @@ class CommentsTests(TestCase):
         correct_data = {
             "content_type": content_type,
             "object_pk": self.article.pk,
-            "name": "Testing name",
-            "email": "test@email.com",
-            "comment": "Testing comment",
             "timestamp": timestamp,
             "security_hash": security_hash,
         }
