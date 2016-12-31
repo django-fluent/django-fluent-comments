@@ -27,6 +27,11 @@ class CommentFormHelper(FormHelper):
     form_class = 'js-comments-form {0}'.format(appsettings.FLUENT_COMMENTS_FORM_CSS_CLASS)
     label_class = appsettings.FLUENT_COMMENTS_LABEL_CSS_CLASS
     field_class = appsettings.FLUENT_COMMENTS_FIELD_CSS_CLASS
+    render_unmentioned_fields = True  # like honeypot and security_hash
+
+    BASE_FIELDS_TOP = ('content_type', 'object_pk', 'timestamp', 'security_hash')
+    BASE_FIELDS_END = ('honeypot',)
+    BASE_FIELDS = BASE_FIELDS_TOP + BASE_FIELDS_END
 
     @property
     def form_action(self):
@@ -89,7 +94,12 @@ class AbstractCommentForm(base_class):
 
         if appsettings.FLUENT_COMMENTS_FIELD_ORDER:
             new_fields = OrderedDict()
-            for name in appsettings.FLUENT_COMMENTS_FIELD_ORDER:
+            ordering = (
+                CommentFormHelper.BASE_FIELDS_TOP +
+                appsettings.FLUENT_COMMENTS_FIELD_ORDER +
+                CommentFormHelper.BASE_FIELDS_END
+            )
+            for name in ordering:
                 new_fields[name] = self.fields[name]
             self.fields = new_fields
 

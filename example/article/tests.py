@@ -1,16 +1,46 @@
 import json
+from functools import wraps
 
-import django
 import time
+import fluent_comments
+from crispy_forms.layout import Row
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.test import TestCase
 from django.utils import timezone
+from fluent_comments import appsettings
 from fluent_comments import get_model as get_comment_model
 from fluent_comments.compat import CommentForm
 from article.models import Article
+from fluent_comments.forms.compact import CompactCommentForm
+
+
+def override_appsettings(**settings):
+    """
+    Temporary override the appsettings.
+    """
+    def _dec(func):
+        @wraps(func)
+        def _inner(*args, **kwargs):
+            # Apply new settings, backup old, clear caches
+            old_values = {}
+            for key, new_value in settings.items():
+                old_values[key] = getattr(appsettings, key)
+                setattr(appsettings, key, new_value)
+            fluent_comments.form_class = None
+            fluent_comments.model_class = None
+
+            func(*args, **kwargs)
+            for key, old_value in old_values.items():
+                setattr(appsettings, key, old_value)
+
+            # reset caches
+            fluent_comments.form_class = None
+            fluent_comments.model_class = None
+        return _inner
+    return _dec
 
 
 class CommentsTests(TestCase):
@@ -143,3 +173,38 @@ class CommentsTests(TestCase):
         post_data = correct_data.copy()
         post_data['timestamp'] = 0
         self.assertEqual(self.client.post(url, post_data, **headers).status_code, 400)
+
+    @override_appsettings(
+        FLUENT_COMMENTS_FORM_CLASS='fluent_comments.forms.compact.CompactCommentForm',
+        FLUENT_COMMENTS_FIELD_ORDER=(),
+        FLUENT_COMMENTS_COMPACT_FIELDS=('name', 'email'),
+    )
+    def test_form_class(self):
+        """
+        Test how overriding the form class works.
+        """
+        form_class = fluent_comments.get_form()
+        self.assertIs(form_class, CompactCommentForm)
+
+        form = form_class(self.article)
+        self.assertEqual([f.name for f in form.visible_fields()], ['name', 'email', 'url', 'comment', 'honeypot'])
+        self.assertEqual(form.helper.layout.fields[3], 'security_hash')
+        self.assertIsInstance(form.helper.layout.fields[4], Row)
+        self.assertEqual(form.helper.layout.fields[5], 'comment')
+        self.assertEqual(form.helper.layout.fields[6], 'honeypot')
+
+    @override_appsettings(
+        FLUENT_COMMENTS_FIELD_ORDER=('comment', 'name', 'email', 'url'),
+        FLUENT_COMMENTS_COMPACT_FIELDS=('name', 'email'),
+    )
+    def test_compact_ordering1(self):
+        """
+        Test how field ordering works.
+        """
+        form = CompactCommentForm(self.article)
+        self.assertEqual([f.name for f in form.visible_fields()], ['comment', 'name', 'email', 'url', 'honeypot'])
+        self.assertEqual(list(form.fields.keys()), ['content_type', 'object_pk', 'timestamp', 'security_hash', 'comment', 'name', 'email', 'url', 'honeypot'])
+        self.assertEqual(form.helper.layout.fields[3], 'security_hash')
+        self.assertEqual(form.helper.layout.fields[4], 'comment')
+        self.assertIsInstance(form.helper.layout.fields[5], Row)
+        self.assertEqual(form.helper.layout.fields[6], 'honeypot')
