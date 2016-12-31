@@ -60,17 +60,17 @@ Add the following in ``urls.py``::
 
 Provide a template that displays the comments for the ``object`` and includes the required static files::
 
-    {% load comments %}
+    {% load comments static %}
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fluent_comments/css/ajaxcomments.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'fluent_comments/css/ajaxcomments.css' %}" />
+    <script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
 
     {% render_comment_list for object %}
     {% render_comment_form for object %}
 
 The database can be created afterwards::
 
-    ./manage.py syncdb
+    ./manage.py migrate
     ./manage.py runserver
 
 Template for non-ajax pages
