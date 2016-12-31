@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import json
 from functools import wraps
 
@@ -137,7 +138,7 @@ class CommentsTests(TestCase):
 
         json_response = json.loads(response.content.decode("utf-8"))
         self.assertFalse(json_response['success'])
-        self.assertEqual(list(json_response['errors'].keys()), ['name', 'email', 'comment'])
+        self.assertEqual(set(json_response['errors'].keys()), set(['name', 'email', 'comment']))
 
     def test_comment_post_bad_requests(self):
         """
