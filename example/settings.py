@@ -1,5 +1,6 @@
 # Django settings for example project.
 from os.path import join, dirname, realpath
+import django
 
 # Add parent path,
 # Allow starting the app without installing the module.
@@ -112,6 +113,9 @@ LOGGING = {
         },
     }
 }
+
+if django.VERSION >= (1, 6):
+    TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
