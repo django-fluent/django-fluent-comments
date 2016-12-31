@@ -33,11 +33,6 @@ def find_version(*parts):
         return str(version_match.group(1))
     raise RuntimeError("Unable to find version string.")
 
-if sys.version_info[0] >= 3:
-    # Akismet 0.2 does not support Python 3.
-    if 'install' in sys.argv or 'develop' in sys.argv:
-        print("\nwarning: skipped Akismet as dependency because it does not have a Python 3 version.")
-
 
 setup(
     name='django-fluent-comments',
