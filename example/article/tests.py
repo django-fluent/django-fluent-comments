@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.utils import timezone
 from fluent_comments import get_model as get_comment_model
 from fluent_comments.compat import CommentForm
@@ -47,10 +47,6 @@ class CommentsTests(TestCase):
         self.client.login(username=self.admin.username, password='secret')
         response = self.client.get(reverse('admin:fluent_comments_fluentcomment_changelist'))
         self.assertContains(response, ">Test-Name<", status_code=200)
-
-    def test_get_article_with_comment(self):
-        response = self.client.get(reverse('article-details', kwargs={"slug": "testing-article"}))
-        self.assertContains(response, "Comment", status_code=200)
 
     def test_get_article_with_comment(self):
         response = self.client.get(reverse('article-details', kwargs={"slug": "testing-article"}))
