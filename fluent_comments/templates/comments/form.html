@@ -3,9 +3,11 @@
 {% if not form.target_object|comments_are_open %}
     <p>{% trans "Comments are closed." %}</p>
 {% else %}
+  {% if not form.helper or not form.helper.form_tag %}
     <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{% block form_class %}{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}{% endblock %}"
           data-ajax-action="{% url 'comments-post-comment-ajax' %}">
       {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
+  {% endif %}
 
       {% block comment_form %}
         {% block form_fields %}
@@ -13,14 +15,21 @@
         {% endblock %}
 
         {% block form_actions %}
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <input type="submit" name="post" class="btn btn-primary" value="{% trans 'Post' %}" />
-              <input type="submit" name="preview" class="btn btn-default" value="{% trans 'Preview' %}" />
-              {% ajax_comment_tags for form.target_object %}
+          {% if not form.helper.inputs %}
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="post" class="btn btn-primary" value="{% trans 'Post' %}" />
+                <input type="submit" name="preview" class="btn btn-default" value="{% trans 'Preview' %}" />
+                {% ajax_comment_tags for form.target_object %}
+              </div>
             </div>
-          </div>
+          {% else %}
+            {% ajax_comment_tags for form.target_object %}
+          {% endif %}
         {% endblock %}
       {% endblock %}
+
+  {% if not form.helper or not form.helper.form_tag %}
     </form>
+  {% endif %}
 {% endif %}

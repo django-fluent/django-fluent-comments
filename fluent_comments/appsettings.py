@@ -17,15 +17,23 @@ FLUENT_COMMENTS_CLOSE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_CLOSE_AFTE
 FLUENT_COMMENTS_MODERATE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_MODERATE_AFTER_DAYS', None)
 FLUENT_COMMENTS_AKISMET_ACTION = getattr(settings, 'FLUENT_COMMENTS_AKISMET_ACTION', 'moderate')  # or 'delete'
 
+FLUENT_COMMENTS_FIELD_ORDER = getattr(settings, 'FLUENT_COMMENTS_FIELD_ORDER', ()) or ()
 FLUENT_COMMENTS_EXCLUDE_FIELDS = getattr(settings, 'FLUENT_COMMENTS_EXCLUDE_FIELDS', ()) or ()
+FLUENT_COMMENTS_FORM_CLASS = getattr(settings, 'FLUENT_COMMENTS_FORM_CLASS', None)
 FLUENT_COMMENTS_FORM_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_FORM_CSS_CLASS', 'comments-form form-horizontal')
 FLUENT_COMMENTS_LABEL_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_LABEL_CSS_CLASS', 'col-sm-2')
 FLUENT_COMMENTS_FIELD_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_FIELD_CSS_CLASS', 'col-sm-10')
 
+# Compact style settings
+FLUENT_COMMENTS_COMPACT_FIELDS = getattr(settings, 'FLUENT_COMMENTS_COMPACT_FIELDS', ('name', 'email', 'url'))
+FLUENT_COMMENTS_COMPACT_GRID_SIZE = getattr(settings, 'FLUENT_COMMENTS_COMPACT_GRID_SIZE', 12)
+FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS', "col-sm-{size}")
+
+
 if FLUENT_COMMENTS_AKISMET_ACTION not in ('moderate', 'delete'):
     raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'moderate' or 'delete'")
 
-if FLUENT_COMMENTS_EXCLUDE_FIELDS:
+if FLUENT_COMMENTS_EXCLUDE_FIELDS or FLUENT_COMMENTS_FORM_CLASS or FLUENT_COMMENTS_FIELD_ORDER:
     # The exclude option only works when our form is used.
     # Allow derived packages to inherit our form class too.
     if not hasattr(settings, 'COMMENTS_APP') or settings.COMMENTS_APP == 'comments':
