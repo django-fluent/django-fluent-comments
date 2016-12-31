@@ -1,4 +1,4 @@
-from .compat import BASE_APP
+from .compat import urls as base_comments_urls
 from . import views
 
 try:
@@ -11,5 +11,5 @@ except ImportError:
 
 urlpatterns = [
     url(r'^post/ajax/$', views.post_comment_ajax, name='comments-post-comment-ajax'),
-    url(r'', include('{0}.urls'.format(BASE_APP))),  # django_comments.urls or django.contrib.comments.urls
+    url(r'', include(base_comments_urls)),  # django_comments.urls or django.contrib.comments.urls
 ]

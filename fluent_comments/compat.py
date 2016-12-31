@@ -31,7 +31,7 @@ if is_installed('django.contrib.comments'):
     # Django 1.7 and below
     BASE_APP = 'django.contrib.comments'
     from django.contrib import comments as django_comments
-    from django.contrib.comments import get_model, get_form, signals
+    from django.contrib.comments import get_model, get_form, signals, urls
     from django.contrib.comments.forms import CommentForm
     from django.contrib.comments.models import Comment
     from django.contrib.comments.managers import CommentManager
@@ -40,7 +40,7 @@ elif is_installed('django_comments'):
     # as of Django 1.8, this is a separate app.
     BASE_APP = 'django_comments'
     import django_comments
-    from django_comments import get_model, get_form, signals
+    from django_comments import get_model, get_form, signals, urls
     from django_comments.forms import CommentForm
     from django_comments.models import Comment
     from django_comments.managers import CommentManager
@@ -54,6 +54,7 @@ __all__ = (
     'is_installed',
     'django_comments',
     'signals',
+    'urls',
     'get_model',
     'get_form',
     'CommentForm',
