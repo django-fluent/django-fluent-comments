@@ -44,29 +44,38 @@ class CommentsTests(TestCase):
         )
 
     def test_admin_comments_access(self):
+        """
+        See that the admin renders
+        """
         self.client.login(username=self.admin.username, password='secret')
         response = self.client.get(reverse('admin:fluent_comments_fluentcomment_changelist'))
         self.assertContains(response, ">Test-Name<", status_code=200)
 
     def test_get_article_with_comment(self):
+        """
+        See if the comment renders
+        """
         response = self.client.get(reverse('article-details', kwargs={"slug": "testing-article"}))
-        self.assertContains(response, "Comment", status_code=200)
+        self.assertContains(response, "Test-Comment", status_code=200)
 
     def test_comment_post(self):
+        """
+        Make an ajax post.
+        """
         content_type = "article.article"
-        object_pk = "1"
         timestamp = str(int(time.time()))
-        form = CommentForm(Article())
-        security_hash = form.generate_security_hash(content_type, object_pk, timestamp)
+        form = CommentForm(self.article)
+        security_hash = form.generate_security_hash(content_type, str(self.article.pk), timestamp)
         post_data = {
             "content_type": content_type,
-            "object_pk": object_pk,
+            "object_pk": self.article.pk,
             "name": "Testing name",
             "email": "test@email.com",
             "comment": "Testing comment",
             "timestamp": timestamp,
             "security_hash": security_hash,
         }
-        response = self.client.post(reverse("comments-post-comment-ajax"), post_data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        url = reverse("comments-post-comment-ajax")
+        response = self.client.post(url, post_data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertContains(response, "Testing comment", status_code=200)
         self.assertEqual(response.status_code, 200, response.content.decode("utf-8"))
