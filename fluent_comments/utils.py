@@ -51,7 +51,7 @@ def import_symbol(import_path, setting_name):
     except ImportError as e:
         __, __, exc_traceback = sys.exc_info()
         frames = traceback.extract_tb(exc_traceback)
-        if len(frames) > 1:
+        if len(frames) > 2:
             raise   # import error is a level deeper.
 
         raise ImproperlyConfigured("{0} does not point to an existing class: {1}".format(setting_name, import_path))
