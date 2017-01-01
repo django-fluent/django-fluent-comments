@@ -3,18 +3,23 @@ from __future__ import unicode_literals
 import json
 import time
 
-from article.tests.utils import CommentTestCase
+from article.tests import factories
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.test import TestCase
 from fluent_comments.compat import CommentForm
 
 
-class CommentsTests(CommentTestCase):
+class CommentsTests(TestCase):
 
     def test_admin_comments_access(self):
         """
         See that the admin renders
         """
-        self.client.login(username=self.admin.username, password='secret')
+        admin = User.objects.create_superuser('admin2', 'admin@example.com', 'secret')
+        comment = factories.create_comment(user_name='Test-Name')
+
+        self.client.login(username=admin.username, password='secret')
         response = self.client.get(reverse('admin:fluent_comments_fluentcomment_changelist'))
         self.assertContains(response, ">Test-Name<", status_code=200)
 
@@ -22,7 +27,10 @@ class CommentsTests(CommentTestCase):
         """
         See if the comment renders
         """
-        response = self.client.get(reverse('article-details', kwargs={"slug": self.article.slug}))
+        article = factories.create_article()
+        comment = factories.create_comment(article=article, comment="Test-Comment")
+
+        response = self.client.get(reverse('article-details', kwargs={"slug": article.slug}))
         self.assertContains(response, "Test-Comment", status_code=200)
 
     def test_comment_post(self):
@@ -31,11 +39,13 @@ class CommentsTests(CommentTestCase):
         """
         content_type = "article.article"
         timestamp = str(int(time.time()))
-        form = CommentForm(self.article)
-        security_hash = form.generate_security_hash(content_type, str(self.article.pk), timestamp)
+        article = factories.create_article()
+
+        form = CommentForm(article)
+        security_hash = form.generate_security_hash(content_type, str(article.pk), timestamp)
         post_data = {
             "content_type": content_type,
-            "object_pk": self.article.pk,
+            "object_pk": article.pk,
             "name": "Testing name",
             "email": "test@email.com",
             "comment": "Testing comment",
@@ -58,11 +68,13 @@ class CommentsTests(CommentTestCase):
         """
         content_type = "article.article"
         timestamp = str(int(time.time()))
-        form = CommentForm(self.article)
-        security_hash = form.generate_security_hash(content_type, str(self.article.pk), timestamp)
+        article = factories.create_article()
+
+        form = CommentForm(article)
+        security_hash = form.generate_security_hash(content_type, str(article.pk), timestamp)
         post_data = {
             "content_type": content_type,
-            "object_pk": self.article.pk,
+            "object_pk": article.pk,
             "timestamp": timestamp,
             "security_hash": security_hash,
         }
@@ -80,11 +92,13 @@ class CommentsTests(CommentTestCase):
         """
         content_type = "article.article"
         timestamp = str(int(time.time()))
-        form = CommentForm(self.article)
-        security_hash = form.generate_security_hash(content_type, str(self.article.pk), timestamp)
+        article = factories.create_article()
+
+        form = CommentForm(article)
+        security_hash = form.generate_security_hash(content_type, str(article.pk), timestamp)
         correct_data = {
             "content_type": content_type,
-            "object_pk": self.article.pk,
+            "object_pk": article.pk,
             "timestamp": timestamp,
             "security_hash": security_hash,
         }

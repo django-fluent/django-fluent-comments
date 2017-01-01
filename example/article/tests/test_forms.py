@@ -1,10 +1,12 @@
 import fluent_comments
-from article.tests.utils import override_appsettings, CommentTestCase
+from article.tests import factories
+from article.tests.utils import override_appsettings
 from crispy_forms.layout import Row
+from django.test import TestCase
 from fluent_comments.forms.compact import CompactCommentForm
 
 
-class FormTests(CommentTestCase):
+class FormTests(TestCase):
 
     @override_appsettings(
         FLUENT_COMMENTS_FORM_CLASS='fluent_comments.forms.compact.CompactCommentForm',
@@ -18,7 +20,8 @@ class FormTests(CommentTestCase):
         form_class = fluent_comments.get_form()
         self.assertIs(form_class, CompactCommentForm)
 
-        form = form_class(self.article)
+        article = factories.create_article()
+        form = form_class(article)
         self.assertEqual([f.name for f in form.visible_fields()], ['name', 'email', 'url', 'comment', 'honeypot'])
         self.assertEqual(form.helper.layout.fields[3], 'security_hash')
         self.assertIsInstance(form.helper.layout.fields[4], Row)
@@ -33,7 +36,8 @@ class FormTests(CommentTestCase):
         """
         Test how field ordering works.
         """
-        form = CompactCommentForm(self.article)
+        article = factories.create_article()
+        form = CompactCommentForm(article)
         self.assertEqual([f.name for f in form.visible_fields()], ['comment', 'name', 'email', 'url', 'honeypot'])
         self.assertEqual(list(form.fields.keys()), ['content_type', 'object_pk', 'timestamp', 'security_hash', 'comment', 'name', 'email', 'url', 'honeypot'])
         self.assertEqual(form.helper.layout.fields[3], 'security_hash')
