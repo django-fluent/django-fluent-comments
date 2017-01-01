@@ -1,4 +1,6 @@
 import warnings
+
+import fluent_comments
 from akismet import Akismet
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
@@ -98,50 +100,44 @@ class FluentCommentsModerator(CommentModerator):
         auto_blog_url = '{0}://{1}/'.format(request.is_secure() and 'https' or 'http', current_domain)
         blog_url = appsettings.AKISMET_BLOG_URL or auto_blog_url
 
-        akismet_api = Akismet(
-            key=AKISMET_API_KEY,
-            blog_url=blog_url
+        akismet = Akismet(
+            AKISMET_API_KEY,
+            blog=blog_url,
+            is_test=int(bool(appsettings.AKISMET_IS_TEST)),
+            application_user_agent='django-fluent-comments/{0}'.format(fluent_comments.__version__),
         )
 
-        if akismet_api.verify_key():
-            akismet_data = self._get_akismet_data(blog_url, comment, content_object, request)
-            if akismet_api.comment_check(smart_str(comment.comment), data=akismet_data, build_data=True):
-                return True
-
-        return False
+        akismet_data = self._get_akismet_data(blog_url, comment, content_object, request)
+        return akismet.check(**akismet_data)  # raises AkismetServerError when key is invalid
 
     def _get_akismet_data(self, blog_url, comment, content_object, request):
         # Field documentation:
         # http://akismet.com/development/api/#comment-check
-        akismet_data = {
+        data = {
             # Comment info
             'permalink': urljoin(blog_url, content_object.get_absolute_url()),
             'comment_type': 'comment',   # comment, trackback, pingback, see http://blog.akismet.com/2012/06/19/pro-tip-tell-us-your-comment_type/
             'comment_author': getattr(comment, 'name', ''),
             'comment_author_email': getattr(comment, 'email', ''),
             'comment_author_url': getattr(comment, 'url', ''),
+            'comment_content': smart_str(comment.comment),
+            'comment_date': comment.submit_date,
 
             # Request info
             'referrer': request.META.get('HTTP_REFERER', ''),
             'user_agent': request.META.get('HTTP_USER_AGENT', ''),
             'user_ip': comment.ip_address,
-
-            # Server info
-            'SERVER_ADDR': request.META.get('SERVER_ADDR', ''),
-            'SERVER_ADMIN': request.META.get('SERVER_ADMIN', ''),
-            'SERVER_NAME': request.META.get('SERVER_NAME', ''),
-            'SERVER_PORT': request.META.get('SERVER_PORT', ''),
-            'SERVER_SIGNATURE': request.META.get('SERVER_SIGNATURE', ''),
-            'SERVER_SOFTWARE': request.META.get('SERVER_SOFTWARE', ''),
-            'HTTP_ACCEPT': request.META.get('HTTP_ACCEPT', ''),
         }
 
-        # Allow testing, see:
-        # http://blog.akismet.com/2012/07/20/pro-tip-testing-testing/
-        if appsettings.AKISMET_IS_TEST:
-            akismet_data['is_test'] = '1'
+        if comment.user_id and comment.user.is_superuser():
+            data['user_role'] = 'administrator'  # always passes test
 
-        return akismet_data
+        # If the language is known, provide it.
+        language = _get_article_language(content_object)
+        if language:
+            data['blog_language'] = language
+
+        return data
 
 
 def moderate_model(ParentModel, publication_date_field=None, enable_comments_field=None):
@@ -203,3 +199,18 @@ def comments_are_moderated(content_object):
     # Check the 'auto_moderate_field', 'moderate_after',
     # by reusing the basic Django policies.
     return CommentModerator.moderate(moderator, None, content_object, None)
+
+
+def _get_article_language(article):
+    try:
+        # django-parler uses this attribute
+        return article.get_current_language()
+    except AttributeError:
+        pass
+
+    try:
+        return article.language_code
+    except AttributeError:
+        pass
+
+    return None
