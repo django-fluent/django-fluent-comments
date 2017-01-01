@@ -44,6 +44,8 @@ To use comments, the following settings are required:
         'django.contrib.sites',
     )
 
+    CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
     COMMENTS_APP = 'fluent_comments'
 
 .. note::
