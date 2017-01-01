@@ -5,7 +5,7 @@ form_class = None
 model_class = None
 
 # following PEP 440
-__version__ = "1.2.2"
+__version__ = "1.3"
 
 
 def get_model():

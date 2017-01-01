@@ -1,3 +1,18 @@
+Version 1.3 (2017-01-02)
+------------------------
+
+* Added Akismet support for Python 3, via python-akismet_.
+* Added field reordering support, via the ``FLUENT_COMMENTS_FIELD_ORDER`` setting.
+* Added form class swapping, through the ``FLUENT_COMMENTS_FORM_CLASS`` setting.
+* Added new compact-form style, enable using::
+
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.compact.CompactCommentForm'
+    FLUENT_COMMENTS_COMPACT_FIELDS = ('name', 'email', 'url')
+
+* Added template blocks to override ``comments/form.html`` via ``comments/app_name/app_label/form.html``.
+* Added support for ``app_name/app_label`` template overrides to our ``comments/comment.html`` template.
+
+
 Version 1.2.2 (2016-08-29)
 --------------------------
 
@@ -123,6 +138,7 @@ First public release
 * Rudimentary support for django-threadedcomments_
 
 .. _Akismet: https://pypi.python.org/pypi/akismet
+.. _python-akismet: https://pypi.python.org/pypi/python-akismet
 .. _django_comments: https://github.com/django/django-contrib-comments
 .. _django.contrib.comments: https://docs.djangoproject.com/en/1.7/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org
