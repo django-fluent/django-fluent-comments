@@ -1,5 +1,5 @@
+import django
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
 from django.template import Library, Node
 from django.template.loader import get_template
 from fluent_comments.utils import get_comment_template_name, get_comment_context_data
@@ -123,6 +123,9 @@ class FluentCommentsList(Node):
         # Render the node
         context['USE_THREADEDCOMMENTS'] = appsettings.USE_THREADEDCOMMENTS
         context['target_object_id'] = target_object_id
+
+        if django.VERSION >= (1, 8):
+            context = context.flatten()
         return self.nodelist.render(context)
 
 
