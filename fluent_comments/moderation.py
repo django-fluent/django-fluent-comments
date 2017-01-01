@@ -1,4 +1,5 @@
 import warnings
+from akismet import Akismet
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from fluent_comments import appsettings
@@ -20,14 +21,6 @@ try:
     from urllib.parse import urljoin  # Python 3
 except ImportError:
     from urlparse import urljoin  # Python 2
-
-# Optional dependency (for lacking Python 3 support)
-try:
-    from akismet import Akismet
-except ImportError:
-    Akismet = None
-    if appsettings.FLUENT_CONTENTS_USE_AKISMET:
-        warnings.warn("No `akismet` package has been installed, disabling Akismet checks for django-fluent-comments.", RuntimeWarning)
 
 
 # Akismet code originally based on django-comments-spamfighter.
@@ -52,7 +45,7 @@ class FluentCommentsModerator(CommentModerator):
     close_after = appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS
     moderate_after = appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS
     email_notification = False   # Using signals instead
-    akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET and Akismet is not None
+    akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
     akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
 
     def allow(self, comment, content_object, request):
