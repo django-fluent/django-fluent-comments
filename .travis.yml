@@ -28,19 +28,20 @@ matrix:
     env: PACKAGES="Django>=1.7,<1.8"
   allow_failures:
   - env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
-  - env: PACKAGES="Django>=1.6,<1.7 django-contrib-comments == 1.6.2"
+  - env: PACKAGES="Django>=1.6,<1.7 django-contrib-comments==1.6.2"
     python: '2.6'
 before_install:
 - pip install codecov
 install:
-- pip install -q "$PACKAGES"
-- pip install -r example/requirements.txt
-- pip install -q "$PACKAGES"
+- pip install -U pip wheel
+- pip install $PACKAGES -e .
 script:
-- pip install .
 - coverage run example/manage.py test
-after_script:
+after_success:
 - codecov
+branches:
+  only:
+  - master
 notifications:
   irc:
     channels:
