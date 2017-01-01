@@ -2,6 +2,7 @@ from functools import wraps
 
 import fluent_comments
 from fluent_comments import appsettings
+from fluent_comments.moderation import FluentCommentsModerator
 
 
 def override_appsettings(**settings):
@@ -16,15 +17,22 @@ def override_appsettings(**settings):
             for key, new_value in settings.items():
                 old_values[key] = getattr(appsettings, key)
                 setattr(appsettings, key, new_value)
-            fluent_comments.form_class = None
-            fluent_comments.model_class = None
+            _reset_setting_caches()
 
             func(*args, **kwargs)
             for key, old_value in old_values.items():
                 setattr(appsettings, key, old_value)
 
             # reset caches
-            fluent_comments.form_class = None
-            fluent_comments.model_class = None
+            _reset_setting_caches()
         return _inner
     return _dec
+
+
+def _reset_setting_caches():
+    fluent_comments.form_class = None
+    fluent_comments.model_class = None
+    FluentCommentsModerator.close_after = appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS
+    FluentCommentsModerator.moderate_after = appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS
+    FluentCommentsModerator.akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
+    FluentCommentsModerator.akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION

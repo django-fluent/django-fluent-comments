@@ -48,6 +48,9 @@ setup(
     requires=[
         'Django (>=1.5)',
     ],
+    tests_require = [
+        'mock',
+    ],
     extras_require = {
         'threadedcomments': ['django-threadedcomments>=1.0.1'],
     },

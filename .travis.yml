@@ -37,7 +37,7 @@ before_install:
 - pip install codecov
 install:
 - pip install -U pip wheel
-- pip install $PACKAGES -e .
+- pip install $PACKAGES mock -e .
 script:
 - coverage run example/manage.py test
 after_success:
