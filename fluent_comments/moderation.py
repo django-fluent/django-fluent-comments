@@ -1,5 +1,3 @@
-import warnings
-
 import fluent_comments
 from akismet import Akismet
 from django.core.exceptions import ImproperlyConfigured
