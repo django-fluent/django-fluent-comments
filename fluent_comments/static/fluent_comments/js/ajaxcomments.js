@@ -9,7 +9,9 @@
     var ENABLE_COMMENT_SCROLL = true;
 
 
-    $.fn.ready(function()
+    // Comments ajax could be activated from outside by:
+    // $.fn.activate_comments()
+    $.fn.activate_comments = function()
     {
         var commentform = $('form.js-comments-form');
         if( commentform.length > 0 )
@@ -87,8 +89,9 @@
             if( ! isNaN(id))   // e.g. #comments in URL
                 scrollToComment(id, 1000);
         }
-    });
+    };
 
+    $.fn.ready($.fn.activate_comments);
 
     function setActiveInput()
     {
