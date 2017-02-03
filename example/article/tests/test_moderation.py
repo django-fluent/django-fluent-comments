@@ -9,7 +9,7 @@ from django.test import RequestFactory
 from django.test import TestCase
 from django.utils.timezone import now
 from fluent_comments import appsettings
-from fluent_comments.moderation import get_model_moderator
+from fluent_comments.moderation import FluentCommentsModerator, get_model_moderator
 from mock import patch
 
 
@@ -32,6 +32,25 @@ class ModerationTests(TestCase):
         """
         moderator = get_model_moderator(Article)
         self.assertIsNotNone(moderator)
+
+    @override_appsettings(
+        FLUENT_CONTENTS_USE_AKISMET=False,
+        FLUENT_COMMENTS_MODERATE_BAD_WORDS=('viagra',)
+    )
+    def test_bad_words(self, *mocks):
+        """
+        Test moderation on bad words.
+        """
+        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        article = factories.create_article()
+        comment = factories.create_comment(article=article, comment='Testing:viagra!!')
+        moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
+
+        self.assertTrue(moderator.moderate_bad_words)  # see that settings are correctly patched
+        self.assertTrue(moderator.moderate(comment, article, request), "bad_words should reject")
+
+        comment.comment = "Just normal words"
+        self.assertFalse(moderator.moderate(comment, article, request), "bad_words should not trigger")
 
     @override_appsettings(
         FLUENT_CONTENTS_USE_AKISMET=False,

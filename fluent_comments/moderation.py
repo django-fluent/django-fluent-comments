@@ -1,3 +1,4 @@
+import re
 import fluent_comments
 from akismet import Akismet
 from django.core.exceptions import ImproperlyConfigured
@@ -23,6 +24,8 @@ except ImportError:
     from urlparse import urljoin  # Python 2
 
 
+RE_INTERPUNCTION = re.compile(r'\W+')
+
 # Akismet code originally based on django-comments-spamfighter.
 
 __all__ = (
@@ -47,6 +50,7 @@ class FluentCommentsModerator(CommentModerator):
     email_notification = False   # Using signals instead
     akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
     akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
+    moderate_bad_words = set(appsettings.FLUENT_COMMENTS_MODERATE_BAD_WORDS)
 
     def allow(self, comment, content_object, request):
         """
@@ -75,6 +79,12 @@ class FluentCommentsModerator(CommentModerator):
         # Parent class check
         if super(FluentCommentsModerator, self).moderate(comment, content_object, request):
             return True
+
+        # Bad words check
+        if self.moderate_bad_words:
+            input_words = set(RE_INTERPUNCTION.sub(' ', comment.comment).split())
+            if self.moderate_bad_words.intersection(input_words):
+                return True
 
         # Akismet check
         if self.akismet_check and self.akismet_check_action == 'moderate':
