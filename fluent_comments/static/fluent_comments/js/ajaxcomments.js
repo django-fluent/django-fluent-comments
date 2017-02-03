@@ -9,6 +9,11 @@
     var ENABLE_COMMENT_SCROLL = true;
 
 
+    if($ == null) {
+        throw Error("jQuery needs to be loaded before ajaxcomments.js");
+    }
+
+
     $.fn.ready(function()
     {
         var commentform = $('form.js-comments-form');
