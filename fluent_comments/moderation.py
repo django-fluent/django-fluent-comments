@@ -127,7 +127,7 @@ class FluentCommentsModerator(CommentModerator):
             'user_ip': comment.ip_address,
         }
 
-        if comment.user_id and comment.user.is_superuser():
+        if comment.user_id and comment.user.is_superuser:
             data['user_role'] = 'administrator'  # always passes test
 
         # If the language is known, provide it.
