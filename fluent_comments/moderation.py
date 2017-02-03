@@ -145,7 +145,7 @@ class FluentCommentsModerator(CommentModerator):
         # If the language is known, provide it.
         language = _get_article_language(content_object)
         if language:
-            data['blog_language'] = language
+            data['blog_lang'] = language
 
         return data
 
