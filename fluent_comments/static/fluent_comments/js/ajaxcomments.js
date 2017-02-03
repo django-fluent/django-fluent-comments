@@ -391,7 +391,8 @@
 
                 // Twitter bootstrap style
                 $field.after('<span class="js-errors">' + data.errors[field_name] + '</span>');
-                $field.closest('.control-group').addClass('error');
+                $field.closest('.control-group').addClass('error');  // Bootstrap 2
+                $field.closest('.form-group').addClass('has-error'); // Bootstrap 3
             }
         }
     }
@@ -399,7 +400,8 @@
     function removeErrors($form)
     {
         $form.find('.js-errors').remove();
-        $form.find('.control-group.error').removeClass('error');
+        $form.find('.control-group.error').removeClass('error');  // Bootstrap 2
+        $form.find('.form-group.has-error').removeClass('has-error');  // Bootstrap 3
     }
 
     function getCommentsDiv(object_id)
