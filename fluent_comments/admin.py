@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 from fluent_comments import appsettings
@@ -71,15 +72,14 @@ class FluentCommentsAdmin(CommentsAdminBase):
         except AttributeError:
             return ''
 
-        if sys.version_info[0] >= 3:
-            title = str(object)
-        else:
-            title = unicode(object)
+        if not object:
+            return ''
 
-        if object:
+        title = force_text(object)
+        if hasattr(object, 'get_absolute_url'):
             return u'<a href="{0}">{1}</a>'.format(escape(object.get_absolute_url()), escape(title))
         else:
-            return u''
+            return title
 
     object_link.short_description = _("Page")
     object_link.allow_tags = True
