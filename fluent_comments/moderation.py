@@ -87,9 +87,11 @@ class FluentCommentsModerator(CommentModerator):
                 return True
 
         # Akismet check
-        if self.akismet_check and self.akismet_check_action == 'moderate':
+        if self.akismet_check and self.akismet_check_action != 'delete':
             # Return True if akismet marks this comment as spam and we want to moderate it.
             if self._akismet_check(comment, content_object, request):
+                if self.akismet_check_action == 'soft_delete':
+                    comment.is_removed = True
                 return True
 
         return False

@@ -61,7 +61,13 @@ def on_comment_posted(sender, comment, request, **kwargs):
     site = get_current_site(request)
     content_object = comment.content_object
 
-    subject = u'[{0}] New comment posted on "{1}"'.format(site.name, content_object)
+    if comment.is_removed:
+        subject = u'[{0}] Spam comment on "{1}"'.format(site.name, content_object)
+    elif not comment.is_public:
+        subject = u'[{0}] Moderated comment on "{1}"'.format(site.name, content_object)
+    else:
+        subject = u'[{0}] New comment posted on "{1}"'.format(site.name, content_object)
+
     context = {
         'site': site,
         'comment': comment,

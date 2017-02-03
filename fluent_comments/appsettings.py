@@ -16,7 +16,7 @@ FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = getattr(settings, 'FLUENT_COMMENTS_USE_
 FLUENT_COMMENTS_CLOSE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_CLOSE_AFTER_DAYS', None)
 FLUENT_COMMENTS_MODERATE_BAD_WORDS = getattr(settings, 'FLUENT_COMMENTS_MODERATE_BAD_WORDS', ())
 FLUENT_COMMENTS_MODERATE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_MODERATE_AFTER_DAYS', None)
-FLUENT_COMMENTS_AKISMET_ACTION = getattr(settings, 'FLUENT_COMMENTS_AKISMET_ACTION', 'moderate')  # or 'delete'
+FLUENT_COMMENTS_AKISMET_ACTION = getattr(settings, 'FLUENT_COMMENTS_AKISMET_ACTION', 'moderate')  # or 'moderate', 'delete, 'soft_delete'
 
 FLUENT_COMMENTS_FIELD_ORDER = tuple(getattr(settings, 'FLUENT_COMMENTS_FIELD_ORDER', ()) or ())
 FLUENT_COMMENTS_EXCLUDE_FIELDS = getattr(settings, 'FLUENT_COMMENTS_EXCLUDE_FIELDS', ()) or ()
@@ -31,8 +31,8 @@ FLUENT_COMMENTS_COMPACT_GRID_SIZE = getattr(settings, 'FLUENT_COMMENTS_COMPACT_G
 FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS', "col-sm-{size}")
 
 
-if FLUENT_COMMENTS_AKISMET_ACTION not in ('moderate', 'delete'):
-    raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'moderate' or 'delete'")
+if FLUENT_COMMENTS_AKISMET_ACTION not in ('moderate', 'soft_delete', 'delete'):
+    raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'moderate', 'soft_delete' or 'delete'")
 
 if FLUENT_COMMENTS_EXCLUDE_FIELDS or FLUENT_COMMENTS_FORM_CLASS or FLUENT_COMMENTS_FIELD_ORDER:
     # The exclude option only works when our form is used.
