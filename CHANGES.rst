@@ -1,3 +1,14 @@
+Version 1.4 (2017-01-27)
+------------------------
+
+* Added ``fluent_comments.forms.CompactLabelsCommentForm`` style for ``FLUENT_COMMENTS_FORM_CLASS``.
+* Added ``FLUENT_COMMENTS_MODERATE_BAD_WORDS`` setting, to auto moderate on profanity or spammy words.
+* Added ``FLUENT_COMMENTS_AKISMET_ACTION = "soft_delete"`` to auto-remove spammy comments. This is now the new default too.
+* Exposed all form styles through ``fluent_comments.forms`` now.
+* Fixed ``is_superuser`` check in moderation.
+* Fixed ``blog_language`` parameter for Akismet.
+
+
 Version 1.3 (2017-01-02)
 ------------------------
 
@@ -6,7 +17,7 @@ Version 1.3 (2017-01-02)
 * Added form class swapping, through the ``FLUENT_COMMENTS_FORM_CLASS`` setting.
 * Added new compact-form style, enable using::
 
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.compact.CompactCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.CompactCommentForm'
     FLUENT_COMMENTS_COMPACT_FIELDS = ('name', 'email', 'url')
 
 * Added template blocks to override ``comments/form.html`` via ``comments/app_name/app_label/form.html``.
