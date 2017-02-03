@@ -76,6 +76,15 @@ class FluentCommentsModerator(CommentModerator):
 
         Returns ``True`` if the comment should be moderated (marked non-public), ``False`` otherwise.
         """
+
+        # Soft delete checks are done first, so these comments are not mistakenly "just moderated"
+        # for expiring the `close_after` date, but correctly get marked as spam instead.
+        # This helps staff to quickly see which comments need real moderation.
+        if self.akismet_check and self.akismet_check_action == 'soft_delete':
+            if self._akismet_check(comment, content_object, request):
+                comment.is_removed = True  # Set extra marker
+                return True
+
         # Parent class check
         if super(FluentCommentsModerator, self).moderate(comment, content_object, request):
             return True
@@ -87,11 +96,9 @@ class FluentCommentsModerator(CommentModerator):
                 return True
 
         # Akismet check
-        if self.akismet_check and self.akismet_check_action != 'delete':
+        if self.akismet_check and self.akismet_check_action not in ('soft_delete', 'delete'):
             # Return True if akismet marks this comment as spam and we want to moderate it.
             if self._akismet_check(comment, content_object, request):
-                if self.akismet_check_action == 'soft_delete':
-                    comment.is_removed = True
                 return True
 
         return False
