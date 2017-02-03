@@ -62,7 +62,7 @@ class ModerationTests(TestCase):
         request = RequestFactory().post(reverse('comments-post-comment-ajax'))
         article = factories.create_article()
         comment = factories.create_comment(article=article)
-        moderator = get_model_moderator(Article)
+        moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertFalse(moderator.akismet_check)
@@ -80,7 +80,7 @@ class ModerationTests(TestCase):
         request = RequestFactory().post(reverse('comments-post-comment-ajax'))
         article = factories.create_article()
         comment = factories.create_comment(article=article, user_name='viagra-test-123')
-        moderator = get_model_moderator(Article)
+        moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertTrue(moderator.akismet_check)  # see that settings are correctly patched
