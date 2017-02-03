@@ -44,7 +44,11 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-#@bi6bue%#1j)6+4b&#i0g-*xro@%f@_#zwv=2-g_@n3n_kj5'
 
-_INSTALLED_COMMENTS_APP = None
+if django.VERSION < (1, 7):
+    _INSTALLED_COMMENTS_APP = 'django.contrib.comments'
+else:
+    _INSTALLED_COMMENTS_APP = None
+
 if django.VERSION >= (1, 8):
     TEMPLATES = [
         {
@@ -62,7 +66,6 @@ if django.VERSION >= (1, 8):
         },
     ]
 else:
-    _INSTALLED_COMMENTS_APP = 'django.contrib.comments'
     TEMPLATE_LOADERS = (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
