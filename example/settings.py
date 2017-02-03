@@ -44,6 +44,7 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-#@bi6bue%#1j)6+4b&#i0g-*xro@%f@_#zwv=2-g_@n3n_kj5'
 
+_INSTALLED_COMMENTS_APP = None
 if django.VERSION >= (1, 8):
     TEMPLATES = [
         {
@@ -61,6 +62,7 @@ if django.VERSION >= (1, 8):
         },
     ]
 else:
+    _INSTALLED_COMMENTS_APP = 'django.contrib.comments'
     TEMPLATE_LOADERS = (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
@@ -101,7 +103,7 @@ INSTALLED_APPS = (
     # Required modules
     'crispy_forms',
     'fluent_comments',
-    'django_comments',  # below theme1 and fluent_comments
+    _INSTALLED_COMMENTS_APP or 'django_comments',  # below theme1 and fluent_comments
 
     ## Optional, uncomment to enable:
     #'threadedcomments',
