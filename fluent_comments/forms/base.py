@@ -1,9 +1,7 @@
-from crispy_forms.layout import Submit, Button
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext_lazy as _
-from crispy_forms.helper import FormHelper
-from django_comments import get_form_target
 from fluent_comments import appsettings
+from fluent_comments.forms.helper import CommentFormHelper
+from fluent_comments.forms.helper import SubmitButton, PreviewButton  # noqa, import at old class location too
 
 try:
     from collections import OrderedDict
@@ -17,60 +15,6 @@ else:
     from fluent_comments.compat import CommentForm as base_class
 
 
-class CommentFormHelper(FormHelper):
-    """
-    The django-crispy-forms configuration that handles form appearance.
-    The default is configured to show bootstrap forms nicely.
-    """
-    form_tag = False  # we need to define the form_tag
-    form_id = 'comment-form-ID'
-    form_class = 'js-comments-form {0}'.format(appsettings.FLUENT_COMMENTS_FORM_CSS_CLASS)
-    label_class = appsettings.FLUENT_COMMENTS_LABEL_CSS_CLASS
-    field_class = appsettings.FLUENT_COMMENTS_FIELD_CSS_CLASS
-    render_unmentioned_fields = True  # like honeypot and security_hash
-
-    BASE_FIELDS_TOP = ('content_type', 'object_pk', 'timestamp', 'security_hash')
-    BASE_FIELDS_END = ('honeypot',)
-    BASE_FIELDS = BASE_FIELDS_TOP + BASE_FIELDS_END
-
-    @property
-    def form_action(self):
-        return get_form_target()  # reads get_form_target from COMMENTS_APP
-
-    def __init__(self, form=None):
-        super(CommentFormHelper, self).__init__(form=form)
-        if form is not None:
-            # When using the helper like this, it could generate all fields.
-            self.form_id = 'comment-form-{0}'.format(form.target_object.pk)
-            self.attrs = {
-                'data-object-id': form.target_object.pk,
-            }
-
-
-class SubmitButton(Submit):
-    """
-    The submit button to add to the layout.
-
-    Note: the ``name=post`` is mandatory, it helps the
-    """
-
-    def __init__(self, text=_("Submit"), **kwargs):
-        super(SubmitButton, self).__init__(name='post', value=text, **kwargs)
-
-
-class PreviewButton(Button):
-    """
-    The preview button to add to the layout.
-
-    Note: the ``name=post`` is mandatory, it helps the
-    """
-    input_type = 'submit'
-
-    def __init__(self, text=_("Preview"), **kwargs):
-        kwargs.setdefault('css_class', 'btn-default')
-        super(PreviewButton, self).__init__(name='preview', value=text, **kwargs)
-
-
 class AbstractCommentForm(base_class):
     """
     The comment form, applies various settings.
@@ -78,7 +22,6 @@ class AbstractCommentForm(base_class):
 
     #: Helper for {% crispy %} template tag
     helper = CommentFormHelper()
-    helper.form_tag = False
 
     def __init__(self, *args, **kwargs):
         super(AbstractCommentForm, self).__init__(*args, **kwargs)

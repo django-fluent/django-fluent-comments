@@ -1,13 +1,27 @@
 """
-
+Different form layout, very compact
 """
-from crispy_forms.layout import Layout, Row, Column
-from django.core.exceptions import ImproperlyConfigured
-from django.utils import six
+from crispy_forms.layout import Column, Layout, Row
 from django.utils.functional import cached_property
 
 from fluent_comments import appsettings
-from fluent_comments.forms.base import AbstractCommentForm, CommentFormHelper, SubmitButton, PreviewButton
+from fluent_comments.forms.base import AbstractCommentForm, PreviewButton, SubmitButton
+from fluent_comments.forms.helper import CompactLabelsCommentFormHelper
+
+
+class CompactLabelsCommentForm(AbstractCommentForm):
+    """
+    A form layout where the labels are replaced with ``placeholder`` attributes.
+    """
+
+    @cached_property
+    def helper(self):
+        # Initialize on demand
+        helper = CompactLabelsCommentFormHelper()
+        helper.layout = Layout(*self.fields.keys())
+        helper.add_input(SubmitButton())
+        helper.add_input(PreviewButton())
+        return helper
 
 
 class CompactCommentForm(AbstractCommentForm):
@@ -37,16 +51,8 @@ class CompactCommentForm(AbstractCommentForm):
         new_fields = other_fields
         new_fields.insert(pos, compact_row)
 
-        helper = CommentFormHelper()
-        helper.form_class = helper.form_class.replace('form-horizontal', 'form-vertical') + ' comments-form-compact'
-        helper.label_class = 'sr-only'
-        helper.field_class = ''
+        helper = CompactLabelsCommentFormHelper()
         helper.layout = Layout(*new_fields)
         helper.add_input(SubmitButton())
         helper.add_input(PreviewButton())
         return helper
-
-    def __init__(self, *args, **kwargs):
-        super(CompactCommentForm, self).__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['placeholder'] = u"{0}:".format(field.label)
