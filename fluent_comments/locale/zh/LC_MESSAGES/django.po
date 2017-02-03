@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 20:28+0800\n"
+"POT-Creation-Date: 2017-02-03 15:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Zhiwei Wang <wangzw04@126.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,24 +42,33 @@ msgstr "页面"
 msgid "user's name"
 msgstr "用户名称"
 
-#: templates/comments/comment.html:21 templates/comments/preview.html:12
+#: forms/base.py:57
+msgid "Submit"
+msgstr ""
+
+#: forms/base.py:69 templates/comments/form.html:22
+#: templates/comments/preview.html:27
+msgid "Preview"
+msgstr "预览"
+
+#: templates/comments/comment.html:22 templates/comments/preview.html:12
 msgid "Preview of your comment"
 msgstr "预览评论"
 
-#: templates/comments/comment.html:24
+#: templates/comments/comment.html:26
 msgid "Anonymous"
 msgstr "匿名"
 
-#: templates/comments/comment.html:27
+#: templates/comments/comment.html:29
 #, python-format
 msgid "on %(submit_date)s"
 msgstr "于%(submit_date)s"
 
-#: templates/comments/comment.html:28
+#: templates/comments/comment.html:30
 msgid "moderated"
 msgstr "正在审核"
 
-#: templates/comments/comment.html:29
+#: templates/comments/comment.html:31
 msgid "reply"
 msgstr "回复"
 
@@ -101,13 +110,9 @@ msgstr "感谢标记该评论"
 msgid "Comments are closed."
 msgstr "评论已关闭"
 
-#: templates/comments/form.html:14 templates/comments/preview.html:26
+#: templates/comments/form.html:21 templates/comments/preview.html:26
 msgid "Post"
 msgstr "发布"
-
-#: templates/comments/form.html:15 templates/comments/preview.html:27
-msgid "Preview"
-msgstr "预览"
 
 #: templates/comments/posted.html:3
 msgid "Thanks for commenting"

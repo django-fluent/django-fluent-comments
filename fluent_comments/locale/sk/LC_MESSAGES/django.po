@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 22:00+0200\n"
+"POT-Creation-Date: 2017-02-03 15:38+0100\n"
 "PO-Revision-Date: 2016-05-09 22:00+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,32 +34,41 @@ msgstr "Moderácia"
 msgid "Hierarchy"
 msgstr "Hierarchia"
 
-#: admin.py:77
+#: admin.py:84
 msgid "Page"
 msgstr "Stránka"
 
-#: admin.py:92
+#: admin.py:99
 msgid "user's name"
 msgstr "používateľské meno"
 
-#: templates/comments/comment.html:21 templates/comments/preview.html:12
+#: forms/base.py:57
+msgid "Submit"
+msgstr ""
+
+#: forms/base.py:69 templates/comments/form.html:22
+#: templates/comments/preview.html:27
+msgid "Preview"
+msgstr "Náhľad"
+
+#: templates/comments/comment.html:22 templates/comments/preview.html:12
 msgid "Preview of your comment"
 msgstr "Náhľad komentára"
 
-#: templates/comments/comment.html:24
+#: templates/comments/comment.html:26
 msgid "Anonymous"
 msgstr "Anonym"
 
-#: templates/comments/comment.html:27
+#: templates/comments/comment.html:29
 #, python-format
 msgid "on %(submit_date)s"
 msgstr "odoslané %(submit_date)s"
 
-#: templates/comments/comment.html:28
+#: templates/comments/comment.html:30
 msgid "moderated"
 msgstr "moderované"
 
-#: templates/comments/comment.html:29
+#: templates/comments/comment.html:31
 msgid "reply"
 msgstr "odpovedať"
 
@@ -80,8 +89,8 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"      Vďaka, že ste si našli čas na zlepšenie kvality diskusie na našom "
-"webe.<br/>\n"
+"      Vďaka, že ste si našli čas na zlepšenie kvality diskusie na našom webe."
+"<br/>\n"
 "      Presmerujeme vás späť na diskusiu...\n"
 "    "
 
@@ -102,13 +111,9 @@ msgstr "Vďaka za označenie komentára"
 msgid "Comments are closed."
 msgstr "Diskusia je uzavretá."
 
-#: templates/comments/form.html:13 templates/comments/preview.html:26
+#: templates/comments/form.html:21 templates/comments/preview.html:26
 msgid "Post"
 msgstr "Odoslať"
-
-#: templates/comments/form.html:14 templates/comments/preview.html:27
-msgid "Preview"
-msgstr "Náhľad"
 
 #: templates/comments/posted.html:3
 msgid "Thanks for commenting"

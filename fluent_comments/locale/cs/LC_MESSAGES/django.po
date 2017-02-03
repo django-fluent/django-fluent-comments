@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-08 14:34+0200\n"
+"POT-Creation-Date: 2017-02-03 15:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,32 +34,41 @@ msgstr "Moderování"
 msgid "Hierarchy"
 msgstr "Hierarchie"
 
-#: admin.py:77
+#: admin.py:84
 msgid "Page"
 msgstr "Strana"
 
-#: admin.py:92
+#: admin.py:99
 msgid "user's name"
 msgstr "jméno uživatele"
 
-#: templates/comments/comment.html:21 templates/comments/preview.html:12
+#: forms/base.py:57
+msgid "Submit"
+msgstr ""
+
+#: forms/base.py:69 templates/comments/form.html:22
+#: templates/comments/preview.html:27
+msgid "Preview"
+msgstr "Náhled"
+
+#: templates/comments/comment.html:22 templates/comments/preview.html:12
 msgid "Preview of your comment"
 msgstr "Náhled komentáře"
 
-#: templates/comments/comment.html:24
+#: templates/comments/comment.html:26
 msgid "Anonymous"
 msgstr "Anonymní"
 
-#: templates/comments/comment.html:27
+#: templates/comments/comment.html:29
 #, python-format
 msgid "on %(submit_date)s"
 msgstr "poslal %(submit_date)s"
 
-#: templates/comments/comment.html:28
+#: templates/comments/comment.html:30
 msgid "moderated"
 msgstr "moderován"
 
-#: templates/comments/comment.html:29
+#: templates/comments/comment.html:31
 msgid "reply"
 msgstr "odpovědět"
 
@@ -102,13 +111,9 @@ msgstr "Děkujeme za označkování komentáře"
 msgid "Comments are closed."
 msgstr "Komentáře jsou uzavřené"
 
-#: templates/comments/form.html:13 templates/comments/preview.html:26
+#: templates/comments/form.html:21 templates/comments/preview.html:26
 msgid "Post"
 msgstr "Odeslat"
-
-#: templates/comments/form.html:14 templates/comments/preview.html:27
-msgid "Preview"
-msgstr "Náhled"
 
 #: templates/comments/posted.html:3
 msgid "Thanks for commenting"
