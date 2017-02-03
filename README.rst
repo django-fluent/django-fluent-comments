@@ -111,6 +111,98 @@ CSS form layout
 
 Form layouts generally differ across web sites, hence this application doesn't dictate a specific form layout.
 Instead, this application uses django-crispy-forms_ which allows configuration of the form appearance.
+
+The defaults are set to Bootstrap 3 layouts, but can be changed.
+
+Switching form layouts
+~~~~~~~~~~~~~~~~~~~~~~
+
+By choosing a different form class, the form layout can be redefined at once:
+
+The default is:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.FluentCommentForm'
+
+    FLUENT_COMMENTS_FORM_CSS_CLASS = 'comments-form form-horizontal'
+    FLUENT_COMMENTS_LABEL_CSS_CLASS = 'col-sm-2'
+    FLUENT_COMMENTS_FIELD_CSS_CLASS = 'col-sm-10'
+
+You can replace the labels with placeholders using:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.CompactLabelsCommentForm'
+
+Or place some fields at a single row:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.CompactCommentForm'
+
+    # Optional settings for the compact style:
+    FLUENT_COMMENTS_COMPACT_FIELDS = ('name', 'email', 'url')
+    FLUENT_COMMENTS_COMPACT_GRID_SIZE = 12
+    FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = "col-sm-{size}"
+
+
+Changing the field order
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The default is:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FIELD_ORDER = ('name', 'email', 'url', 'comment')
+
+For a more modern look, consider placing the comment first:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FIELD_ORDER = ('comment', 'name', 'email', 'url')
+
+
+Hiding form fields
+~~~~~~~~~~~~~~~~~~
+
+Form fields can be hidden using the following settings:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
+
+When `django-threadedcomments`_ in used, the ``title`` field can also be removed.
+
+
+Using a custom form class
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the settings above don't provide the layout you need,
+you can define a custom form class entirely:
+
+.. code-block:: python
+
+    from fluent_comments.forms import CompactLabelsCommentForm
+
+
+    class CommentForm(CompactLabelsCommentForm):
+        """
+        The comment form to use
+        """
+
+        def __init__(self, *args, **kwargs):
+            super(CommentForm, self).__init__(*args, **kwargs)
+            self.fields['url'].label = "Website"  # Changed the label
+
+And use that class in the ``FLUENT_COMMENTS_FORM_CLASS`` setting.
+The ``helper`` attribute defines how the layout is constructed by django-crispy-forms_,
+and should be redefined the change the field ordering or appearance.
+
+
+Switching form templates
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 By default, the forms can be rendered with 2 well known CSS frameworks:
 
 * `Bootstrap`_ The default template pack. The popular simple and flexible HTML, CSS, and Javascript for user interfaces from Twitter.
@@ -124,19 +216,6 @@ In fact, we would encourage to adopt django-crispy-forms_ for all your applicati
 
 If your form CSS framework is not supported, you can create a template pack
 for it and submit a pull request to the django-crispy-forms_ authors for inclusion.
-
-
-Hiding form fields
-~~~~~~~~~~~~~~~~~~
-
-Form fields can be hidden using the following settings:
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
-    COMMENTS_APP = 'fluent_comments'
-
-When `django-threadedcomments`_ in used, the ``title`` field can also be removed.
 
 
 Comment moderation
@@ -163,13 +242,13 @@ The following settings are available for comment moderation:
 .. code-block:: python
 
     AKISMET_API_KEY = "your-api-key"
-    AKISMET_BLOG_URL = "http://example.com"        # Optional, to override auto detection
-    AKISMET_IS_TEST = False                        # Enable to make test runs
+    AKISMET_BLOG_URL = "http://example.com"         # Optional, to override auto detection
+    AKISMET_IS_TEST = False                         # Enable to make test runs
 
-    FLUENT_CONTENTS_USE_AKISMET = True             # Enabled by default when AKISMET_API_KEY is set.
-    FLUENT_COMMENTS_CLOSE_AFTER_DAYS = None        # Auto-close comments after N days
-    FLUENT_COMMENTS_MODERATE_AFTER_DAYS = None     # Auto-moderate comments after N days.
-    FLUENT_COMMENTS_AKISMET_ACTION = 'moderate'    # Set to 'moderate' or 'delete'
+    FLUENT_CONTENTS_USE_AKISMET = True              # Enabled by default when AKISMET_API_KEY is set.
+    FLUENT_COMMENTS_CLOSE_AFTER_DAYS = None         # Auto-close comments after N days
+    FLUENT_COMMENTS_MODERATE_AFTER_DAYS = None      # Auto-moderate comments after N days.
+    FLUENT_COMMENTS_AKISMET_ACTION = 'soft_delete'  # Set to 'moderate', 'soft_delete' or 'delete'
 
 To use Akismet_ moderation, make sure the ``AKISMET_API_KEY`` setting is defined.
 
