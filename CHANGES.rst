@@ -1,4 +1,10 @@
-Version 1.4 (2017-01-27)
+Version 1.4.1 (2017-02-06)
+--------------------------
+
+* Fixed compatibility with django-contrib-comments_ 1.8.
+
+
+Version 1.4 (2017-02-03)
 ------------------------
 
 * Added ``fluent_comments.forms.CompactLabelsCommentForm`` style for ``FLUENT_COMMENTS_FORM_CLASS``.
