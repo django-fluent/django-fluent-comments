@@ -46,9 +46,10 @@ class AbstractCommentForm(base_class):
                 new_fields[name] = self.fields[name]
             self.fields = new_fields
 
-    def get_comment_create_data(self):
+    def get_comment_create_data(self, *args, **kwargs):
         # Fake form data for excluded fields, so there are no KeyError exceptions
         for name in appsettings.FLUENT_COMMENTS_EXCLUDE_FIELDS:
             self.cleaned_data[name] = ""
 
-        return super(AbstractCommentForm, self).get_comment_create_data()
+        # Pass args, kwargs for django-contrib-comments 1.8, which accepts a ``site_id`` argument.
+        return super(AbstractCommentForm, self).get_comment_create_data(*args, **kwargs)
