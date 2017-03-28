@@ -156,3 +156,11 @@ def render_comment(parser, token):
     because it only renders a complete list.
     """
     return RenderCommentNode.parse(parser, token)
+
+
+@register.simple_tag(takes_context=False)
+def fluent_comments_js_tag():
+    STATIC_URL = getattr(settings, 'STATIC_URL')
+    filename = getattr(appsettings, 'FLUENT_COMMENTS_JS', 'ajaxcomments.js')
+    return '<script type="text/javascript" src="{ STATIC_URL }fluent_comments/js/{ filename }"></script>'.format(STATIC_URL=STATIC_URL,
+                                                                                                                 filename=filename)

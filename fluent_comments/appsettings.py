@@ -11,6 +11,8 @@ USE_THREADEDCOMMENTS = 'threadedcomments' in settings.INSTALLED_APPS
 
 FLUENT_COMMENTS_REPLACE_ADMIN = getattr(settings, "FLUENT_COMMENTS_REPLACE_ADMIN", True)
 
+FLUENT_COMMENTS_JS = getattr(settings, "FLUENT_COMMENTS_JS", 'ajaxcomments.js')
+
 FLUENT_CONTENTS_USE_AKISMET = getattr(settings, 'FLUENT_CONTENTS_USE_AKISMET', bool(AKISMET_API_KEY))  # enable when an API key is set.
 FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = getattr(settings, 'FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION', True)  # enable by default
 FLUENT_COMMENTS_CLOSE_AFTER_DAYS = getattr(settings, 'FLUENT_COMMENTS_CLOSE_AFTER_DAYS', None)

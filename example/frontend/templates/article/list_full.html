@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block scripts %}{{ block.super }}
-    <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+    {% fluent_comments_js_tag %}
 {% endblock %}
 
 {% block main %}
