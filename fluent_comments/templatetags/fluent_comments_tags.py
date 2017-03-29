@@ -23,7 +23,7 @@ class AjaxCommentTags(BaseInclusionNode):
     Using the ``@register.inclusion_tag`` is not sufficient,
     because some keywords require custom parsing.
     """
-    template_name = "fluent_comments/templatetags/ajax_comment_tags.html"
+    template_name = "comments/ajax_comment_tags.html"
     min_args = 1
     max_args = 1
 
