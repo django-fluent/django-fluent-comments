@@ -145,7 +145,8 @@ class RenderCommentNode(BaseInclusionNode):
         return get_comment_template_name(comment=tag_args[0])
 
     def get_context_data(self, parent_context, *tag_args, **tag_kwargs):
-        return get_comment_context_data(comment=tag_args[0])
+        _, request, _ = parent_context
+        return get_comment_context_data(comment=tag_args[0], request=request)
 
 
 @register.tag
