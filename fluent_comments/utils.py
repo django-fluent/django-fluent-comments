@@ -6,6 +6,7 @@ import traceback
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured
+from django.template import Context
 from fluent_comments import appsettings
 
 try:
@@ -30,12 +31,12 @@ def get_comment_context_data(comment, action=None):
     """
     Internal function for the rendering of comments.
     """
-    return {
+    return Context({
         'comment': comment,
         'action': action,
         'preview': (action == 'preview'),
         'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
-    }
+    })
 
 
 def import_symbol(import_path, setting_name):
