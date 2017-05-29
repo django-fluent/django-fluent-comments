@@ -16,15 +16,17 @@
 
     $.fn.ready(function()
     {
-        var commentform = $('form.js-comments-form');
-        if( commentform.length > 0 )
-        {
-            // Detect last active input.
-            // Submit if return is hit, or any button other then preview is hit.
-            commentform.find(':input').focus(setActiveInput).mousedown(setActiveInput);
-            commentform.submit(onCommentFormSubmit);
-        }
-
+        // var commentform = $('form.js-comments-form');
+        // if( commentform.length > 0 )
+        // {
+        //     // Detect last active input.
+        //     // Submit if return is hit, or any button other then preview is hit.
+        //     commentform.find(':input').focus(setActiveInput).mousedown(setActiveInput);
+        //     commentform.submit(onCommentFormSubmit);
+        // }
+        $('body').on('focus', 'form.js-comments-form :input', setActiveInput);
+        $('body').on('mousedown', 'form.js-comments-form :input', setActiveInput);
+        $('body').on('submit', 'form.js-comments-form', onCommentFormSubmit);
 
         // Bind events for threaded comment reply
         if($.fn.on) {
@@ -35,7 +37,7 @@
             $('.comment-reply-link').live('click', showThreadedReplyForm);
         }
 
-        $('.comment-cancel-reply-link').click(cancelThreadedReplyForm);
+        $('body').on('click', '.comment-cancel-reply-link', cancelThreadedReplyForm);
 
         var $all_forms = $('.js-comments-form');
         $all_forms
