@@ -16,30 +16,19 @@
 
     $.fn.ready(function()
     {
-        // var commentform = $('form.js-comments-form');
-        // if( commentform.length > 0 )
-        // {
-        //     // Detect last active input.
-        //     // Submit if return is hit, or any button other then preview is hit.
-        //     commentform.find(':input').focus(setActiveInput).mousedown(setActiveInput);
-        //     commentform.submit(onCommentFormSubmit);
-        // }
+
         $('body').on('focus', 'form.js-comments-form :input', setActiveInput);
         $('body').on('mousedown', 'form.js-comments-form :input', setActiveInput);
         $('body').on('submit', 'form.js-comments-form', onCommentFormSubmit);
-
-        // Bind events for threaded comment reply
-        if($.fn.on) {
-            // jQuery 1.7+
-            $('body').on('click', '.comment-reply-link', showThreadedReplyForm);
-        }
-        else {
-            $('.comment-reply-link').live('click', showThreadedReplyForm);
-        }
-
+        $('body').on('click', '.comment-reply-link', showThreadedReplyForm);
         $('body').on('click', '.comment-cancel-reply-link', cancelThreadedReplyForm);
+        $(document).on('insertNode', onLoad);
 
-        var $all_forms = $('.js-comments-form');
+        onLoad();
+    });
+
+    function onLoad(){
+                var $all_forms = $('.js-comments-form');
         $all_forms
           .each(function(){
             var $form = $(this);
@@ -94,8 +83,7 @@
             if( ! isNaN(id))   // e.g. #comments in URL
                 scrollToComment(id, 1000);
         }
-    });
-
+    }
 
     function setActiveInput()
     {
