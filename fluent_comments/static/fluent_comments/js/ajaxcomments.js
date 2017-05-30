@@ -16,28 +16,19 @@
 
     $.fn.ready(function()
     {
-        var commentform = $('form.js-comments-form');
-        if( commentform.length > 0 )
-        {
-            // Detect last active input.
-            // Submit if return is hit, or any button other then preview is hit.
-            commentform.find(':input').focus(setActiveInput).mousedown(setActiveInput);
-            commentform.submit(onCommentFormSubmit);
-        }
 
+        $('body').on('focus', 'form.js-comments-form :input', setActiveInput);
+        $('body').on('mousedown', 'form.js-comments-form :input', setActiveInput);
+        $('body').on('submit', 'form.js-comments-form', onCommentFormSubmit);
+        $('body').on('click', '.comment-reply-link', showThreadedReplyForm);
+        $('body').on('click', '.comment-cancel-reply-link', cancelThreadedReplyForm);
+        $(document).on('insertNode', onLoad);
 
-        // Bind events for threaded comment reply
-        if($.fn.on) {
-            // jQuery 1.7+
-            $('body').on('click', '.comment-reply-link', showThreadedReplyForm);
-        }
-        else {
-            $('.comment-reply-link').live('click', showThreadedReplyForm);
-        }
+        onLoad();
+    });
 
-        $('.comment-cancel-reply-link').click(cancelThreadedReplyForm);
-
-        var $all_forms = $('.js-comments-form');
+    function onLoad(){
+                var $all_forms = $('.js-comments-form');
         $all_forms
           .each(function(){
             var $form = $(this);
@@ -92,8 +83,7 @@
             if( ! isNaN(id))   // e.g. #comments in URL
                 scrollToComment(id, 1000);
         }
-    });
-
+    }
 
     function setActiveInput()
     {
@@ -166,9 +156,11 @@
         var $a = $(this);
         var comment_id = $a.attr('data-comment-id');
         var $comment = $a.closest('.comment-item');
+        var data_object_id = $a.parents('.comments').attr('data-object-id');
+        var form_selector = '.js-comments-form[data-object-id="' + data_object_id + '"]';
 
         removeThreadedPreview();
-        $('.js-comments-form').appendTo($comment);
+        $(form_selector).appendTo($comment);
         $($comment.find('#id_parent')[0]).val(comment_id);
     }
 
