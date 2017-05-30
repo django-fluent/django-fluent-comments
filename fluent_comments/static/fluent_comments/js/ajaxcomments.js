@@ -156,9 +156,11 @@
         var $a = $(this);
         var comment_id = $a.attr('data-comment-id');
         var $comment = $a.closest('.comment-item');
+        var data_object_id = $a.parents('.comments').attr('data-object-id');
+        var form_selector = '.js-comment-form[data-object-id="' + data_object_id + '"]';
 
         removeThreadedPreview();
-        $('.js-comments-form').appendTo($comment);
+        $(form_selector).appendTo($comment);
         $($comment.find('#id_parent')[0]).val(comment_id);
     }
 
