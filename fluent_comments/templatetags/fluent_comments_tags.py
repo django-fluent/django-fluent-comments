@@ -23,7 +23,7 @@ class AjaxCommentTags(BaseInclusionNode):
     Using the ``@register.inclusion_tag`` is not sufficient,
     because some keywords require custom parsing.
     """
-    template_name = "comments/ajax_comment_tags.html"
+    template_name = "fluent_comments/templatetags/ajax_comment_tags.html"
     min_args = 1
     max_args = 1
 
@@ -145,7 +145,10 @@ class RenderCommentNode(BaseInclusionNode):
         return get_comment_template_name(comment=tag_args[0])
 
     def get_context_data(self, parent_context, *tag_args, **tag_kwargs):
-        _, request, _ = parent_context
+        if hasattr(parent_context, 'get'):
+            request = parent_context.get('request', None)
+        else:
+            request = None
         return get_comment_context_data(comment=tag_args[0], request=request)
 
 
