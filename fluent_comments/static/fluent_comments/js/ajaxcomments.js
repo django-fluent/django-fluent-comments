@@ -17,18 +17,17 @@
     $.fn.ready(function()
     {
 
-        $('body').on('focus', 'form.js-comments-form :input', setActiveInput);
-        $('body').on('mousedown', 'form.js-comments-form :input', setActiveInput);
-        $('body').on('submit', 'form.js-comments-form', onCommentFormSubmit);
-        $('body').on('click', '.comment-reply-link', showThreadedReplyForm);
-        $('body').on('click', '.comment-cancel-reply-link', cancelThreadedReplyForm);
+        $('body').on('focus mousedown', 'form.js-comments-form :input', setActiveInput)
+            .on('submit', 'form.js-comments-form', onCommentFormSubmit)
+            .on('click', '.comment-reply-link', showThreadedReplyForm)
+            .on('click', '.comment-cancel-reply-link', cancelThreadedReplyForm);
         $(document).on('insertNode', onLoad);
 
         onLoad();
     });
 
     function onLoad(){
-                var $all_forms = $('.js-comments-form');
+        var $all_forms = $('.js-comments-form');
         $all_forms
           .each(function(){
             var $form = $(this);
