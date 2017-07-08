@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Button, Submit
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
+from django.forms.widgets import Input
 from django.utils.translation import ugettext_lazy as _
 from django_comments import get_form_target
 
@@ -68,8 +69,12 @@ class CompactLabelsCommentFormHelper(CommentFormHelper):
         """
         # Writing the label values into the field placeholders.
         # This is done at rendering time, so the Form.__init__() could update any labels before.
+        # Django 1.11 no longer lets EmailInput or URLInput inherit from TextInput,
+        # so checking for `Input` instead while excluding `HiddenInput`.
         for field in form.fields.values():
-            if field.label and isinstance(field.widget, (forms.TextInput, forms.Textarea)):
+            if field.label and \
+                    isinstance(field.widget, (Input, forms.Textarea)) and \
+                    not isinstance(field.widget, forms.HiddenInput):
                 field.widget.attrs['placeholder'] = u"{0}:".format(field.label)
 
         return super(CompactLabelsCommentFormHelper, self).render_layout(form, context, template_pack=template_pack)
