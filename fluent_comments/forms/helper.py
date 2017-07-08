@@ -25,6 +25,9 @@ class CommentFormHelper(FormHelper):
     BASE_FIELDS_END = ('honeypot',)
     BASE_FIELDS = BASE_FIELDS_TOP + BASE_FIELDS_END
 
+    if appsettings.USE_THREADEDCOMMENTS:
+        BASE_FIELDS_TOP += ('parent',)
+
     @property
     def form_action(self):
         return get_form_target()  # reads get_form_target from COMMENTS_APP
