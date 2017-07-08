@@ -1,3 +1,11 @@
+Version 1.4.2 (2017-07-08)
+--------------------------
+
+* Fixed Django 1.11 appearance of compact labels; e-mail and URL field didn't receive a placeholder anymore.
+* Fixed HTML position of the hidden ``parent`` field.
+* Enforce python-akismet_ >= 0.3 for Python 3 compatibility.
+
+
 Version 1.4.1 (2017-02-06)
 --------------------------
 
