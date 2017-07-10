@@ -129,7 +129,7 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
 
     if comment is not None:
         # Render the comment, like {% render_comment comment %} does
-        context = get_comment_context_data(comment, action)
+        context = get_comment_context_data(comment, action, request)
         template_name = get_comment_template_name(comment)
         comment_html = render_to_string(template_name, context)
 

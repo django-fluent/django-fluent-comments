@@ -26,7 +26,7 @@ def get_comment_template_name(comment):
     ]
 
 
-def get_comment_context_data(comment, action=None):
+def get_comment_context_data(comment, action=None, request=None):
     """
     Internal function for the rendering of comments.
     """
@@ -34,6 +34,7 @@ def get_comment_context_data(comment, action=None):
         'comment': comment,
         'action': action,
         'preview': (action == 'preview'),
+        'request': request,
         'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
     }
 
