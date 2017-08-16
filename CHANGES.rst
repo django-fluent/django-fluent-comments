@@ -1,3 +1,12 @@
+Version 1.4.3 (2017-08-16)
+--------------------------
+
+* Fixed the IP-address reported in the email notification,
+  the database records stored the actual correct value.
+* Fixed missing ``request`` variable in templates.
+* Fixed wrapping of the ``ThreadedComment`` model by the ``FluentComment`` proxy model too.
+
+
 Version 1.4.2 (2017-07-08)
 --------------------------
 
