@@ -5,22 +5,14 @@ python:
 - '2.7'
 - '3.5'
 env:
-- PACKAGES="Django>=1.6,<1.7 django-contrib-comments==1.6.2"
-- PACKAGES="Django>=1.7,<1.8"
-- PACKAGES="Django>=1.7,<1.8 django-threadedcomments>=1.0
 - PACKAGES="Django>=1.8,<1.9"
-- PACKAGES="Django>=1.8,<1.9 django-threadedcomments>=1.0"
+- PACKAGES="Django>=1.8,<1.9 django-threadedcomments>=1.1"
 - PACKAGES="Django>=1.9,<1.10"
-- PACKAGES="Django>=1.9,<1.10 django-threadedcomments>=1.0"
+- PACKAGES="Django>=1.9,<1.10 django-threadedcomments>=1.1"
 - PACKAGES="Django>=1.10,<1.11"
-- PACKAGES="Django>=1.10,<1.11 django-threadedcomments>=1.0"
+- PACKAGES="Django>=1.10,<1.11 django-threadedcomments>=1.1"
 - PACKAGES='https://github.com/django/django/archive/master.tar.gz'
 matrix:
-  exclude:
-  - python: '3.5'
-    env: PACKAGES="Django>=1.6,<1.7 django-contrib-comments==1.6.2"
-  - python: '3.5'
-    env: PACKAGES="Django>=1.7,<1.8"
   allow_failures:
   - env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
 before_install:

@@ -99,6 +99,7 @@ try:
 except ImportError:
     pass
 else:
+    print("Using django-threadedcomments, added to INSTALLED_APPS")
     INSTALLED_APPS += (
         'threadedcomments',
     )
