@@ -1,3 +1,4 @@
+import django
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
@@ -130,8 +131,13 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
     if comment is not None:
         # Render the comment, like {% render_comment comment %} does
         context = get_comment_context_data(comment, action)
+        context['request'] = request
         template_name = get_comment_template_name(comment)
-        comment_html = render_to_string(template_name, context)
+
+        if django.VERSION >= (1, 8):
+            comment_html = render_to_string(template_name, context, request=request)
+        else:
+            comment_html = render_to_string(template_name, context)
 
         json_return.update({
             'html': comment_html,
