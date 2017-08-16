@@ -1,4 +1,3 @@
-import sys
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminTextInputWidget
@@ -79,11 +78,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
         if comment.user_name:
             return comment.user_name
         elif comment.user_id:
-            # Can't do much else here, User model might be custom.
-            if sys.version_info[0] >= 3:
-                return str(comment.user)
-            else:
-                return unicode(comment.user)
+            return force_text(comment.user)
         else:
             return None
 
