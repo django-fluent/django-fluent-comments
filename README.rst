@@ -38,7 +38,7 @@ To use comments, the following settings are required:
 .. code-block:: python
 
     INSTALLED_APPS += (
-        'fluent_comments',
+        'fluent_comments',  # must be before django_comments
         'crispy_forms',
         'django_comments',
         'django.contrib.sites',
