@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'proxy': True,
+                'managed': False,
             },
             bases=('django_comments.comment',),
         ),

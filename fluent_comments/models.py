@@ -19,6 +19,13 @@ except ImportError:
     from django.contrib.sites.models import get_current_site
 
 
+if appsettings.USE_THREADEDCOMMENTS:
+    from threadedcomments.models import ThreadedComment
+    BaseModel = ThreadedComment
+else:
+    BaseModel = Comment
+
+
 class FluentCommentManager(CommentManager):
     """
     Manager to optimize SQL queries for comments.
@@ -33,7 +40,7 @@ class FluentCommentManager(CommentManager):
             return self.get_queryset()
 
 
-class FluentComment(Comment):
+class FluentComment(BaseModel):
     """
     Proxy model to make sure that a ``select_related()`` is performed on the ``user`` field.
     """
@@ -41,6 +48,7 @@ class FluentComment(Comment):
 
     class Meta:
         proxy = True
+        managed = False
 
 
 @receiver(signals.comment_was_posted)

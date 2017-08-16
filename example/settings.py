@@ -107,10 +107,16 @@ INSTALLED_APPS = (
     'crispy_forms',
     'fluent_comments',
     _INSTALLED_COMMENTS_APP or 'django_comments',  # below theme1 and fluent_comments
-
-    ## Optional, uncomment to enable:
-    #'threadedcomments',
 )
+
+try:
+    import threadedcomments
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS += (
+        'threadedcomments',
+    )
 
 LOGGING = {
     'version': 1,

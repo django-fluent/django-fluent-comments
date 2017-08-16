@@ -14,14 +14,9 @@ def get_model():
     """
     global model_class
     if model_class is None:
-        from fluent_comments import appsettings
-        if appsettings.USE_THREADEDCOMMENTS:
-            from threadedcomments.models import ThreadedComment
-            model_class = ThreadedComment
-        else:
-            # Our proxy model that performs select_related('user') for the comments
-            from fluent_comments.models import FluentComment
-            model_class = FluentComment
+        from fluent_comments.models import FluentComment
+        # Our proxy model that performs select_related('user') for the comments
+        model_class = FluentComment
 
     return model_class
 
