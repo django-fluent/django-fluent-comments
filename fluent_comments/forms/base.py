@@ -1,13 +1,9 @@
+from collections import OrderedDict
+
 from django.core.exceptions import ImproperlyConfigured
 from fluent_comments import appsettings
 from fluent_comments.forms.helper import CommentFormHelper
 from fluent_comments.forms.helper import SubmitButton, PreviewButton  # noqa, import at old class location too
-
-try:
-    from collections import OrderedDict
-except ImportError:
-    from django.utils.datastructures import SortedDict as OrderedDict  # Python 2.6
-
 
 if appsettings.USE_THREADEDCOMMENTS:
     from threadedcomments.forms import ThreadedCommentForm as base_class

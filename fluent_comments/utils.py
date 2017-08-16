@@ -3,15 +3,11 @@ Internal utils
 """
 import sys
 import traceback
+from importlib import import_module
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured
 from fluent_comments import appsettings
-
-try:
-    from importlib import import_module
-except ImportError:
-    from django.utils.importlib import import_module  # Python 2.6 compatibility
 
 
 def get_comment_template_name(comment):
