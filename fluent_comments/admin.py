@@ -7,7 +7,7 @@ from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 from fluent_comments import appsettings
-from .compat import get_model as get_comments_model, BASE_APP
+from django_comments import get_model as get_comments_model
 
 
 # Ensure the admin app is loaded,
@@ -19,16 +19,7 @@ if appsettings.USE_THREADEDCOMMENTS:
 
     from threadedcomments.admin import ThreadedCommentsAdmin as CommentsAdminBase
 else:
-    # This code is not in the .compat module to avoid admin imports in all other code.
-    # The admin import usually starts a model registration too, hence keep these imports here.
-    if BASE_APP == 'django.contrib.comments':
-        # Django 1.7 and below
-        from django.contrib.comments.admin import CommentsAdmin as CommentsAdminBase
-    elif BASE_APP == 'django_comments':
-        # Django 1.8 and up
-        from django_comments.admin import CommentsAdmin as CommentsAdminBase
-    else:
-        raise NotImplementedError()
+    from django_comments.admin import CommentsAdmin as CommentsAdminBase
 
 
 class FluentCommentsAdmin(CommentsAdminBase):

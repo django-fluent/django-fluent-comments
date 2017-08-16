@@ -7,7 +7,7 @@ from article.tests import factories
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from fluent_comments.compat import CommentForm
+from django_comments.forms import CommentForm
 
 
 class CommentsTests(TestCase):

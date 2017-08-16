@@ -8,7 +8,7 @@ from fluent_comments.forms.helper import SubmitButton, PreviewButton  # noqa, im
 if appsettings.USE_THREADEDCOMMENTS:
     from threadedcomments.forms import ThreadedCommentForm as base_class
 else:
-    from fluent_comments.compat import CommentForm as base_class
+    from django_comments.forms import CommentForm as base_class
 
 
 class AbstractCommentForm(base_class):

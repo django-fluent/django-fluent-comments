@@ -44,38 +44,22 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-#@bi6bue%#1j)6+4b&#i0g-*xro@%f@_#zwv=2-g_@n3n_kj5'
 
-if django.VERSION < (1, 7):
-    _INSTALLED_COMMENTS_APP = 'django.contrib.comments'
-else:
-    _INSTALLED_COMMENTS_APP = None
-
-if django.VERSION >= (1, 8):
-    TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'debug': DEBUG,
-                'context_processors': [
-                    'django.contrib.auth.context_processors.auth',
-                    'django.template.context_processors.request',
-                    'django.template.context_processors.static',
-                    'django.contrib.messages.context_processors.messages',
-                ]
-            },
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
+                'django.contrib.messages.context_processors.messages',
+            ]
         },
-    ]
-else:
-    TEMPLATE_LOADERS = (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )
-    TEMPLATE_CONTEXT_PROCESSORS = (
-        'django.contrib.auth.context_processors.auth',
-        'django.core.context_processors.request',
-        'django.core.context_processors.static',
-        'django.contrib.messages.context_processors.messages',
-    )
+    },
+]
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -85,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 ROOT_URLCONF = 'urls'
 
@@ -106,7 +91,7 @@ INSTALLED_APPS = (
     # Required modules
     'crispy_forms',
     'fluent_comments',
-    _INSTALLED_COMMENTS_APP or 'django_comments',  # below theme1 and fluent_comments
+    'django_comments',
 )
 
 try:
@@ -135,9 +120,6 @@ LOGGING = {
         },
     }
 }
-
-if django.VERSION >= (1, 6):
-    TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

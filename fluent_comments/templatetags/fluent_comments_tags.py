@@ -1,4 +1,3 @@
-import django
 from django.conf import settings
 from django.template import Library, Node
 from django.template.loader import get_template
@@ -124,8 +123,7 @@ class FluentCommentsList(Node):
         context['USE_THREADEDCOMMENTS'] = appsettings.USE_THREADEDCOMMENTS
         context['target_object_id'] = target_object_id
 
-        if django.VERSION >= (1, 8):
-            context = context.flatten()
+        context = context.flatten()
         return self.nodelist.render(context)
 
 

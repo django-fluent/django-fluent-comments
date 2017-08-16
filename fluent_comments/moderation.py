@@ -4,19 +4,12 @@ from akismet import Akismet
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from fluent_comments import appsettings
-from .compat import BASE_APP
+from django_comments.moderation import moderator, CommentModerator
 
 try:
     from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
 except ImportError:
     from django.contrib.sites.models import get_current_site
-
-if BASE_APP == 'django.contrib.comments':
-    from django.contrib.comments.moderation import moderator, CommentModerator
-elif BASE_APP == 'django_comments':
-    from django_comments.moderation import moderator, CommentModerator
-else:
-    raise NotImplementedError()
 
 try:
     from urllib.parse import urljoin  # Python 3

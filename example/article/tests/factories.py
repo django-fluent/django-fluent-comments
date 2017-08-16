@@ -4,7 +4,7 @@ from article.models import Article
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.utils.timezone import now
-from fluent_comments.compat import get_model as get_comment_model
+from django_comments import get_model as get_comment_model
 
 
 def create_article(**kwargs):
