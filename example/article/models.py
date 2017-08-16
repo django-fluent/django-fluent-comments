@@ -1,9 +1,12 @@
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.six import python_2_unicode_compatible
+
 from fluent_comments.moderation import moderate_model, comments_are_open, comments_are_moderated
 from fluent_comments.models import get_comments_for_model, CommentsRelation
 
 
+@python_2_unicode_compatible
 class Article(models.Model):
     title = models.CharField("Title", max_length=200)
     slug = models.SlugField("Slug", unique=True)
@@ -19,7 +22,7 @@ class Article(models.Model):
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_absolute_url(self):
