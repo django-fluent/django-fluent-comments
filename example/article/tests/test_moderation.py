@@ -1,9 +1,6 @@
 from datetime import datetime, timedelta
 
 from akismet import Akismet
-from article.models import Article
-from article.tests import factories
-from article.tests import override_appsettings
 from django.core.urlresolvers import reverse
 from django.test import RequestFactory
 from django.test import TestCase
@@ -11,6 +8,10 @@ from django.utils.timezone import now
 from fluent_comments import appsettings
 from fluent_comments.moderation import FluentCommentsModerator, get_model_moderator
 from mock import patch
+
+from article.models import Article
+from article.tests import factories
+from .utils import override_appsettings
 
 
 class MockedResponse(object):

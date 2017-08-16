@@ -29,8 +29,8 @@ def get_form():
     from fluent_comments import appsettings
     if form_class is None:
         if appsettings.FLUENT_COMMENTS_FORM_CLASS:
-            from fluent_comments.utils import import_symbol
-            form_class = import_symbol(appsettings.FLUENT_COMMENTS_FORM_CLASS, 'FLUENT_COMMENTS_FORM_CLASS')
+            from django.utils.module_loading import import_string
+            form_class = import_string(appsettings.FLUENT_COMMENTS_FORM_CLASS)
         else:
             from fluent_comments.forms import FluentCommentForm
             form_class = FluentCommentForm
