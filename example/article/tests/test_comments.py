@@ -5,9 +5,13 @@ import time
 
 from article.tests import factories
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django_comments.forms import CommentForm
+
+try:
+    from django.urls import reverse
+except ImportError:  # Django<2.0
+    from django.core.urlresolvers import reverse
 
 
 class CommentsTests(TestCase):

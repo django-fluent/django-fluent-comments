@@ -11,10 +11,23 @@ env:
 - PACKAGES="Django>=1.9,<1.10 django-threadedcomments>=1.1"
 - PACKAGES="Django>=1.10,<1.11"
 - PACKAGES="Django>=1.10,<1.11 django-threadedcomments>=1.1"
+- PACKAGES="Django>=1.11,<1.12"
+- PACKAGES="Django>=1.11,<1.12 django-threadedcomments>=1.1"
+- PACKAGES="Django>=2.0,<2.1"
+- PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
 - PACKAGES='https://github.com/django/django/archive/master.tar.gz'
 matrix:
+  exclude:
+  - python: '2.7'
+    env: PACKAGES="Django>=2.0,<2.1"
+  - python: '2.7'
+    env: PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
+  - python: '2.7'
+    env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
   allow_failures:
   - env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
+  - python: '3.5'
+    env: PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
 before_install:
 - pip install codecov
 install:
@@ -24,9 +37,6 @@ script:
 - coverage run example/manage.py test
 after_success:
 - codecov
-branches:
-  only:
-  - master
 notifications:
   irc:
     channels:

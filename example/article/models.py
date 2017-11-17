@@ -1,9 +1,13 @@
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.six import python_2_unicode_compatible
 
 from fluent_comments.moderation import moderate_model, comments_are_open, comments_are_moderated
 from fluent_comments.models import get_comments_for_model, CommentsRelation
+
+try:
+    from django.urls import reverse
+except ImportError:  # Django<2.0
+    from django.core.urlresolvers import reverse
 
 
 @python_2_unicode_compatible
