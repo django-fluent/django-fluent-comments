@@ -10,9 +10,6 @@
     <title>{% block headtitle %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ STATIC_URL }}vendor/bootstrap.css" type="text/css" />
     {% block extrahead %}{% endblock %}
-    {% block scripts %}
-    <script type="text/javascript" src="{{ STATIC_URL }}vendor/jquery-2.2.0.min.js"></script>
-    {% endblock %}
   </head>
 
   <body id="{% block bodyid %}{% endblock %}" class="{% block bodyclass %}{% endblock %}">
@@ -39,6 +36,8 @@
           {% block main %}{% endblock %}
         </div>
       </section>
-      {% block scripts %}{% endblock %}
+      {% block scripts %}
+           <script type="text/javascript" src="{{ STATIC_URL }}vendor/jquery-2.2.0.min.js"></script>
+      {% endblock %}
   </body>
 </html>
