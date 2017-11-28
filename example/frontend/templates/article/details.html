@@ -8,6 +8,31 @@
 
 {% block scripts %}{{ block.super }}
     <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+    <script type="text/javascript">
+        var updateCommentsCount = function updateCommentsCount($) {
+            if ($ !== null) {
+                $.fn.ready(function () {
+                    $(document).on('ajaxComplete', function () {
+                      var $comments = $('#comment_count');
+                      if ($comments) {
+                        var currentCountStr = $comments.html().toString().split(' ');
+                        var currentCount = parseInt(currentCountStr[0], 10);
+                        var commentCount = $('.comment-item').length;
+                        if (currentCount !== commentCount) {
+                          currentCountStr[0] = commentCount.toString();
+                          $comments.html(currentCountStr.join(' '));
+                        }
+                        return true;
+                      }return false;
+                    });
+                });
+            }
+        };
+
+        (function ($) {
+            updateCommentsCount($);
+        })(window.jQuery);
+    </script>
 {% endblock %}
 
 {% block main %}
