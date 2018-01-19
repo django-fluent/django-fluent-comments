@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.mail import send_mail
 from django.dispatch import receiver
+from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
 from django_comments.managers import CommentManager
 
@@ -40,6 +41,8 @@ class FluentComment(BaseModel):
     objects = FluentCommentManager()
 
     class Meta:
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")
         proxy = True
         managed = False
 
