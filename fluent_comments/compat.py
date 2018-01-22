@@ -4,11 +4,8 @@ import django
 
 if django.VERSION >= (1, 10):
     def is_authenticated(user):
-        assert isinstance(user.is_authenticated, bool)
-        return user.is_authenticated
+        return user.is_authenticated  # CallableBool or bool
 else:
     def is_authenticated(user):
-        assert not isinstance(user.is_authenticated, bool)
-        return user.is_authenticated
-
+        return user.is_authenticated()  # Method
 

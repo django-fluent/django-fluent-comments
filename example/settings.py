@@ -68,7 +68,9 @@ MIDDLEWARE = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-MIDDLEWARE_CLASSES = MIDDLEWARE
+
+if django.VERSION < (1, 10):
+    MIDDLEWARE_CLASSES = MIDDLEWARE
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
