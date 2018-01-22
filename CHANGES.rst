@@ -1,3 +1,11 @@
+Version 2.0 (2018-01-22)
+------------------------
+
+* Added Django 2.0 support.
+* Dropped Django 1.5 / 1.6 / 1.7 support.
+* Dropped Python 2.6 support.
+
+
 Version 1.4.3 (2017-08-16)
 --------------------------
 

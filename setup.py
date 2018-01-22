@@ -46,13 +46,13 @@ setup(
         'python-akismet>=0.3',  # Python 3 port, replaces Python 2-only "akismet" library.
     ],
     requires=[
-        'Django (>=1.5)',
+        'Django (>=1.8)',
     ],
     tests_require = [
         'mock',
     ],
     extras_require = {
-        'threadedcomments': ['django-threadedcomments>=1.0.1'],
+        'threadedcomments': ['django-threadedcomments>=1.1'],
     },
     description='A modern, ajax-based appearance for django_comments',
     long_description=read('README.rst'),
@@ -68,7 +68,7 @@ setup(
 
     zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
@@ -76,17 +76,15 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Framework :: Django',
-        'Framework :: Django :: 1.6',
-        'Framework :: Django :: 1.7',
         'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
         'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
