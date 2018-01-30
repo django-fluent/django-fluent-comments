@@ -16,8 +16,11 @@ class Migration(migrations.Migration):
             fields=[
             ],
             options={
+                'managed': False,
                 'proxy': True,
                 'managed': False,
+                'verbose_name': 'Comment',
+                'verbose_name_plural': 'Comments'
             },
             bases=('django_comments.comment',),
         ),
