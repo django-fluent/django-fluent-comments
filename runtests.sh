@@ -7,4 +7,4 @@ sys.stderr.write('Using Django version {0} from {1}\n'.format(
     django.get_version(), os.path.dirname(os.path.abspath(django.__file__))))
 "
 
-exec example/manage.py test "$@"
+exec python -Wd example/manage.py test "$@"
