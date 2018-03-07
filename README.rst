@@ -284,6 +284,16 @@ The templates and admin interface adapt themselves automatically
 to show the threaded comments.
 
 
+Jquery widget
+-------------
+
+To use the jquery widget instead of the default ajaxcomments.js:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_JS = 'jquery.plugin.fluent_comments.js' # default:'ajaxcomments.js' | 'jquery.plugin.fluent_comments.js'
+
+
 IP-Address detection
 --------------------
 
