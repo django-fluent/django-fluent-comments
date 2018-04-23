@@ -16,10 +16,12 @@
       {% endblocktrans %}
     </p>
 
-    {# Use identical formatting to normal comment list #}
-    <div id="comments">
-      {% render_comment comment %}
-    </div>
+    {% if comment %}{# django_comments accepts GET without data #}
+      {# Use identical formatting to normal comment list #}
+      <div id="comments">
+        {% render_comment comment %}
+      </div>
+    {% endif %}
 
-  <p><a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">{% trans "Back to the article" %}</a></p>
+    <p><a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">{% trans "Back to the article" %}</a></p>
 {% endblock %}
