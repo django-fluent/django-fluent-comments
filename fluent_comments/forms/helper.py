@@ -90,7 +90,7 @@ class SubmitButton(Submit):
     Note: the ``name=post`` is mandatory, it helps the
     """
 
-    def __init__(self, text=_("Submit"), **kwargs):
+    def __init__(self, text=_("Post Comment"), **kwargs):
         super(SubmitButton, self).__init__(name='post', value=text, **kwargs)
 
 

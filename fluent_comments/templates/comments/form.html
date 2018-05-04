@@ -18,7 +18,7 @@
           {% if not form.helper.inputs %}
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" name="post" class="btn btn-primary" value="{% trans 'Post' %}" />
+                <input type="submit" name="post" class="btn btn-primary" value="{% trans 'Post Comment' %}" />
                 <input type="submit" name="preview" class="btn btn-default" value="{% trans 'Preview' %}" />
                 {% ajax_comment_tags for form.target_object %}
               </div>

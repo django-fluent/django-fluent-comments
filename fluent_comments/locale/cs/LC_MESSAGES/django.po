@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 15:38+0100\n"
+"POT-Creation-Date: 2018-05-04 14:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,38 +18,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
-#: admin.py:45
+#: admin.py:36
 msgid "Content"
 msgstr "Obsah"
 
-#: admin.py:48
+#: admin.py:39
 msgid "Account information"
 msgstr "Informace o účtu"
 
-#: admin.py:51
+#: admin.py:42
 msgid "Moderation"
 msgstr "Moderování"
 
-#: admin.py:62
+#: admin.py:53
 msgid "Hierarchy"
 msgstr "Hierarchie"
 
-#: admin.py:84
+#: admin.py:74
 msgid "Page"
 msgstr "Strana"
 
-#: admin.py:99
+#: admin.py:85
 msgid "user's name"
 msgstr "jméno uživatele"
 
-#: forms/base.py:57
-msgid "Submit"
-msgstr ""
+#: forms/helper.py:93 templates/comments/form.html:21
+msgid "Post Comment"
+msgstr "Odeslat váš komentář"
 
-#: forms/base.py:69 templates/comments/form.html:22
+#: forms/helper.py:105 templates/comments/form.html:22
 #: templates/comments/preview.html:27
 msgid "Preview"
 msgstr "Náhled"
+
+#: models.py:44
+msgid "Comment"
+msgstr ""
+
+#: models.py:45
+msgid "Comments"
+msgstr ""
 
 #: templates/comments/comment.html:22 templates/comments/preview.html:12
 msgid "Preview of your comment"
@@ -95,7 +103,7 @@ msgstr ""
 "    "
 
 #: templates/comments/deleted.html:20 templates/comments/flagged.html:20
-#: templates/comments/posted.html:24
+#: templates/comments/posted.html:26
 msgid "Back to the article"
 msgstr "Zpět na článek"
 
@@ -110,10 +118,6 @@ msgstr "Děkujeme za označkování komentáře"
 #: templates/comments/form.html:4
 msgid "Comments are closed."
 msgstr "Komentáře jsou uzavřené"
-
-#: templates/comments/form.html:21 templates/comments/preview.html:26
-msgid "Post"
-msgstr "Odeslat"
 
 #: templates/comments/posted.html:3
 msgid "Thanks for commenting"
@@ -152,6 +156,10 @@ msgstr "Odeslat váš komentář"
 #: templates/comments/preview.html:20
 msgid "Or make changes"
 msgstr "Nebo udělat změny"
+
+#: templates/comments/preview.html:26
+msgid "Post"
+msgstr "Odeslat"
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:2
 msgid "cancel reply"

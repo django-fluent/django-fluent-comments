@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 15:38+0100\n"
+"POT-Creation-Date: 2018-05-04 14:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Diederik van der Boor <vdboor@edoburu.nl>\n"
 "Language-Team: Dutch <NL@li.org>\n"
@@ -16,38 +16,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: admin.py:45
+#: admin.py:36
 msgid "Content"
 msgstr "Inhoud"
 
-#: admin.py:48
+#: admin.py:39
 msgid "Account information"
 msgstr "Account informatie"
 
-#: admin.py:51
+#: admin.py:42
 msgid "Moderation"
 msgstr "Moderatie"
 
-#: admin.py:62
+#: admin.py:53
 msgid "Hierarchy"
 msgstr "Hiërarchie"
 
-#: admin.py:84
+#: admin.py:74
 msgid "Page"
 msgstr "Pagina"
 
-#: admin.py:99
+#: admin.py:85
 msgid "user's name"
 msgstr ""
 
-#: forms/base.py:57
-msgid "Submit"
-msgstr ""
+#: forms/helper.py:93 templates/comments/form.html:21
+msgid "Post Comment"
+msgstr "Plaats reactie"
 
-#: forms/base.py:69 templates/comments/form.html:22
+#: forms/helper.py:105 templates/comments/form.html:22
 #: templates/comments/preview.html:27
 msgid "Preview"
 msgstr "Voorbeeld"
+
+#: models.py:44
+msgid "Comment"
+msgstr ""
+
+#: models.py:45
+msgid "Comments"
+msgstr ""
 
 #: templates/comments/comment.html:22 templates/comments/preview.html:12
 msgid "Preview of your comment"
@@ -68,7 +76,7 @@ msgstr "gemodereerd"
 
 #: templates/comments/comment.html:31
 msgid "reply"
-msgstr ""
+msgstr "reageren"
 
 #: templates/comments/deleted.html:4
 msgid "Thanks for removing"
@@ -93,7 +101,7 @@ msgstr ""
 "      "
 
 #: templates/comments/deleted.html:20 templates/comments/flagged.html:20
-#: templates/comments/posted.html:24
+#: templates/comments/posted.html:26
 msgid "Back to the article"
 msgstr "Terug naar de pagina"
 
@@ -108,10 +116,6 @@ msgstr "Bedankt voor het rapporteren van de reactie"
 #: templates/comments/form.html:4
 msgid "Comments are closed."
 msgstr "Reacties zijn gesloten."
-
-#: templates/comments/form.html:21 templates/comments/preview.html:26
-msgid "Post"
-msgstr "Plaatsen"
 
 #: templates/comments/posted.html:3
 msgid "Thanks for commenting"
@@ -151,9 +155,13 @@ msgstr "Reactie plaatsen"
 msgid "Or make changes"
 msgstr "Of pas het bericht aan"
 
+#: templates/comments/preview.html:26
+msgid "Post"
+msgstr "Plaatsen"
+
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:2
 msgid "cancel reply"
-msgstr ""
+msgstr "annuleer reactie"
 
 #: templates/fluent_comments/templatetags/ajax_comment_tags.html:4
 msgid "Please wait . . ."
