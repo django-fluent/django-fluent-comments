@@ -1,3 +1,11 @@
+Version 2.0.1 (2018-05-04)
+--------------------------
+
+* Fixed migration file.
+* Fixed missing Dutch translations.
+* Improved default form button labels.
+
+
 Version 2.0 (2018-01-22)
 ------------------------
 
