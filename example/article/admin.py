@@ -1,13 +1,7 @@
 from django.contrib import admin
 from django.forms import ModelForm
+from django.utils.timezone import now
 from article.models import Article
-
-# The timezone support was introduced in Django 1.4, fallback to standard library for 1.3.
-try:
-    from django.utils.timezone import now
-except ImportError:
-    from datetime import datetime
-    now = datetime.now
 
 
 class ArticleAdminForm(ModelForm):
