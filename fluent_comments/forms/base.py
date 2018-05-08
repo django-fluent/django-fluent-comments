@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+import django_comments
 from django.core.exceptions import ImproperlyConfigured
 from fluent_comments import appsettings
 from fluent_comments.forms.helper import CommentFormHelper
@@ -41,6 +42,16 @@ class AbstractCommentForm(base_class):
             for name in ordering:
                 new_fields[name] = self.fields[name]
             self.fields = new_fields
+
+    def get_comment_model(self):
+        # Provide the model used for comments. When this doesn't match
+        # the sender used by django_comments.moderation.Moderator used in
+        # `comment_will_be_posted.connect(..., sender=...)`, it will break moderation.
+        #
+        # Since ThreadedCommentForm overrides this method, it breaks moderation
+        # with COMMENTS_APP="fluent_comments". Hence, by default let this match
+        # the the model the app is configured with.
+        return django_comments.get_model()
 
     def get_comment_create_data(self, *args, **kwargs):
         # Fake form data for excluded fields, so there are no KeyError exceptions

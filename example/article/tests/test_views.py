@@ -60,6 +60,58 @@ class ViewTests(TestCase):
         self.assertEqual(json_response['errors'], {})
         self.assertIn('Testing name', json_response['html'])
 
+    @override_appsettings(
+        AKISMET_API_KEY='FOOBAR',
+        FLUENT_COMMENTS_AKISMET_ACTION='soft_delete',
+        FLUENT_CONTENTS_USE_AKISMET=True,
+    )
+    def test_comment_post_moderated(self):
+        """
+        See that soft delete works properly.
+        """
+        # Double check preconditions for moderation
+        self.assertIsNotNone(get_model_moderator(Article))
+        self.assertTrue(len(signals.comment_will_be_posted.receivers))
+        self.assertEqual(id(get_comment_model()), signals.comment_will_be_posted.receivers[0][0][1])
+
+        content_type = "article.article"
+        timestamp = str(int(time.time()))
+        article = factories.create_article()
+
+        form = CommentForm(article)
+        security_hash = form.generate_security_hash(content_type, str(article.pk), timestamp)
+        post_data = {
+            "content_type": content_type,
+            "object_pk": article.pk,
+            "name": "Testing name",
+            "email": "test@email.com",
+            "comment": "Testing comment",
+            "timestamp": timestamp,
+            "security_hash": security_hash,
+        }
+
+        for url, is_ajax in [
+            (reverse("comments-post-comment-ajax"), True),
+            (reverse("comments-post-comment"), False),
+        ]:
+            with patch.object(Akismet, '_request', return_value=MockedResponse(True)) as m:
+                response = self.client.post(url, post_data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            self.assertEqual(m.call_count, 1, "Moderator not called by " + url)
+
+            if is_ajax:
+                self.assertContains(response, "Testing comment", status_code=200)
+                self.assertEqual(response.status_code, 200)
+
+                json_response = json.loads(response.content.decode("utf-8"))
+                self.assertTrue(json_response['success'])
+                self.assertEqual(json_response['errors'], {})
+            else:
+                self.assertRedirects(response, reverse('comments-comment-done') + "?c=1")
+
+            comment = get_comment_model().objects.filter(user_email="test@email.com")[0]
+            self.assertFalse(comment.is_public, "Not moderated by " + url)
+            self.assertTrue(comment.is_removed)
+
     def test_comment_post_missing(self):
         """
         Make an ajax post.

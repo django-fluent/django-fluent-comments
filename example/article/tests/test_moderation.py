@@ -85,6 +85,27 @@ class ModerationTests(TestCase):
         with patch.object(Akismet, '_request', return_value=MockedResponse(True)):
             self.assertTrue(moderator.moderate(comment, article, request), "akismet should reject")
 
+    @override_appsettings(
+        AKISMET_API_KEY='FOOBAR',
+        FLUENT_COMMENTS_AKISMET_ACTION='soft_delete',
+        FLUENT_CONTENTS_USE_AKISMET=True,
+    )
+    def test_akismet_soft_delete(self, *mocks):
+        """
+        Test an akismet call
+        """
+        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        article = factories.create_article()
+        comment = factories.create_comment(article=article, user_name='viagra-test-123')
+        moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
+
+        self.assertTrue(article.enable_comments)
+        self.assertTrue(moderator.akismet_check)  # see that settings are correctly patched
+
+        with patch.object(Akismet, '_request', return_value=MockedResponse(True)):
+            self.assertTrue(moderator.moderate(comment, article, request), "akismet should reject")
+            self.assertTrue(comment.is_removed)
+
     @override_appsettings(FLUENT_COMMENTS_CLOSE_AFTER_DAYS=10)
     def test_comments_are_open(self):
         """

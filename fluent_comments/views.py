@@ -1,6 +1,8 @@
 import json
+import logging
 import sys
 
+import django_comments
 from django.apps import apps
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -8,15 +10,18 @@ from django.template.loader import render_to_string
 from django.utils.html import escape
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django_comments import get_form as get_comments_form, signals
+from django_comments import signals
 from django_comments.views.comments import CommentPostBadRequest
 
 from fluent_comments.compat import is_authenticated
+from fluent_comments.moderation import get_model_moderator
 from fluent_comments.utils import get_comment_template_name, get_comment_context_data
 from fluent_comments import appsettings
 
 if sys.version_info[0] >= 3:
     long = int
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_protect
@@ -66,7 +71,7 @@ def post_comment_ajax(request, using=None):
     preview = "preview" in data
 
     # Construct the comment form
-    form = get_comments_form()(target, data=data)
+    form = django_comments.get_form()(target, data=data)
 
     # Check security information
     if form.security_errors():
@@ -91,6 +96,23 @@ def post_comment_ajax(request, using=None):
         comment = comment,
         request = request
     )
+    if not responses and get_model_moderator(target.__class__) is not None:
+        # Help with some hard to diagnose problems. The default Django moderator connects
+        # to the configured comment model. When this model differs from the signal sender,
+        # the the form stores a different model then COMMENTS_APP provides.
+        CommentModel = django_comments.get_model()
+        if comment.__class__ is not CommentModel:
+            logger.warning(
+                "Comment of type '%s' was not moderated, "
+                "because the parent '%s' has a moderator installed for '%s'",
+                comment.__class__.__name__, target.__class__.__name__, CommentModel.__name__
+            )
+        else:
+            logger.warning(
+                "Comment of type '%s' was not moderated, "
+                "even though the parent '%s' has a moderator installed",
+                comment.__class__.__name__, target.__class__.__name__
+            )
 
     for (receiver, response) in responses:
         if response is False:
