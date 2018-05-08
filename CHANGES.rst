@@ -1,3 +1,9 @@
+Version 2.0.2 (2018-05-08)
+--------------------------
+
+* Fixed comment moderation when django-threadedcomments_ was used.
+
+
 Version 2.0.1 (2018-05-04)
 --------------------------
 
