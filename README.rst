@@ -321,6 +321,31 @@ header in the HTTP request. For example:
     )
 
 
+GDPR Notes
+----------
+
+Comment support needs to consider the General Data Protection Regulation (GDPR)
+when when you serve European customers. Any personal data (email address, IP-address)
+should only be stored as long as this is truely needed, and it must be clear whom it's shared with.
+See: https://premium.wpmudev.org/blog/gdpr-compliance/
+
+The Django comments model also stores the email address and IP-address of the commenter,
+which counts as personal information a user should give consent for. Consider running
+a background task that removes the IP-address or email address after a certain period.
+
+When using Akismet, the comment data and IP-address is passed to the servers of Akismet.
+
+In case you update templates to display user avatars using Gravatar, this this also
+provides privacy-sensitive information to a third party. It effectively makes your
+user's e-mailaddresses public.  While encoded as MD5, they can be easily reverse
+engineered to real user accounts. See:
+
+* https://meta.stackexchange.com/questions/21117/is-using-gravatar-a-security-risk
+* https://webapps.stackexchange.com/questions/9973/is-it-safe-to-use-gravatar/30605#30605
+* http://onemansblog.com/2007/02/02/protect-your-privacy-delete-internet-usage-tracks/comment-page-1/#comment-46204
+* https://www.wordfence.com/blog/2016/12/gravatar-advisory-protect-email-address-identity/
+
+
 Contributing
 ------------
 
