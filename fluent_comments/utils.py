@@ -1,10 +1,14 @@
 """
 Internal utils
 """
+import re
 
 from django.contrib.contenttypes.models import ContentType
 
 from fluent_comments import appsettings
+
+
+RE_INTERPUNCTION = re.compile(r'\W+')
 
 
 def get_comment_template_name(comment):
@@ -29,3 +33,10 @@ def get_comment_context_data(comment, action=None):
         'preview': (action == 'preview'),
         'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
     }
+
+
+def split_words(comment):
+    """
+    Internal function to split words
+    """
+    return set(RE_INTERPUNCTION.sub(' ', comment).split())

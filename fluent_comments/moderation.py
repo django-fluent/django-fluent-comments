@@ -1,10 +1,11 @@
-import re
-import fluent_comments
 from akismet import Akismet
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
-from fluent_comments import appsettings
 from django_comments.moderation import moderator, CommentModerator
+
+import fluent_comments
+from fluent_comments import appsettings
+from fluent_comments.utils import split_words
 
 try:
     from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
@@ -16,8 +17,6 @@ try:
 except ImportError:
     from urlparse import urljoin  # Python 2
 
-
-RE_INTERPUNCTION = re.compile(r'\W+')
 
 # Akismet code originally based on django-comments-spamfighter.
 
@@ -84,7 +83,7 @@ class FluentCommentsModerator(CommentModerator):
 
         # Bad words check
         if self.moderate_bad_words:
-            input_words = set(RE_INTERPUNCTION.sub(' ', comment.comment).split())
+            input_words = split_words(comment.comment)
             if self.moderate_bad_words.intersection(input_words):
                 return True
 
