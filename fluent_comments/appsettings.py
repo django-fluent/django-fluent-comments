@@ -31,8 +31,8 @@ FLUENT_COMMENTS_COMPACT_GRID_SIZE = getattr(settings, 'FLUENT_COMMENTS_COMPACT_G
 FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = getattr(settings, 'FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS', "col-sm-{size}")
 
 
-if FLUENT_COMMENTS_AKISMET_ACTION not in ('moderate', 'soft_delete', 'delete'):
-    raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'moderate', 'soft_delete' or 'delete'")
+if FLUENT_COMMENTS_AKISMET_ACTION not in ('auto', 'moderate', 'soft_delete', 'delete'):
+    raise ImproperlyConfigured("FLUENT_COMMENTS_AKISMET_ACTION can be 'auto', 'moderate', 'soft_delete' or 'delete'")
 
 if FLUENT_COMMENTS_EXCLUDE_FIELDS or FLUENT_COMMENTS_FORM_CLASS or FLUENT_COMMENTS_FIELD_ORDER:
     # The exclude option only works when our form is used.

@@ -40,9 +40,11 @@ def _reset_setting_caches():
 
 
 class MockedResponse(object):
-    def __init__(self, result):
+    def __init__(self, result, definitive=False):
         self.result = result
         self.headers = {}
+        if definitive:
+            self.headers['X-Akismet-Pro-Tip'] = 'discard'
 
     def json(self):
         return self.result

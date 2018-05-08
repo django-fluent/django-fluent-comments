@@ -1,4 +1,4 @@
-from akismet import Akismet
+from akismet import Akismet, SpamStatus
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
 from django_comments.moderation import moderator, CommentModerator
@@ -55,9 +55,12 @@ class FluentCommentsModerator(CommentModerator):
             return False
 
         # Akismet check
-        if self.akismet_check and self.akismet_check_action == 'delete':
-            if self._akismet_check(comment, content_object, request):
+        if self.akismet_check:
+            akismet_result = self._akismet_check(comment, content_object, request)
+            if self.akismet_check_action == 'delete' and akismet_result in (SpamStatus.ProbableSpam, SpamStatus.DefiniteSpam):
                 return False  # Akismet marked the comment as spam.
+            elif self.akismet_check_action == 'auto' and akismet_result == SpamStatus.DefiniteSpam:
+                return False  # Clearly spam
 
         return True
 
@@ -72,9 +75,15 @@ class FluentCommentsModerator(CommentModerator):
         # Soft delete checks are done first, so these comments are not mistakenly "just moderated"
         # for expiring the `close_after` date, but correctly get marked as spam instead.
         # This helps staff to quickly see which comments need real moderation.
-        if self.akismet_check and self.akismet_check_action == 'soft_delete':
-            if self._akismet_check(comment, content_object, request):
-                comment.is_removed = True  # Set extra marker
+        if self.akismet_check:
+            akismet_result = self._akismet_check(comment, content_object, request)
+            if akismet_result:
+                # Typically action=delete never gets here, unless the service was having problems.
+                if akismet_result in (SpamStatus.ProbableSpam, SpamStatus.DefiniteSpam) and \
+                       self.akismet_check_action in ('auto', 'soft_delete', 'delete'):
+                   comment.is_removed = True  # Set extra marker
+
+                # SpamStatus.Unknown or action=moderate will end up in the moderation queue
                 return True
 
         # Parent class check
@@ -100,6 +109,11 @@ class FluentCommentsModerator(CommentModerator):
         Connects to Akismet and returns True if Akismet marks this comment as
         spam. Otherwise returns False.
         """
+        # Return previously cached response
+        akismet_result = getattr(comment, '_akismet_result_', None)
+        if akismet_result is not None:
+            return akismet_result
+
         # Get Akismet data
         AKISMET_API_KEY = appsettings.AKISMET_API_KEY
         if not AKISMET_API_KEY:
@@ -117,7 +131,9 @@ class FluentCommentsModerator(CommentModerator):
         )
 
         akismet_data = self._get_akismet_data(blog_url, comment, content_object, request)
-        return akismet.check(**akismet_data)  # raises AkismetServerError when key is invalid
+        akismet_result = akismet.check(**akismet_data)  # raises AkismetServerError when key is invalid
+        setattr(comment, "_akismet_result_", akismet_result)
+        return akismet_result
 
     def _get_akismet_data(self, blog_url, comment, content_object, request):
         # Field documentation:

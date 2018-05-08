@@ -248,9 +248,16 @@ The following settings are available for comment moderation:
     FLUENT_CONTENTS_USE_AKISMET = True              # Enabled by default when AKISMET_API_KEY is set.
     FLUENT_COMMENTS_CLOSE_AFTER_DAYS = None         # Auto-close comments after N days
     FLUENT_COMMENTS_MODERATE_AFTER_DAYS = None      # Auto-moderate comments after N days.
-    FLUENT_COMMENTS_AKISMET_ACTION = 'soft_delete'  # Set to 'moderate', 'soft_delete' or 'delete'
+    FLUENT_COMMENTS_AKISMET_ACTION = 'soft_delete'  # What action to take for spam results.
 
 To use Akismet_ moderation, make sure the ``AKISMET_API_KEY`` setting is defined.
+
+The ``FLUENT_COMMENTS_AKISMET_ACTION`` setting can be one of these values:
+
+* ``auto`` chooses between ``moderate``, ``soft_delete`` and ``delete`` based on the spam score.
+* ``moderate`` will always mark the comment for moderation.
+* ``soft_delete`` will mark the comment as removed, but it can still be seen.
+* ``delete`` will outright reject posting the comment and respond with a HTTP 400 Bad Request.
 
 
 E-mail notification
