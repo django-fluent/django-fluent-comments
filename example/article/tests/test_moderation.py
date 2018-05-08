@@ -21,6 +21,7 @@ except ImportError:  # Django<2.0
 class MockedResponse(object):
     def __init__(self, result):
         self.result = result
+        self.headers = {}
 
     def json(self):
         return self.result
