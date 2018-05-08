@@ -1,6 +1,6 @@
 import fluent_comments
 from article.tests import factories
-from article.tests.utils import override_appsettings
+from fluent_comments.tests.utils import override_appsettings
 from crispy_forms.layout import Row
 from django.test import TestCase
 

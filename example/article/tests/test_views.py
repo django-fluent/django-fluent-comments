@@ -3,29 +3,23 @@ from __future__ import unicode_literals
 import json
 import time
 
-from article.tests import factories
-from django.contrib.auth.models import User
+from akismet import Akismet
 from django.test import TestCase
+from django_comments import get_model as get_comment_model, signals
 from django_comments.forms import CommentForm
+from mock import patch
 
+from article.models import Article
+from article.tests import factories
+from fluent_comments.moderation import get_model_moderator
+from fluent_comments.tests.utils import MockedResponse, override_appsettings
 try:
     from django.urls import reverse
 except ImportError:  # Django<2.0
     from django.core.urlresolvers import reverse
 
 
-class CommentsTests(TestCase):
-
-    def test_admin_comments_access(self):
-        """
-        See that the admin renders
-        """
-        admin = User.objects.create_superuser('admin2', 'admin@example.com', 'secret')
-        comment = factories.create_comment(user_name='Test-Name')
-
-        self.client.login(username=admin.username, password='secret')
-        response = self.client.get(reverse('admin:fluent_comments_fluentcomment_changelist'))
-        self.assertContains(response, ">Test-Name<", status_code=200)
+class ViewTests(TestCase):
 
     def test_get_article_with_comment(self):
         """

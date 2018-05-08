@@ -10,21 +10,12 @@ from mock import patch
 
 from article.models import Article
 from article.tests import factories
-from .utils import override_appsettings
+from fluent_comments.tests.utils import MockedResponse, override_appsettings
 
 try:
     from django.urls import reverse
 except ImportError:  # Django<2.0
     from django.core.urlresolvers import reverse
-
-
-class MockedResponse(object):
-    def __init__(self, result):
-        self.result = result
-        self.headers = {}
-
-    def json(self):
-        return self.result
 
 
 class ModerationTests(TestCase):

@@ -37,3 +37,12 @@ def _reset_setting_caches():
     FluentCommentsModerator.akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
     FluentCommentsModerator.akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
     FluentCommentsModerator.moderate_bad_words = set(appsettings.FLUENT_COMMENTS_MODERATE_BAD_WORDS)
+
+
+class MockedResponse(object):
+    def __init__(self, result):
+        self.result = result
+        self.headers = {}
+
+    def json(self):
+        return self.result
