@@ -319,7 +319,7 @@
         if(data['use_threadedcomments']) {
             // Each top-level of django-threadedcomments starts in a new <ul>
             // when you use the comment.open / comment.close logic as prescribed.
-            var $commentUl = $parent.children('ul');
+            var $commentUl = $parent.children('ul:last');
             if( $commentUl.length == 0 ) {
                 var $form = $parent.children('.js-comments-form');
                 if($form.length > 0) {
@@ -335,7 +335,7 @@
 
             if(for_preview) {
               // Reuse existing one if found. This is used for the preview.
-              var $previewLi = $commentUl.find('li.comment-preview');
+              var $previewLi = $commentUl.find('li.comment-preview:last');
               if($previewLi.length == 0) {
                   $commentUl.append('<li class="comment-wrapper comment-preview"></li>');
                   $previewLi = $commentUl.find('li.comment-preview');
