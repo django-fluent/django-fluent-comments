@@ -2,9 +2,8 @@
 {% endcomment %}A new comment has been posted on your site "{{ site }}, to the page entitled "{{ content_object }}".
 Link to the page: {{ request.scheme }}://{{ site.domain }}{{ content_object.get_absolute_url }}
 
-IP-address: {{ comment.ip_address }}{% if comment.title %}
-Title: {{ comment.title }}{% endif %}
-Name: {{ comment.user_name|default:comment.user }}
+{% if comment.title %}Title: {{ comment.title }}
+{% endif %}Name: {{ comment.user_name|default:comment.user }}
 Email: {{ comment.user_email }}
 Homepage: {{ comment.user_url }}
 Moderated: {{ comment.is_public|yesno:'no,yes' }}
