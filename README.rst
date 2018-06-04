@@ -19,7 +19,7 @@ The features are:
 * Comment moderation, with optional Akismet_ integration and auto-closing after N days.
 * E-mail notification to the site managers of new comments.
 * Optional threaded comments support via django-threadedcomments_.
-* Optional reCAPTCHA2 support via django-nocaptcha-recaptcha_.
+* Optional reCAPTCHA2 support via django-recaptcha_ or django-nocaptcha-recaptcha_.
 * Optional simple captcha support via django-simple-captcha_.
 
 The application is designed to be plug&play;
@@ -148,13 +148,29 @@ Or place some fields at a single row:
     FLUENT_COMMENTS_COMPACT_GRID_SIZE = 12
     FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = "col-sm-{size}"
 
-Or use one of the reCAPTCHA versions (which requires a django-nocaptcha-recaptcha_ install):
+Or use one of the reCAPTCHA versions (which requires a django-recaptcha_ or django-nocaptcha-recaptcha_ install):
 
 .. code-block:: python
 
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
+
+For django-recaptcha_:
+
+.. code-block:: python
+
+    RECAPTCHA_PUBLIC_KEY = "the Google provided site_key"
+    RECAPTCHA_PRIVATE_KEY = "the Google provided secret_key"
+    NOCAPTCHA = True  # required to get "no captcha reCAPTCHA v2
+
+    INSTALLED_APPS += (
+        'captcha',
+    )
+
+For django-nocaptcha-recaptcha_:
+
+.. code-block:: python
 
     NORECAPTCHA_SITE_KEY = "the Google provided site_key"
     NORECAPTCHA_SECRET_KEY = "the Google provided secret_key"
@@ -399,6 +415,7 @@ Pull requests are welcome too. :-)
 .. _django.contrib.comments: https://docs.djangoproject.com/en/1.7/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
 .. _django-nocaptcha-recaptcha: https://github.com/ImaginaryLandscape/django-nocaptcha-recaptcha
+.. _django-recaptcha: https://github.com/praekelt/django-recaptcha
 .. _django-simple-captcha: https://github.com/mbi/django-simple-captcha
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
 .. _Akismet: http://akismet.com
