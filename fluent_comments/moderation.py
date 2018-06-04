@@ -38,7 +38,7 @@ class FluentCommentsModerator(CommentModerator):
 
     close_after = appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS
     moderate_after = appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS
-    email_notification = False   # Using signals instead
+    email_notification = appsettings.FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION
     akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
     akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
     moderate_bad_words = set(appsettings.FLUENT_COMMENTS_MODERATE_BAD_WORDS)
@@ -101,6 +101,53 @@ class FluentCommentsModerator(CommentModerator):
             if akismet_check(comment, content_object, request):
                 return True
 
+        return False
+
+    def email(self, comment, content_object, request):
+        """
+        Overwritten for a better email notification.
+        """
+        if not self.email_notification:
+            return
+
+        send_comment_posted(comment, request)
+
+
+class NullModerator(FluentCommentsModerator):
+    """
+    A moderator class that has the same effect as not being here.
+    It allows all comments, disabling all moderation.
+    This can be used in ``FLUENT_COMMENTS_DEFAULT_MODERATOR``.
+    """
+
+    def allow(self, comment, content_object, request):
+        return True
+
+    def moderate(self, comment, content_object, request):
+        logger.info("Unconditionally allow comment, no default moderation set.")
+        return False
+
+
+class AlwaysModerate(FluentCommentsModerator):
+    """
+    A moderator class that will always mark the comment as moderated.
+    This can be used in ``FLUENT_COMMENTS_DEFAULT_MODERATOR``.
+    """
+    def moderate(self, comment, content_object, request):
+        # Still calling super in case Akismet marks the comment as spam.
+        return super(AlwaysModerate, self).moderate(comment, content_object, request) or True
+
+
+class AlwaysDeny(FluentCommentsModerator):
+    """
+    A moderator that will deny any comments to be posted.
+    This can be used in ``FLUENT_COMMENTS_DEFAULT_MODERATOR``.
+    """
+    def allow(self, comment, content_object, request):
+        logger.warning(
+            "Rejected comment on unregistered model '%s'",
+            content_object.__class__.__name__
+        )
         return False
 
 
