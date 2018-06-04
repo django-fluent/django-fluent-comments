@@ -1,16 +1,5 @@
 from django.core.exceptions import ImproperlyConfigured
 
-try:
-    from captcha.fields import ReCaptchaField as CaptchaField
-except ImportError:
-    try:
-        from captcha.fields import CaptchaField
-    except ImportError:
-        raise ImportError(
-            "To use the captcha contact form, you need to have "
-            "django-recaptcha or django-simple-captcha installed."
-        )
-
 
 class CaptchaFormMixin(object):
     def _reorder_fields(self, ordering):
