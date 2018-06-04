@@ -16,9 +16,11 @@ The features are:
 
 * Ajax-based preview and posting of comments
 * Configurable form layouts using django-crispy-forms_ and settings to exclude fields.
-* Comment moderation, using Akismet_ integration and auto-closing after N days.
+* Comment moderation, with optional Akismet_ integration and auto-closing after N days.
 * E-mail notification to the site managers of new comments.
 * Optional threaded comments support via django-threadedcomments_.
+* Optional reCAPTCHA2 support via django-nocaptcha-recaptcha_.
+* Optional simple captcha support via django-simple-captcha_.
 
 The application is designed to be plug&play;
 installing it should already give a better comment layout.
@@ -159,6 +161,22 @@ Or use one of the reCAPTCHA versions (which requires a django-nocaptcha-recaptch
 
     INSTALLED_APPS += (
         'nocaptcha_recaptcha',
+    )
+
+Or a captcha from django-simple-captcha_:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.DefaultCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactLabelsCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactCommentForm'
+
+    CAPTCHA_NOISE_FUNCTIONS = ()
+    CAPTCHA_FONT_SIZE = 30
+    CAPTCHA_LETTER_ROTATION = (-10,10)
+
+    INSTALLED_APPS += (
+        'captcha',
     )
 
 
@@ -381,6 +399,7 @@ Pull requests are welcome too. :-)
 .. _django.contrib.comments: https://docs.djangoproject.com/en/1.7/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
 .. _django-nocaptcha-recaptcha: https://github.com/ImaginaryLandscape/django-nocaptcha-recaptcha
+.. _django-simple-captcha: https://github.com/mbi/django-simple-captcha
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
 .. _Akismet: http://akismet.com
 .. _`Bootstrap`: http://twitter.github.com/bootstrap/index.html
