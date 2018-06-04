@@ -39,15 +39,18 @@ class AbstractCommentForm(base_class):
                 )
 
         if appsettings.FLUENT_COMMENTS_FIELD_ORDER:
-            new_fields = OrderedDict()
             ordering = (
-                CommentFormHelper.BASE_FIELDS_TOP +
-                appsettings.FLUENT_COMMENTS_FIELD_ORDER +
-                CommentFormHelper.BASE_FIELDS_END
+                    self.helper.BASE_FIELDS_TOP +
+                    appsettings.FLUENT_COMMENTS_FIELD_ORDER +
+                    self.helper.BASE_FIELDS_END
             )
-            for name in ordering:
-                new_fields[name] = self.fields[name]
-            self.fields = new_fields
+            self._reorder_fields(ordering)
+
+    def _reorder_fields(self, ordering):
+        new_fields = OrderedDict()
+        for name in ordering:
+            new_fields[name] = self.fields[name]
+        self.fields = new_fields
 
     def get_comment_model(self):
         # Provide the model used for comments. When this doesn't match

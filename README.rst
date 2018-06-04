@@ -146,13 +146,20 @@ Or place some fields at a single row:
     FLUENT_COMMENTS_COMPACT_GRID_SIZE = 12
     FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = "col-sm-{size}"
 
-Or use one of the reCAPTCHA versions:
+Or use one of the reCAPTCHA versions (which requires a django-nocaptcha-recaptcha_ install):
 
 .. code-block:: python
 
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
+
+    NORECAPTCHA_SITE_KEY = "the Google provided site_key"
+    NORECAPTCHA_SECRET_KEY = "the Google provided secret_key"
+
+    INSTALLED_APPS += (
+        'nocaptcha_recaptcha',
+    )
 
 
 Changing the field order
@@ -373,6 +380,7 @@ Pull requests are welcome too. :-)
 .. _django_comments: https://github.com/django/django-contrib-comments
 .. _django.contrib.comments: https://docs.djangoproject.com/en/1.7/ref/contrib/comments/
 .. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
+.. _django-nocaptcha-recaptcha: https://github.com/ImaginaryLandscape/django-nocaptcha-recaptcha
 .. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
 .. _Akismet: http://akismet.com
 .. _`Bootstrap`: http://twitter.github.com/bootstrap/index.html
