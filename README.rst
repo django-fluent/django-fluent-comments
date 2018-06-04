@@ -287,6 +287,10 @@ It can be enabled using the following settings:
 
     COMMENTS_APP = 'fluent_comments'
 
+And make sure the intermediate ``ThreadedComment`` model is filled with data::
+
+    ./manage.py migrate_comments
+
 The templates and admin interface adapt themselves automatically
 to show the threaded comments.
 
