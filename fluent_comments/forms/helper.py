@@ -23,7 +23,6 @@ class CommentFormHelper(FormHelper):
 
     BASE_FIELDS_TOP = ('content_type', 'object_pk', 'timestamp', 'security_hash')
     BASE_FIELDS_END = ('honeypot',)
-    BASE_FIELDS = BASE_FIELDS_TOP + BASE_FIELDS_END
 
     if appsettings.USE_THREADEDCOMMENTS:
         BASE_FIELDS_TOP += ('parent',)
