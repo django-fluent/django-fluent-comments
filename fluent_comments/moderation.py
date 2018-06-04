@@ -145,7 +145,7 @@ class AlwaysDeny(FluentCommentsModerator):
     """
     def allow(self, comment, content_object, request):
         logger.warning(
-            "Rejected comment on unregistered model '%s'",
+            "Discarded comment on unregistered model '%s'",
             content_object.__class__.__name__
         )
         return False

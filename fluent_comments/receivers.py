@@ -4,6 +4,9 @@ The comment signals are handled to fallback to a default moderator.
 This avoids not checking for spam or sending email notifications
 for comments that bypassed the moderator registration
 (e.g. posting a comment on a different page).
+
+This is especially useful when a django-fluent-contents "CommentsAreaItem"
+element is added to a random page subclass (which is likely not registered).
 """
 import logging
 
@@ -19,8 +22,9 @@ logger = logging.getLogger(__name__)
 
 
 def load_default_moderator():
-    # Make sure a moderator is always present, even when there is nothing linked to it.
-    # This is extremely useful when a "CommentsAreaItem" is added to a random page for example.
+    """
+    Find a moderator object
+    """
     if appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR == 'default':
         # Perform spam checks
         return moderation.FluentCommentsModerator(None)
