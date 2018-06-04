@@ -21,6 +21,7 @@ class AbstractCommentForm(base_class):
     helper = CommentFormHelper()
 
     def __init__(self, *args, **kwargs):
+        self.is_preview = kwargs.pop('is_preview', False)
         super(AbstractCommentForm, self).__init__(*args, **kwargs)
 
         # Remove fields from the form.

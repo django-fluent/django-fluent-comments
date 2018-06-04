@@ -64,17 +64,17 @@ def post_comment_ajax(request, using=None):
         return CommentPostBadRequest("Attempting go get content-type {0!r} and object PK {1!r} exists raised {2}".format(escape(ctype), escape(object_pk), e.__class__.__name__))
 
     # Do we want to preview the comment?
-    preview = "preview" in data
+    is_preview = "preview" in data
 
     # Construct the comment form
-    form = django_comments.get_form()(target, data=data)
+    form = django_comments.get_form()(target, data=data, is_preview=is_preview)
 
     # Check security information
     if form.security_errors():
         return CommentPostBadRequest("The comment form failed security verification: {0}".format(form.security_errors()))
 
     # If there are errors or if we requested a preview show the comment
-    if preview:
+    if is_preview:
         comment = form.get_comment_object() if not form.errors else None
         return _ajax_result(request, form, "preview", comment, object_id=object_pk)
     if form.errors:
