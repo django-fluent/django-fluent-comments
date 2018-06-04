@@ -1,22 +1,21 @@
-from akismet import Akismet, SpamStatus
-from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import smart_str
+from __future__ import absolute_import
+
+import logging
+
+from akismet import SpamStatus
 from django_comments.moderation import moderator, CommentModerator
 
-import fluent_comments
 from fluent_comments import appsettings
+from fluent_comments.akismet import akismet_check
+from fluent_comments.email import send_comment_posted
 from fluent_comments.utils import split_words
-
-try:
-    from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
-except ImportError:
-    from django.contrib.sites.models import get_current_site
 
 try:
     from urllib.parse import urljoin  # Python 3
 except ImportError:
     from urlparse import urljoin  # Python 2
 
+logger = logging.getLogger(__name__)
 
 # Akismet code originally based on django-comments-spamfighter.
 
@@ -56,7 +55,7 @@ class FluentCommentsModerator(CommentModerator):
 
         # Akismet check
         if self.akismet_check:
-            akismet_result = self._akismet_check(comment, content_object, request)
+            akismet_result = akismet_check(comment, content_object, request)
             if self.akismet_check_action == 'delete' and akismet_result in (SpamStatus.ProbableSpam, SpamStatus.DefiniteSpam):
                 return False  # Akismet marked the comment as spam.
             elif self.akismet_check_action == 'auto' and akismet_result == SpamStatus.DefiniteSpam:
@@ -76,7 +75,7 @@ class FluentCommentsModerator(CommentModerator):
         # for expiring the `close_after` date, but correctly get marked as spam instead.
         # This helps staff to quickly see which comments need real moderation.
         if self.akismet_check:
-            akismet_result = self._akismet_check(comment, content_object, request)
+            akismet_result = akismet_check(comment, content_object, request)
             if akismet_result:
                 # Typically action=delete never gets here, unless the service was having problems.
                 if akismet_result in (SpamStatus.ProbableSpam, SpamStatus.DefiniteSpam) and \
@@ -99,70 +98,10 @@ class FluentCommentsModerator(CommentModerator):
         # Akismet check
         if self.akismet_check and self.akismet_check_action not in ('soft_delete', 'delete'):
             # Return True if akismet marks this comment as spam and we want to moderate it.
-            if self._akismet_check(comment, content_object, request):
+            if akismet_check(comment, content_object, request):
                 return True
 
         return False
-
-    def _akismet_check(self, comment, content_object, request):
-        """
-        Connects to Akismet and returns True if Akismet marks this comment as
-        spam. Otherwise returns False.
-        """
-        # Return previously cached response
-        akismet_result = getattr(comment, '_akismet_result_', None)
-        if akismet_result is not None:
-            return akismet_result
-
-        # Get Akismet data
-        AKISMET_API_KEY = appsettings.AKISMET_API_KEY
-        if not AKISMET_API_KEY:
-            raise ImproperlyConfigured('You must set AKISMET_API_KEY to use comment moderation with Akismet.')
-
-        current_domain = get_current_site(request).domain
-        auto_blog_url = '{0}://{1}/'.format(request.is_secure() and 'https' or 'http', current_domain)
-        blog_url = appsettings.AKISMET_BLOG_URL or auto_blog_url
-
-        akismet = Akismet(
-            AKISMET_API_KEY,
-            blog=blog_url,
-            is_test=int(bool(appsettings.AKISMET_IS_TEST)),
-            application_user_agent='django-fluent-comments/{0}'.format(fluent_comments.__version__),
-        )
-
-        akismet_data = self._get_akismet_data(blog_url, comment, content_object, request)
-        akismet_result = akismet.check(**akismet_data)  # raises AkismetServerError when key is invalid
-        setattr(comment, "_akismet_result_", akismet_result)
-        return akismet_result
-
-    def _get_akismet_data(self, blog_url, comment, content_object, request):
-        # Field documentation:
-        # http://akismet.com/development/api/#comment-check
-        data = {
-            # Comment info
-            'permalink': urljoin(blog_url, content_object.get_absolute_url()),
-            'comment_type': 'comment',   # comment, trackback, pingback, see http://blog.akismet.com/2012/06/19/pro-tip-tell-us-your-comment_type/
-            'comment_author': getattr(comment, 'name', ''),
-            'comment_author_email': getattr(comment, 'email', ''),
-            'comment_author_url': getattr(comment, 'url', ''),
-            'comment_content': smart_str(comment.comment),
-            'comment_date': comment.submit_date,
-
-            # Request info
-            'referrer': request.META.get('HTTP_REFERER', ''),
-            'user_agent': request.META.get('HTTP_USER_AGENT', ''),
-            'user_ip': comment.ip_address,
-        }
-
-        if comment.user_id and comment.user.is_superuser:
-            data['user_role'] = 'administrator'  # always passes test
-
-        # If the language is known, provide it.
-        language = _get_article_language(content_object)
-        if language:
-            data['blog_lang'] = language
-
-        return data
 
 
 def moderate_model(ParentModel, publication_date_field=None, enable_comments_field=None):
@@ -224,18 +163,3 @@ def comments_are_moderated(content_object):
     # Check the 'auto_moderate_field', 'moderate_after',
     # by reusing the basic Django policies.
     return CommentModerator.moderate(moderator, None, content_object, None)
-
-
-def _get_article_language(article):
-    try:
-        # django-parler uses this attribute
-        return article.get_current_language()
-    except AttributeError:
-        pass
-
-    try:
-        return article.language_code
-    except AttributeError:
-        pass
-
-    return None
