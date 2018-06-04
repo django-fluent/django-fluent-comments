@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from akismet import Akismet, SpamStatus
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_str
