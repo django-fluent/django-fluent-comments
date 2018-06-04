@@ -21,7 +21,7 @@ captcha_field = CaptchaField(help_text=pgettext_lazy("captcha-help-text", u"Type
 
 class DefaultCommentForm(CaptchaFormMixin, DefaultCommentForm):
     """
-    Contact form with reCAPTCHA field.
+    Comment form with reCAPTCHA field.
     """
     captcha = captcha_field
 
