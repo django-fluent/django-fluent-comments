@@ -30,7 +30,12 @@ class AbstractCommentForm(base_class):
             try:
                 self.fields.pop(name)
             except KeyError:
-                raise ImproperlyConfigured("Field name '{0}' in FLUENT_COMMENTS_EXCLUDE_FIELDS is invalid, it does not exist in the comment form.")
+                raise ImproperlyConfigured(
+                    "Field name '{0}' in FLUENT_COMMENTS_EXCLUDE_FIELDS is invalid, "
+                    "it does not exist in the '{1}' class.".format(
+                        name, self.__class__.__name__
+                     )
+                )
 
         if appsettings.FLUENT_COMMENTS_FIELD_ORDER:
             new_fields = OrderedDict()
