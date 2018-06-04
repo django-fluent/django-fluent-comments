@@ -1,6 +1,6 @@
 {% autoescape off %}{% comment %}
 {% endcomment %}A new comment has been posted on your site "{{ site }}, to the page entitled "{{ content_object }}".
-Link to the page: http://{{ site.domain }}{{ content_object.get_absolute_url }}
+Link to the page: {{ request.scheme }}://{{ site.domain }}{{ content_object.get_absolute_url }}
 
 IP-address: {{ comment.ip_address }}{% if comment.title %}
 Title: {{ comment.title }}{% endif %}
@@ -14,7 +14,7 @@ Comment:
 
 ----
 You have the following options available:
-  View comment    -- http://{{ site.domain }}{{ comment.get_absolute_url }}
-  Flag comment    -- http://{{ site.domain }}{% url 'comments-flag' comment.pk %}
-  Delete comment  -- http://{{ site.domain }}{% url 'comments-delete' comment.pk %}
+  View comment    -- {{ request.scheme }}://{{ site.domain }}{{ comment.get_absolute_url }}
+  Flag comment    -- {{ request.scheme }}://{{ site.domain }}{% url 'comments-flag' comment.pk %}
+  Delete comment  -- {{ request.scheme }}://{{ site.domain }}{% url 'comments-delete' comment.pk %}
 {% endautoescape %}
