@@ -123,7 +123,7 @@ The default is:
 
 .. code-block:: python
 
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.FluentCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.DefaultCommentForm'
 
     FLUENT_COMMENTS_FORM_CSS_CLASS = 'comments-form form-horizontal'
     FLUENT_COMMENTS_LABEL_CSS_CLASS = 'col-sm-2'
@@ -145,6 +145,14 @@ Or place some fields at a single row:
     FLUENT_COMMENTS_COMPACT_FIELDS = ('name', 'email', 'url')
     FLUENT_COMMENTS_COMPACT_GRID_SIZE = 12
     FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS = "col-sm-{size}"
+
+Or use one of the reCAPTCHA versions:
+
+.. code-block:: python
+
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
 
 
 Changing the field order
