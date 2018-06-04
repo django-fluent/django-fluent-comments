@@ -1,3 +1,22 @@
+Version 2.1 (in development)
+----------------------------
+
+* Make sure comment moderation is always active.
+
+ * Added a "default moderator" for the models that are not registered via ``moderate_model()``.
+ * The default moderator is configurable via ``FLUENT_COMMENTS_DEFAULT_MODERATOR``.
+ * Spam filtering works, but "auto close/moderate after" support needs a registration via ``moderate_model()``.
+
+* Added simple captcha support.
+* Added "no captcha" reCAPTCHA2 support.
+* Add new default ``FLUENT_COMMENTS_AKISMET_ACTION=auto`` option that
+  completely discards comments when Akismet classifies as definitive spam.
+* Fixed using ``force_text()`` to generate the content object title for email.
+* Fixed showing HTML in the comments admin.
+* Fixed showing the preview multiple times for threaded comments.
+* Included ``form.is_preview`` flag.
+
+
 Version 2.0.2 (2018-05-08)
 --------------------------
 
