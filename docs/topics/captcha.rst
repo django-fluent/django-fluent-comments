@@ -17,15 +17,9 @@ Choose one of the form layout classes:
 
 .. code-block:: python
 
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'  # default
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'  # no labels
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'  # compact row
 
 And configure it's settings:
 
@@ -48,15 +42,9 @@ The same form classes are used, as the correct imports are detected at startup:
 
 .. code-block:: python
 
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'  # default
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'  # no labels
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'  # compact row
 
 It's settings differ slightly:
 
@@ -77,15 +65,9 @@ It does not require external services, but it can be easier to break.
 
 .. code-block:: python
 
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.DefaultCommentForm'
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactLabelsCommentForm'
-
-.. code-block:: python
-
-    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactCommentForm'
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.DefaultCommentForm'  # default
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactLabelsCommentForm'  # no labels
+    FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactCommentForm'  # compact row
 
 And configure the app:
 
