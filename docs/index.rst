@@ -24,7 +24,7 @@ The application is designed to be plug&play;
 installing it should already give a better comment layout.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    quickstart
