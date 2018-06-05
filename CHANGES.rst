@@ -155,19 +155,19 @@ Version 1.0.0
 * Fixed Python 3 issue in the admin
 * Fixed unicode support in for subject of notification email
 
-Released as 1.0b1:
-------------------
+Released as 1.0b1
+~~~~~~~~~~~~~~~~~
 
 * Fixed ajax-comment-busy check
 * Fixed clearing the whole container on adding comment
 
-Released as 1.0a2:
-------------------
+Released as 1.0a2
+~~~~~~~~~~~~~~~~~
 
 * Fix installation at Python 2.6
 
-Released as 1.0a1:
-------------------
+Released as 1.0a1
+~~~~~~~~~~~~~~~~~
 
 * Added support for Python 3 (with the exception of Akismet_ support).
 * Added support for multiple comment area's in the same page.
