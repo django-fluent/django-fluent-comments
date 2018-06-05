@@ -18,7 +18,13 @@ Choose one of the form layout classes:
 .. code-block:: python
 
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
+
+.. code-block:: python
+
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
+
+.. code-block:: python
+
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
 
 And configure it's settings:
@@ -28,7 +34,7 @@ And configure it's settings:
     RECAPTCHA_PUBLIC_KEY = "the Google provided site_key"
     RECAPTCHA_PRIVATE_KEY = "the Google provided secret_key"
 
-    NOCAPTCHA = True  # Important! Required to get "no captcha reCAPTCHA v2
+    NOCAPTCHA = True  # Important! Required to get "no captcha" reCAPTCHA v2
 
     INSTALLED_APPS += (
         'captcha',
@@ -43,7 +49,13 @@ The same form classes are used, as the correct imports are detected at startup:
 .. code-block:: python
 
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.DefaultCommentForm'
+
+.. code-block:: python
+
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactLabelsCommentForm'
+
+.. code-block:: python
+
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.recaptcha.CompactCommentForm'
 
 It's settings differ slightly:
@@ -66,8 +78,18 @@ It does not require external services, but it can be easier to break.
 .. code-block:: python
 
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.DefaultCommentForm'
+
+.. code-block:: python
+
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactLabelsCommentForm'
+
+.. code-block:: python
+
     FLUENT_COMMENTS_FORM_CLASS = 'fluent_comments.forms.captcha.CompactCommentForm'
+
+And configure the app:
+
+.. code-block:: python
 
     CAPTCHA_NOISE_FUNCTIONS = ()
     CAPTCHA_FONT_SIZE = 30
