@@ -47,3 +47,11 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. _django_comments: https://github.com/django/django-contrib-comments
+.. _django-crispy-forms: http://django-crispy-forms.readthedocs.org/
+.. _django-nocaptcha-recaptcha: https://github.com/ImaginaryLandscape/django-nocaptcha-recaptcha
+.. _django-recaptcha: https://github.com/praekelt/django-recaptcha
+.. _django-simple-captcha: https://github.com/mbi/django-simple-captcha
+.. _django-threadedcomments: https://github.com/HonzaKral/django-threadedcomments.git
+.. _Akismet: http://akismet.com
