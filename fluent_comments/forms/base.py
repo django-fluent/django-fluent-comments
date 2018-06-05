@@ -40,9 +40,9 @@ class AbstractCommentForm(base_class):
 
         if appsettings.FLUENT_COMMENTS_FIELD_ORDER:
             ordering = (
-                    self.helper.BASE_FIELDS_TOP +
-                    appsettings.FLUENT_COMMENTS_FIELD_ORDER +
-                    self.helper.BASE_FIELDS_END
+                 CommentFormHelper.BASE_FIELDS_TOP +
+                 appsettings.FLUENT_COMMENTS_FIELD_ORDER +
+                 CommentFormHelper.BASE_FIELDS_END
             )
             self._reorder_fields(ordering)
 
