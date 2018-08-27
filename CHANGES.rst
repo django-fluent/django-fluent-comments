@@ -1,5 +1,5 @@
-Version 2.1 (in development)
-----------------------------
+Version 2.1 (2018-08-27)
+------------------------
 
 * Make sure comment moderation is always active.
 
