@@ -8,6 +8,7 @@ env:
 - PACKAGES="Django>=1.11,<1.12 django-threadedcomments>=1.1"
 - PACKAGES="Django>=2.0,<2.1"
 - PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
+- PACKAGES="Django>=2.1,<2.2"
 - PACKAGES="Django>=2.1,<2.2 django-threadedcomments>=1.1"
 - PACKAGES='https://github.com/django/django/archive/master.tar.gz'
 matrix:
