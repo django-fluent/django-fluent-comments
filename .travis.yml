@@ -2,26 +2,24 @@ sudo: false
 language: python
 cache: pip
 python:
-- '2.7'
 - '3.5'
 env:
 - PACKAGES="Django>=1.11,<1.12"
 - PACKAGES="Django>=1.11,<1.12 django-threadedcomments>=1.1"
 - PACKAGES="Django>=2.0,<2.1"
 - PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
+- PACKAGES="Django>=2.1,<2.2 django-threadedcomments>=1.1"
 - PACKAGES='https://github.com/django/django/archive/master.tar.gz'
 matrix:
-  exclude:
+  include:
   - python: '2.7'
-    env: PACKAGES="Django>=2.0,<2.1"
+    env: PACKAGES="Django>=1.11,<1.12"
   - python: '2.7'
-    env: PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
-  - python: '2.7'
-    env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
+    env: PACKAGES="Django>=1.11,<1.12 django-threadedcomments>=1.1"
   allow_failures:
-  - env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
   - python: '3.5'
-    env: PACKAGES="Django>=2.0,<2.1 django-threadedcomments>=1.1"
+    env: PACKAGES="Django>=2.1,<2.2 django-threadedcomments>=1.1"
+  - env: PACKAGES='https://github.com/django/django/archive/master.tar.gz'
 before_install:
 - pip install codecov
 install:
