@@ -5,12 +5,6 @@ python:
 - '2.7'
 - '3.5'
 env:
-- PACKAGES="Django>=1.8,<1.9 django-contrib-comments<1.9"
-- PACKAGES="Django>=1.8,<1.9 django-contrib-comments<1.9 django-threadedcomments>=1.1"
-- PACKAGES="Django>=1.9,<1.10 django-contrib-comments<1.9"
-- PACKAGES="Django>=1.9,<1.10 django-contrib-comments<1.9 django-threadedcomments>=1.1"
-- PACKAGES="Django>=1.10,<1.11"
-- PACKAGES="Django>=1.10,<1.11 django-threadedcomments>=1.1"
 - PACKAGES="Django>=1.11,<1.12"
 - PACKAGES="Django>=1.11,<1.12 django-threadedcomments>=1.1"
 - PACKAGES="Django>=2.0,<2.1"

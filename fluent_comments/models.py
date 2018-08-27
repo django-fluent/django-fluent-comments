@@ -1,13 +1,9 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import ugettext_lazy as _
 from django_comments import get_model as get_comments_model
 from django_comments.managers import CommentManager
 
 from fluent_comments import appsettings
-
-try:
-    from django.contrib.contenttypes.fields import GenericRelation  # Django 1.9+
-except ImportError:
-    from django.contrib.contenttypes.generic import GenericRelation
 
 if appsettings.USE_THREADEDCOMMENTS:
     from threadedcomments.models import ThreadedComment as BaseModel

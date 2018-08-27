@@ -12,7 +12,6 @@ from django.views.decorators.http import require_POST
 from django_comments import signals
 from django_comments.views.comments import CommentPostBadRequest
 
-from fluent_comments.compat import is_authenticated
 from fluent_comments.utils import get_comment_template_name, get_comment_context_data
 from fluent_comments import appsettings
 
@@ -38,7 +37,7 @@ def post_comment_ajax(request, using=None):
 
     # Fill out some initial data fields from an authenticated user, if present
     data = request.POST.copy()
-    if is_authenticated(request.user):
+    if request.user.is_authenticated:
         if not data.get('name', ''):
             data["name"] = request.user.get_full_name() or request.user.username
         if not data.get('email', ''):
@@ -83,7 +82,7 @@ def post_comment_ajax(request, using=None):
     # Otherwise create the comment
     comment = form.get_comment_object()
     comment.ip_address = request.META.get("REMOTE_ADDR", None)
-    if is_authenticated(request.user):
+    if request.user.is_authenticated:
         comment.user = request.user
 
     # Signal that the comment is about to be saved

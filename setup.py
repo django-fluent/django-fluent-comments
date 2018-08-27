@@ -40,19 +40,19 @@ setup(
     license='Apache 2.0',
 
     install_requires = [
-        'django-crispy-forms>=1.1.1',
+        'django-crispy-forms>=1.7.1',
         'django-tag-parser>=3.1',
-        'django-contrib-comments>=1.8',
+        'django-contrib-comments>=1.9',
         'python-akismet>=0.4.1',  # Python 3 port, replaces Python 2-only "akismet" library.
     ],
     requires=[
-        'Django (>=1.8)',
+        'Django (>=1.11)',
     ],
     tests_require = [
         'mock',
     ],
     extras_require = {
-        'threadedcomments': ['django-threadedcomments>=1.1'],
+        'threadedcomments': ['django-threadedcomments>=1.2'],
     },
     description='A modern, ajax-based appearance for django_comments',
     long_description=read('README.rst'),
@@ -80,9 +80,6 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Framework :: Django',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
         'Topic :: Internet :: WWW/HTTP',

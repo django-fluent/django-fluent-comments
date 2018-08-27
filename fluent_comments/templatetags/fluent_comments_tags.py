@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.template import Library, Node
+from django.template import Library, Node, context_processors
 from django.template.loader import get_template
 from fluent_comments.utils import get_comment_template_name, get_comment_context_data
 from tag_parser import parse_token_kwargs
@@ -7,10 +7,6 @@ from tag_parser.basetags import BaseInclusionNode
 from fluent_comments import appsettings
 from fluent_comments.models import get_comments_for_model
 from fluent_comments.moderation import comments_are_open, comments_are_moderated
-try:
-    from django.template import context_processors  # Django 1.10+
-except:
-    from django.core import context_processors
 
 
 register = Library()

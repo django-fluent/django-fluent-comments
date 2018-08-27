@@ -1,12 +1,8 @@
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
-
-try:
-    from django.contrib.sites.shortcuts import get_current_site  # Django 1.9+
-except ImportError:
-    from django.contrib.sites.models import get_current_site
 
 
 def send_comment_posted(comment, request):
