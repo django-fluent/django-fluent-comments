@@ -1,0 +1,51 @@
+{% autoescape off %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>{{ site }}: New comment</title>
+
+  <style type="text/css">
+    span.preheader { display: none !important; }
+  </style>
+</head>
+
+<body>
+  <span class="preheader">Posted by: {{ comment.user_name|default:comment.user }}</span>
+  
+  <div>
+    A new comment has been posted on your site "{{ site }}", to the page entitled 
+    <a target="_blank" href="{{ request.scheme }}://{{ site.domain }}{{ content_object.get_absolute_url }}">{{ content_object }}</a>.
+  </div>
+
+  <br>
+
+  {% if comment.title %}
+  <div>Title: <strong>{{ comment.title }}</strong></div>
+  {% endif %}
+  <div>Name: <strong>{{ comment.user_name|default:comment.user }}</strong></div>
+  <div>Email: <strong>{{ comment.user_email }}</strong></div>
+  <div>Homepage: <strong>{{ comment.user_url }}</strong></div>
+  <div>Moderated: <strong>{{ comment.is_public|yesno:'no,yes' }}</strong></div>
+
+  <div>
+    Comment:<br>
+    <strong>{{ comment.comment }}</strong>
+  </div>
+
+  <hr>
+
+  <div>You have the following options available:</div>
+  <ul>
+    <li><a target="_blank" href="{{ request.scheme }}://{{ site.domain }}{{ comment.get_absolute_url }}">View comment</a></li>
+    <li><a target="_blank" href="{{ request.scheme }}://{{ site.domain }}{% url 'comments-flag' comment.pk %}">Flag comment</a></li>
+    <li><a target="_blank" href="{{ request.scheme }}://{{ site.domain }}{% url 'comments-delete' comment.pk %}">Delete comment</a></li>
+  </ul>
+
+</body>
+</html>
+{% endautoescape %}

@@ -3,6 +3,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
+from fluent_comments import appsettings
 
 
 def send_comment_posted(comment, request):
@@ -30,6 +31,12 @@ def send_comment_posted(comment, request):
         'comment': comment,
         'content_object': content_object
     }
+    
+    def render_message(template): return render_to_string(template, context, request=request)
 
-    message = render_to_string("comments/comment_notification_email.txt", context, request=request)
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list, fail_silently=True)
+    message = render_message("comments/comment_notification_email.txt")
+    html_message = render_message(
+        "comments/comment_notification_email.html") if appsettings.FLUENT_COMMENTS_MULTIPART_EMAILS else None
+
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
+              recipient_list, fail_silently=True, html_message=html_message)
