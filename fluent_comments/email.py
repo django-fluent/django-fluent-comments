@@ -31,7 +31,7 @@ def send_comment_posted(comment, request):
         'comment': comment,
         'content_object': content_object
     }
-    
+
     def render_message(template): return render_to_string(template, context, request=request)
 
     message = render_message("comments/comment_notification_email.txt")
