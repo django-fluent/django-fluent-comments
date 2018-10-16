@@ -32,11 +32,11 @@ def send_comment_posted(comment, request):
         'content_object': content_object
     }
 
-    def render_message(template): return render_to_string(template, context, request=request)
-
-    message = render_message("comments/comment_notification_email.txt")
-    html_message = render_message(
-        "comments/comment_notification_email.html") if appsettings.FLUENT_COMMENTS_MULTIPART_EMAILS else None
+    message = render_to_string("comments/comment_notification_email.txt", context, request=request)
+    if appsettings.FLUENT_COMMENTS_MULTIPART_EMAILS:
+        html_message = render_to_string("comments/comment_notification_email.html", context, request=request)
+    else:
+        html_message = None
 
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
               recipient_list, fail_silently=True, html_message=html_message)
