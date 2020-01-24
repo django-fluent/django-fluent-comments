@@ -249,7 +249,8 @@
                         $added = commentPreview(data);
                     else
                         $added = commentSuccess($form, data);
-
+                        // Clean editor after submitting a comment
+                        editor.setValue('');
                     if( onsuccess )
                         args.onsuccess(data.comment_id, data.object_id, data.is_moderated, $added);
                 }
