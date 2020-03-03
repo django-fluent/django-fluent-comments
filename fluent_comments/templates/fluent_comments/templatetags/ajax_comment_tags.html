@@ -1,4 +1,4 @@
-{% load i18n staticfiles %}
+{% load i18n static %}
 <a href="#c0" class="comment-cancel-reply-link">{% trans "cancel reply" %}</a>
 <span class="comment-waiting" id="comment-waiting-{{ target_object.pk }}" style="display: none;">
   <img src="{% static 'fluent_comments/img/ajax-wait.gif' %}" alt="" class="ajax-loader" />{% trans "Please wait . . ." %}
