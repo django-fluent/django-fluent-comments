@@ -14,7 +14,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
+# database engine
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
