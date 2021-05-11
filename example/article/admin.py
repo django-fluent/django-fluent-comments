@@ -5,26 +5,30 @@ from article.models import Article
 
 
 class ArticleAdminForm(ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(ArticleAdminForm, self).__init__(*args, **kwargs)
-        self.fields['publication_date'].required = False  # The admin's .save() method fills in a default.
+        self.fields[
+            "publication_date"
+        ].required = False  # The admin's .save() method fills in a default.
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
+    prepopulated_fields = {"slug": ("title",)}
     form = ArticleAdminForm
 
     fieldsets = (
-        (None, {
-            'fields': ('title', 'slug',),
-        }),
-        ("Contents", {
-            'fields': ('content',),
-        }),
-        ("Publication settings", {
-            'fields': ('publication_date', 'enable_comments',),
-        }),
+        (
+            None,
+            {"fields": ("title", "slug")},
+        ),
+        (
+            "Contents",
+            {"fields": ("content",)},
+        ),
+        (
+            "Publication settings",
+            {"fields": ("publication_date", "enable_comments")},
+        ),
     )
 
     def save_model(self, request, obj, form, change):

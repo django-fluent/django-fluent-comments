@@ -38,15 +38,11 @@ def create_comment(comment_model=None, article=None, user=None, **kwargs):
         comment="Test-Comment",
         submit_date=now(),
         site=Site.objects.get_current(),
-        ip_address='127.0.0.1',
+        ip_address="127.0.0.1",
         is_public=True,
         is_removed=False,
     )
     defaults.update(kwargs)
 
     Comment = comment_model or get_comment_model()
-    return Comment.objects.create(
-        content_type=article_ctype,
-        object_pk=article.pk,
-        **defaults
-    )
+    return Comment.objects.create(content_type=article_ctype, object_pk=article.pk, **defaults,)

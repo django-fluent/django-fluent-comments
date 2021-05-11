@@ -7,23 +7,30 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200, verbose_name='Title')),
-                ('slug', models.SlugField(unique=True, verbose_name='Slug')),
-                ('content', models.TextField(verbose_name='Content')),
-                ('publication_date', models.DateTimeField(verbose_name='Publication date')),
-                ('enable_comments', models.BooleanField(default=True, verbose_name='Enable comments')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("title", models.CharField(max_length=200, verbose_name="Title")),
+                ("slug", models.SlugField(unique=True, verbose_name="Slug")),
+                ("content", models.TextField(verbose_name="Content")),
+                ("publication_date", models.DateTimeField(verbose_name="Publication date")),
+                (
+                    "enable_comments",
+                    models.BooleanField(default=True, verbose_name="Enable comments"),
+                ),
             ],
             options={
-                'verbose_name': 'Article',
-                'verbose_name_plural': 'Articles',
+                "verbose_name": "Article",
+                "verbose_name_plural": "Articles",
             },
         ),
     ]

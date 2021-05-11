@@ -24,7 +24,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('article-details', kwargs={'slug': self.slug})
+        return reverse("article-details", kwargs={"slug": self.slug})
 
     # Optional, give direct access to moderation info via the model:
     comments = property(get_comments_for_model)
@@ -34,7 +34,5 @@ class Article(models.Model):
 
 # Give the generic app support for moderation by django-fluent-comments:
 moderate_model(
-    Article,
-    publication_date_field='publication_date',
-    enable_comments_field='enable_comments'
+    Article, publication_date_field="publication_date", enable_comments_field="enable_comments",
 )

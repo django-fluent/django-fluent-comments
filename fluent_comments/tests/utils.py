@@ -9,6 +9,7 @@ def override_appsettings(**settings):
     """
     Temporary override the appsettings.
     """
+
     def _dec(func):
         @wraps(func)
         def _inner(*args, **kwargs):
@@ -25,7 +26,9 @@ def override_appsettings(**settings):
 
             # reset caches
             _reset_setting_caches()
+
         return _inner
+
     return _dec
 
 
@@ -36,7 +39,9 @@ def _reset_setting_caches():
     FluentCommentsModerator.moderate_after = appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS
     FluentCommentsModerator.akismet_check = appsettings.FLUENT_CONTENTS_USE_AKISMET
     FluentCommentsModerator.akismet_check_action = appsettings.FLUENT_COMMENTS_AKISMET_ACTION
-    FluentCommentsModerator.moderate_bad_words = set(appsettings.FLUENT_COMMENTS_MODERATE_BAD_WORDS)
+    FluentCommentsModerator.moderate_bad_words = set(
+        appsettings.FLUENT_COMMENTS_MODERATE_BAD_WORDS
+    )
 
 
 class MockedResponse(object):
@@ -44,7 +49,7 @@ class MockedResponse(object):
         self.result = result
         self.headers = {}
         if definitive:
-            self.headers['X-Akismet-Pro-Tip'] = 'discard'
+            self.headers["X-Akismet-Pro-Tip"] = "discard"
 
     def json(self):
         return self.result

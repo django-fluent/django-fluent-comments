@@ -4,7 +4,10 @@ import django_comments
 from django.core.exceptions import ImproperlyConfigured
 from fluent_comments import appsettings
 from fluent_comments.forms.helper import CommentFormHelper
-from fluent_comments.forms.helper import SubmitButton, PreviewButton  # noqa, import at old class location too
+from fluent_comments.forms.helper import (
+    SubmitButton,
+    PreviewButton,
+)  # noqa, import at old class location too
 
 if appsettings.USE_THREADEDCOMMENTS:
     from threadedcomments.forms import ThreadedCommentForm as base_class
@@ -21,7 +24,7 @@ class AbstractCommentForm(base_class):
     helper = CommentFormHelper()
 
     def __init__(self, *args, **kwargs):
-        self.is_preview = kwargs.pop('is_preview', False)
+        self.is_preview = kwargs.pop("is_preview", False)
         super(AbstractCommentForm, self).__init__(*args, **kwargs)
 
         # Remove fields from the form.
@@ -33,16 +36,14 @@ class AbstractCommentForm(base_class):
             except KeyError:
                 raise ImproperlyConfigured(
                     "Field name '{0}' in FLUENT_COMMENTS_EXCLUDE_FIELDS is invalid, "
-                    "it does not exist in the '{1}' class.".format(
-                        name, self.__class__.__name__
-                     )
+                    "it does not exist in the '{1}' class.".format(name, self.__class__.__name__)
                 )
 
         if appsettings.FLUENT_COMMENTS_FIELD_ORDER:
             ordering = (
-                 CommentFormHelper.BASE_FIELDS_TOP +
-                 appsettings.FLUENT_COMMENTS_FIELD_ORDER +
-                 CommentFormHelper.BASE_FIELDS_END
+                CommentFormHelper.BASE_FIELDS_TOP
+                + appsettings.FLUENT_COMMENTS_FIELD_ORDER
+                + CommentFormHelper.BASE_FIELDS_END
             )
             self._reorder_fields(ordering)
 

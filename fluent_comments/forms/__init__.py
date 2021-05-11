@@ -6,12 +6,12 @@ from .helper import CommentFormHelper, SubmitButton, PreviewButton, CompactLabel
 FluentCommentForm = DefaultCommentForm  # noqa, for backwards compatibility
 
 __all__ = (
-    'AbstractCommentForm',
-    'CommentFormHelper',
-    'DefaultCommentForm',
-    'CompactLabelsCommentFormHelper',
-    'CompactLabelsCommentForm',
-    'CompactCommentForm',
-    'SubmitButton',
-    'PreviewButton',
+    "AbstractCommentForm",
+    "CommentFormHelper",
+    "DefaultCommentForm",
+    "CompactLabelsCommentFormHelper",
+    "CompactLabelsCommentForm",
+    "CompactCommentForm",
+    "SubmitButton",
+    "PreviewButton",
 )

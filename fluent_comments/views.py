@@ -25,7 +25,7 @@ def post_comment_ajax(request, using=None):
     """
     Post a comment, via an Ajax call.
     """
-    is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+    is_ajax = request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
     if not is_ajax:
         return HttpResponseBadRequest("Expecting Ajax call")
 
@@ -39,9 +39,9 @@ def post_comment_ajax(request, using=None):
     # Fill out some initial data fields from an authenticated user, if present
     data = request.POST.copy()
     if request.user.is_authenticated:
-        if not data.get('name', ''):
+        if not data.get("name", ""):
             data["name"] = request.user.get_full_name() or request.user.username
-        if not data.get('email', ''):
+        if not data.get("email", ""):
             data["email"] = request.user.email
 
     # Look up the object we're trying to comment about
@@ -57,11 +57,21 @@ def post_comment_ajax(request, using=None):
     except (TypeError, LookupError):
         return CommentPostBadRequest("Invalid content_type value: {0}".format(escape(ctype)))
     except AttributeError:
-        return CommentPostBadRequest("The given content-type {0} does not resolve to a valid model.".format(escape(ctype)))
+        return CommentPostBadRequest(
+            "The given content-type {0} does not resolve to a valid model.".format(escape(ctype))
+        )
     except ObjectDoesNotExist:
-        return CommentPostBadRequest("No object matching content-type {0} and object PK {1} exists.".format(escape(ctype), escape(object_pk)))
+        return CommentPostBadRequest(
+            "No object matching content-type {0} and object PK {1} exists.".format(
+                escape(ctype), escape(object_pk)
+            )
+        )
     except (ValueError, ValidationError) as e:
-        return CommentPostBadRequest("Attempting go get content-type {0!r} and object PK {1!r} exists raised {2}".format(escape(ctype), escape(object_pk), e.__class__.__name__))
+        return CommentPostBadRequest(
+            "Attempting go get content-type {0!r} and object PK {1!r} exists raised {2}".format(
+                escape(ctype), escape(object_pk), e.__class__.__name__
+            )
+        )
 
     # Do we want to preview the comment?
     is_preview = "preview" in data
@@ -71,7 +81,9 @@ def post_comment_ajax(request, using=None):
 
     # Check security information
     if form.security_errors():
-        return CommentPostBadRequest("The comment form failed security verification: {0}".format(form.security_errors()))
+        return CommentPostBadRequest(
+            "The comment form failed security verification: {0}".format(form.security_errors())
+        )
 
     # If there are errors or if we requested a preview show the comment
     if is_preview:
@@ -88,22 +100,18 @@ def post_comment_ajax(request, using=None):
 
     # Signal that the comment is about to be saved
     responses = signals.comment_will_be_posted.send(
-        sender=comment.__class__,
-        comment=comment,
-        request=request
+        sender=comment.__class__, comment=comment, request=request
     )
 
     for (receiver, response) in responses:
         if response is False:
-            return CommentPostBadRequest("comment_will_be_posted receiver {0} killed the comment".format(receiver.__name__))
+            return CommentPostBadRequest(
+                "comment_will_be_posted receiver {0} killed the comment".format(receiver.__name__)
+            )
 
     # Save the comment and signal that it was saved
     comment.save()
-    signals.comment_was_posted.send(
-        sender  = comment.__class__,
-        comment = comment,
-        request = request
-    )
+    signals.comment_was_posted.send(sender=comment.__class__, comment=comment, request=request)
 
     return _ajax_result(request, form, "post", comment, object_id=object_pk)
 
@@ -125,28 +133,30 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
         success = False
 
     json_return = {
-        'success': success,
-        'action': action,
-        'errors': json_errors,
-        'object_id': object_id,
-        'use_threadedcomments': bool(appsettings.USE_THREADEDCOMMENTS),
+        "success": success,
+        "action": action,
+        "errors": json_errors,
+        "object_id": object_id,
+        "use_threadedcomments": bool(appsettings.USE_THREADEDCOMMENTS),
     }
 
     if comment is not None:
         # Render the comment, like {% render_comment comment %} does
         context = get_comment_context_data(comment, action)
-        context['request'] = request
+        context["request"] = request
         template_name = get_comment_template_name(comment)
 
         comment_html = render_to_string(template_name, context, request=request)
-        json_return.update({
-            'html': comment_html,
-            'comment_id': comment.id,
-            'parent_id': None,
-            'is_moderated': not comment.is_public,   # is_public flags changes in comment_will_be_posted
-        })
+        json_return.update(
+            {
+                "html": comment_html,
+                "comment_id": comment.id,
+                "parent_id": None,
+                "is_moderated": not comment.is_public,  # is_public flags changes in comment_will_be_posted
+            }
+        )
         if appsettings.USE_THREADEDCOMMENTS:
-            json_return['parent_id'] = comment.parent_id
+            json_return["parent_id"] = comment.parent_id
 
     json_response = json.dumps(json_return)
     return HttpResponse(json_response, content_type="application/json")
@@ -156,8 +166,11 @@ def _render_errors(field):
     """
     Render form errors in crispy-forms style.
     """
-    template = '{0}/layout/field_errors.html'.format(appsettings.CRISPY_TEMPLATE_PACK)
-    return render_to_string(template, {
-        'field': field,
-        'form_show_errors': True,
-    })
+    template = "{0}/layout/field_errors.html".format(appsettings.CRISPY_TEMPLATE_PACK)
+    return render_to_string(
+        template,
+        {
+            "field": field,
+            "form_show_errors": True,
+        },
+    )

@@ -18,6 +18,7 @@ class AjaxCommentTags(BaseInclusionNode):
     Using the ``@register.inclusion_tag`` is not sufficient,
     because some keywords require custom parsing.
     """
+
     template_name = "fluent_comments/templatetags/ajax_comment_tags.html"
     min_args = 1
     max_args = 1
@@ -29,14 +30,15 @@ class AjaxCommentTags(BaseInclusionNode):
         """
         # Process the template line.
         tag_name, args, kwargs = parse_token_kwargs(
-            parser, token,
+            parser,
+            token,
             allowed_kwargs=cls.allowed_kwargs,
             compile_args=False,  # Only overrule here, keep at render() phase.
-            compile_kwargs=cls.compile_kwargs
+            compile_kwargs=cls.compile_kwargs,
         )
 
         # remove "for" keyword, so all other args can be resolved in render().
-        if args[0] == 'for':
+        if args[0] == "for":
             args.pop(0)
 
         # And apply the compilation afterwards
@@ -52,17 +54,17 @@ class AjaxCommentTags(BaseInclusionNode):
         """
         target_object = tag_args[0]  # moved one spot due to .pop(0)
         new_context = {
-            'STATIC_URL': parent_context.get('STATIC_URL', None),
-            'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
-            'target_object': target_object,
+            "STATIC_URL": parent_context.get("STATIC_URL", None),
+            "USE_THREADEDCOMMENTS": appsettings.USE_THREADEDCOMMENTS,
+            "target_object": target_object,
         }
 
         # Be configuration independent:
-        if new_context['STATIC_URL'] is None:
+        if new_context["STATIC_URL"] is None:
             try:
-                request = parent_context['request']
+                request = parent_context["request"]
             except KeyError:
-                new_context.update({'STATIC_URL': settings.STATIC_URL})
+                new_context.update({"STATIC_URL": settings.STATIC_URL})
             else:
                 new_context.update(context_processors.static(request))
 
@@ -77,8 +79,8 @@ def ajax_comment_tags(parser, token):
     return AjaxCommentTags.parse(parser, token)
 
 
-register.filter('comments_are_open', comments_are_open)
-register.filter('comments_are_moderated', comments_are_moderated)
+register.filter("comments_are_open", comments_are_open)
+register.filter("comments_are_moderated", comments_are_moderated)
 
 
 @register.filter
@@ -92,10 +94,9 @@ def comments_count(content_object):
 
 
 class FluentCommentsList(Node):
-
     def render(self, context):
         # Include proper template, avoid parsing it twice by operating like @register.inclusion_tag()
-        if not getattr(self, 'nodelist', None):
+        if not getattr(self, "nodelist", None):
             if appsettings.USE_THREADEDCOMMENTS:
                 template = get_template("fluent_comments/templatetags/threaded_list.html")
             else:
@@ -109,15 +110,15 @@ class FluentCommentsList(Node):
         #
         # This obviously doesn't work when the list is empty.
         # To address that, the client-side code also fixes that, by looking for the object ID in the nearby form.
-        target_object_id = context.get('target_object_id', None)
+        target_object_id = context.get("target_object_id", None)
         if not target_object_id:
-            comment_list = context['comment_list']
+            comment_list = context["comment_list"]
             if isinstance(comment_list, list) and comment_list:
                 target_object_id = comment_list[0].object_pk
 
         # Render the node
-        context['USE_THREADEDCOMMENTS'] = appsettings.USE_THREADEDCOMMENTS
-        context['target_object_id'] = target_object_id
+        context["USE_THREADEDCOMMENTS"] = appsettings.USE_THREADEDCOMMENTS
+        context["target_object_id"] = target_object_id
 
         context = context.flatten()
         return self.nodelist.render(context)
@@ -140,7 +141,7 @@ class RenderCommentNode(BaseInclusionNode):
 
     def get_context_data(self, parent_context, *tag_args, **tag_kwargs):
         context = get_comment_context_data(comment=tag_args[0])
-        context['request'] = parent_context.get('request')
+        context["request"] = parent_context.get("request")
         return context
 
 

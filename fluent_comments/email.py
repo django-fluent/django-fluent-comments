@@ -26,17 +26,21 @@ def send_comment_posted(comment, request):
     else:
         subject = u'[{0}] New comment posted on "{1}"'.format(site.name, content_title)
 
-    context = {
-        'site': site,
-        'comment': comment,
-        'content_object': content_object
-    }
+    context = {"site": site, "comment": comment, "content_object": content_object}
 
     message = render_to_string("comments/comment_notification_email.txt", context, request=request)
     if appsettings.FLUENT_COMMENTS_MULTIPART_EMAILS:
-        html_message = render_to_string("comments/comment_notification_email.html", context, request=request)
+        html_message = render_to_string(
+            "comments/comment_notification_email.html", context, request=request
+        )
     else:
         html_message = None
 
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
-              recipient_list, fail_silently=True, html_message=html_message)
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        recipient_list,
+        fail_silently=True,
+        html_message=html_message,
+    )

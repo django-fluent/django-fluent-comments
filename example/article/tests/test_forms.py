@@ -9,11 +9,10 @@ from fluent_comments.forms.compact import CompactCommentForm
 
 
 class FormTests(TestCase):
-
     @override_appsettings(
-        FLUENT_COMMENTS_FORM_CLASS='fluent_comments.forms.compact.CompactCommentForm',
+        FLUENT_COMMENTS_FORM_CLASS="fluent_comments.forms.compact.CompactCommentForm",
         FLUENT_COMMENTS_FIELD_ORDER=(),
-        FLUENT_COMMENTS_COMPACT_FIELDS=('name', 'email'),
+        FLUENT_COMMENTS_COMPACT_FIELDS=("name", "email"),
     )
     def test_form_class(self):
         """
@@ -26,21 +25,27 @@ class FormTests(TestCase):
         form = form_class(article)
 
         if appsettings.USE_THREADEDCOMMENTS:
-            self.assertEqual([f.name for f in form.visible_fields()], ['name', 'email', 'url', 'title', 'comment', 'honeypot'])
-            self.assertEqual(form.helper.layout.fields[3], 'security_hash')
+            self.assertEqual(
+                [f.name for f in form.visible_fields()],
+                ["name", "email", "url", "title", "comment", "honeypot"],
+            )
+            self.assertEqual(form.helper.layout.fields[3], "security_hash")
             self.assertIsInstance(form.helper.layout.fields[4], Row)
-            self.assertEqual(form.helper.layout.fields[6], 'comment')
-            self.assertEqual(form.helper.layout.fields[7], 'honeypot')
+            self.assertEqual(form.helper.layout.fields[6], "comment")
+            self.assertEqual(form.helper.layout.fields[7], "honeypot")
         else:
-            self.assertEqual([f.name for f in form.visible_fields()], ['name', 'email', 'url', 'comment', 'honeypot'])
-            self.assertEqual(form.helper.layout.fields[3], 'security_hash')
+            self.assertEqual(
+                [f.name for f in form.visible_fields()],
+                ["name", "email", "url", "comment", "honeypot"],
+            )
+            self.assertEqual(form.helper.layout.fields[3], "security_hash")
             self.assertIsInstance(form.helper.layout.fields[4], Row)
-            self.assertEqual(form.helper.layout.fields[5], 'comment')
-            self.assertEqual(form.helper.layout.fields[6], 'honeypot')
+            self.assertEqual(form.helper.layout.fields[5], "comment")
+            self.assertEqual(form.helper.layout.fields[6], "honeypot")
 
     @override_appsettings(
-        FLUENT_COMMENTS_FIELD_ORDER=('comment', 'name', 'email', 'url'),
-        FLUENT_COMMENTS_COMPACT_FIELDS=('name', 'email'),
+        FLUENT_COMMENTS_FIELD_ORDER=("comment", "name", "email", "url"),
+        FLUENT_COMMENTS_COMPACT_FIELDS=("name", "email"),
     )
     def test_compact_ordering1(self):
         """
@@ -48,24 +53,48 @@ class FormTests(TestCase):
         """
         article = factories.create_article()
         form = CompactCommentForm(article)
-        self.assertEqual([f.name for f in form.visible_fields()], ['comment', 'name', 'email', 'url', 'honeypot'])
+        self.assertEqual(
+            [f.name for f in form.visible_fields()],
+            ["comment", "name", "email", "url", "honeypot"],
+        )
         if appsettings.USE_THREADEDCOMMENTS:
-            self.assertEqual(list(form.fields.keys()), [
-                'content_type', 'object_pk', 'timestamp', 'security_hash',
-                'parent', 'comment', 'name', 'email', 'url', 'honeypot'
-            ])
+            self.assertEqual(
+                list(form.fields.keys()),
+                [
+                    "content_type",
+                    "object_pk",
+                    "timestamp",
+                    "security_hash",
+                    "parent",
+                    "comment",
+                    "name",
+                    "email",
+                    "url",
+                    "honeypot",
+                ],
+            )
 
-            self.assertEqual(form.helper.layout.fields[3], 'security_hash')
-            self.assertEqual(form.helper.layout.fields[5], 'comment')
+            self.assertEqual(form.helper.layout.fields[3], "security_hash")
+            self.assertEqual(form.helper.layout.fields[5], "comment")
             self.assertIsInstance(form.helper.layout.fields[6], Row)
-            self.assertEqual(form.helper.layout.fields[7], 'honeypot')
+            self.assertEqual(form.helper.layout.fields[7], "honeypot")
         else:
-            self.assertEqual(list(form.fields.keys()), [
-                'content_type', 'object_pk', 'timestamp', 'security_hash',
-                'comment', 'name', 'email', 'url', 'honeypot'
-            ])
+            self.assertEqual(
+                list(form.fields.keys()),
+                [
+                    "content_type",
+                    "object_pk",
+                    "timestamp",
+                    "security_hash",
+                    "comment",
+                    "name",
+                    "email",
+                    "url",
+                    "honeypot",
+                ],
+            )
 
-            self.assertEqual(form.helper.layout.fields[3], 'security_hash')
-            self.assertEqual(form.helper.layout.fields[4], 'comment')
+            self.assertEqual(form.helper.layout.fields[3], "security_hash")
+            self.assertEqual(form.helper.layout.fields[4], "comment")
             self.assertIsInstance(form.helper.layout.fields[5], Row)
-            self.assertEqual(form.helper.layout.fields[6], 'honeypot')
+            self.assertEqual(form.helper.layout.fields[6], "honeypot")

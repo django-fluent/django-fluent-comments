@@ -17,13 +17,14 @@ class FluentCommentManager(CommentManager):
     """
 
     def get_queryset(self):
-        return super(CommentManager, self).get_queryset().select_related('user')
+        return super(CommentManager, self).get_queryset().select_related("user")
 
 
 class FluentComment(BaseModel):
     """
     Proxy model to make sure that a ``select_related()`` is performed on the ``user`` field.
     """
+
     objects = FluentCommentManager()
 
     class Meta:
@@ -59,7 +60,7 @@ class CommentsRelation(GenericRelation):
     def __init__(self, *args, **kwargs):
         super(CommentsRelation, self).__init__(
             to=get_comments_model(),
-            content_type_field='content_type',
-            object_id_field='object_pk',
+            content_type_field="content_type",
+            object_id_field="object_pk",
             **kwargs
         )

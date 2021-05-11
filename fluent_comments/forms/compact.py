@@ -30,6 +30,7 @@ class CompactCommentForm(AbstractCommentForm):
     all the name/email/phone fields are displayed in a single top row.
     It uses Bootstrap 3 layout by default to generate the columns.
     """
+
     top_row_fields = appsettings.FLUENT_COMMENTS_COMPACT_FIELDS
     top_row_columns = appsettings.FLUENT_COMMENTS_COMPACT_GRID_SIZE
     top_column_class = appsettings.FLUENT_COMMENTS_COMPACT_COLUMN_CSS_CLASS

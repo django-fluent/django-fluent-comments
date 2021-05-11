@@ -21,6 +21,7 @@ class DefaultCommentForm(CaptchaFormMixin, DefaultCommentForm):
     """
     Comment form with reCAPTCHA field.
     """
+
     captcha = captcha_field
 
 
@@ -28,6 +29,7 @@ class CompactCommentForm(CaptchaFormMixin, CompactCommentForm):
     """
     Compact variation 1.
     """
+
     captcha = captcha_field
 
 
@@ -35,4 +37,5 @@ class CompactLabelsCommentForm(CaptchaFormMixin, CompactLabelsCommentForm):
     """
     Compact variation 2.
     """
+
     captcha = captcha_field

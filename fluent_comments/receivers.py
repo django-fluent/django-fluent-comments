@@ -25,16 +25,16 @@ def load_default_moderator():
     """
     Find a moderator object
     """
-    if appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR == 'default':
+    if appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR == "default":
         # Perform spam checks
         return moderation.FluentCommentsModerator(None)
-    elif appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR == 'deny':
+    elif appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR == "deny":
         # Deny all comments not from known registered models.
         return moderation.AlwaysDeny(None)
-    elif str(appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR).lower() == 'none':
+    elif str(appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR).lower() == "none":
         # Disables default moderator
         return moderation.NullModerator(None)
-    elif '.' in appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR:
+    elif "." in appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR:
         return import_string(appsettings.FLUENT_COMMENTS_DEFAULT_MODERATOR)(None)
     else:
         raise ImproperlyConfigured(
@@ -62,14 +62,17 @@ def on_comment_will_be_posted(sender, comment, request, **kwargs):
         logger.warning(
             "Comment of type '%s' was not moderated by '%s', "
             "because the parent '%s' has a moderator installed for '%s' instead",
-            comment.__class__.__name__, moderator.__class__.__name__,
-            content_object.__class__.__name__, CommentModel.__name__
+            comment.__class__.__name__,
+            moderator.__class__.__name__,
+            content_object.__class__.__name__,
+            CommentModel.__name__,
         )
 
     if moderator is None:
         logger.info(
             "Using default moderator for comment '%s' on parent '%s'",
-            comment.__class__.__name__, content_object.__class__.__name__
+            comment.__class__.__name__,
+            content_object.__class__.__name__,
         )
         _run_default_moderator(comment, content_object, request)
 

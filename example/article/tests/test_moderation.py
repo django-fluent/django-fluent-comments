@@ -28,22 +28,24 @@ class ModerationTests(TestCase):
 
     @override_appsettings(
         FLUENT_CONTENTS_USE_AKISMET=False,
-        FLUENT_COMMENTS_MODERATE_BAD_WORDS=('viagra',)
+        FLUENT_COMMENTS_MODERATE_BAD_WORDS=("viagra",),
     )
     def test_bad_words(self, *mocks):
         """
         Test moderation on bad words.
         """
-        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        request = RequestFactory().post(reverse("comments-post-comment-ajax"))
         article = factories.create_article()
-        comment = factories.create_comment(article=article, comment='Testing:viagra!!')
+        comment = factories.create_comment(article=article, comment="Testing:viagra!!")
         moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(moderator.moderate_bad_words)  # see that settings are correctly patched
         self.assertTrue(moderator.moderate(comment, article, request), "bad_words should reject")
 
         comment.comment = "Just normal words"
-        self.assertFalse(moderator.moderate(comment, article, request), "bad_words should not trigger")
+        self.assertFalse(
+            moderator.moderate(comment, article, request), "bad_words should not trigger"
+        )
 
     @override_appsettings(
         FLUENT_CONTENTS_USE_AKISMET=False,
@@ -52,100 +54,105 @@ class ModerationTests(TestCase):
         """
         Testing moderation without akismet
         """
-        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        request = RequestFactory().post(reverse("comments-post-comment-ajax"))
         article = factories.create_article()
         comment = factories.create_comment(article=article)
         moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertFalse(moderator.akismet_check)
-        self.assertTrue(moderator.allow(comment, article, request), "no akismet, comment should be allowed")
-        self.assertFalse(moderator.moderate(comment, article, request), "no akismet, comment should not be moderated")
+        self.assertTrue(
+            moderator.allow(comment, article, request), "no akismet, comment should be allowed"
+        )
+        self.assertFalse(
+            moderator.moderate(comment, article, request),
+            "no akismet, comment should not be moderated",
+        )
 
     @override_appsettings(
-        AKISMET_API_KEY='FOOBAR',
-        FLUENT_COMMENTS_AKISMET_ACTION='auto',
+        AKISMET_API_KEY="FOOBAR",
+        FLUENT_COMMENTS_AKISMET_ACTION="auto",
         FLUENT_CONTENTS_USE_AKISMET=True,
     )
     def test_akismet_auto(self, *mocks):
         """
         Test an akismet call
         """
-        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        request = RequestFactory().post(reverse("comments-post-comment-ajax"))
         article = factories.create_article()
-        comment = factories.create_comment(article=article, user_name='viagra-test-123')
+        comment = factories.create_comment(article=article, user_name="viagra-test-123")
         moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertTrue(moderator.akismet_check)  # see that settings are correctly patched
 
-        with patch.object(Akismet, '_request', return_value=MockedResponse(True, definitive=True)):
+        with patch.object(Akismet, "_request", return_value=MockedResponse(True, definitive=True)):
             self.assertFalse(moderator.allow(comment, article, request), "akismet should reject")
             self.assertTrue(moderator.moderate(comment, article, request), "akismet should reject")
             self.assertTrue(comment.is_removed)
 
     @override_appsettings(
-        AKISMET_API_KEY='FOOBAR',
-        FLUENT_COMMENTS_AKISMET_ACTION='moderate',
+        AKISMET_API_KEY="FOOBAR",
+        FLUENT_COMMENTS_AKISMET_ACTION="moderate",
         FLUENT_CONTENTS_USE_AKISMET=True,
     )
     def test_akismet_moderate(self, *mocks):
         """
         Test an akismet call
         """
-        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        request = RequestFactory().post(reverse("comments-post-comment-ajax"))
         article = factories.create_article()
-        comment = factories.create_comment(article=article, user_name='viagra-test-123')
+        comment = factories.create_comment(article=article, user_name="viagra-test-123")
         moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertTrue(moderator.akismet_check)  # see that settings are correctly patched
 
-        with patch.object(Akismet, '_request', return_value=MockedResponse(True)):
+        with patch.object(Akismet, "_request", return_value=MockedResponse(True)):
             self.assertTrue(moderator.allow(comment, article, request))
             self.assertTrue(moderator.moderate(comment, article, request), "akismet should reject")
             self.assertFalse(comment.is_removed)
 
     @override_appsettings(
-        AKISMET_API_KEY='FOOBAR',
-        FLUENT_COMMENTS_AKISMET_ACTION='soft_delete',
+        AKISMET_API_KEY="FOOBAR",
+        FLUENT_COMMENTS_AKISMET_ACTION="soft_delete",
         FLUENT_CONTENTS_USE_AKISMET=True,
     )
     def test_akismet_soft_delete(self, *mocks):
         """
         Test an akismet call
         """
-        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        request = RequestFactory().post(reverse("comments-post-comment-ajax"))
         article = factories.create_article()
-        comment = factories.create_comment(article=article, user_name='viagra-test-123')
+        comment = factories.create_comment(article=article, user_name="viagra-test-123")
         moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertTrue(moderator.akismet_check)  # see that settings are correctly patched
 
-        with patch.object(Akismet, '_request', return_value=MockedResponse(True)):
+        with patch.object(Akismet, "_request", return_value=MockedResponse(True)):
             self.assertTrue(moderator.allow(comment, article, request))
             self.assertTrue(moderator.moderate(comment, article, request), "akismet should reject")
             self.assertTrue(comment.is_removed)
 
     @override_appsettings(
-        AKISMET_API_KEY='FOOBAR',
-        FLUENT_COMMENTS_AKISMET_ACTION='delete',
+        AKISMET_API_KEY="FOOBAR",
+        FLUENT_COMMENTS_AKISMET_ACTION="delete",
         FLUENT_CONTENTS_USE_AKISMET=True,
     )
     def test_akismet_delete(self, *mocks):
         """
         Test an akismet call
         """
-        request = RequestFactory().post(reverse('comments-post-comment-ajax'))
+        request = RequestFactory().post(reverse("comments-post-comment-ajax"))
         article = factories.create_article()
-        comment = factories.create_comment(article=article, user_name='viagra-test-123')
+        comment = factories.create_comment(article=article, user_name="viagra-test-123")
         moderator = get_model_moderator(Article)  # type: FluentCommentsModerator
 
         self.assertTrue(article.enable_comments)
         self.assertTrue(moderator.akismet_check)  # see that settings are correctly patched
 
-        with patch.object(Akismet, '_request', return_value=MockedResponse(True)):
+        with patch.object(Akismet, "_request", return_value=MockedResponse(True)):
             self.assertFalse(moderator.allow(comment, article, request))
             self.assertTrue(moderator.moderate(comment, article, request), "akismet should reject")
             self.assertTrue(comment.is_removed)
@@ -156,12 +163,19 @@ class ModerationTests(TestCase):
         Test that comments can auto close.
         """
         self.assertTrue(Article().comments_are_open, "article should be open for comments")
-        self.assertFalse(Article(enable_comments=False).comments_are_open, "article comments should close")
+        self.assertFalse(
+            Article(enable_comments=False).comments_are_open, "article comments should close"
+        )
 
         # Test ranges
-        self.assertTrue(Article(publication_date=now() - timedelta(days=appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS - 1)).comments_are_open)
-        self.assertFalse(Article(publication_date=now() - timedelta(days=appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS)).comments_are_open)
-        self.assertFalse(Article(publication_date=now() - timedelta(days=appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS + 1)).comments_are_open)
+        days = appsettings.FLUENT_COMMENTS_CLOSE_AFTER_DAYS
+        self.assertTrue(
+            Article(publication_date=now() - timedelta(days=days - 1)).comments_are_open
+        )
+        self.assertFalse(Article(publication_date=now() - timedelta(days=days)).comments_are_open)
+        self.assertFalse(
+            Article(publication_date=now() - timedelta(days=days + 1)).comments_are_open
+        )
 
     @override_appsettings(FLUENT_COMMENTS_MODERATE_AFTER_DAYS=10)
     def test_comments_are_moderated(self):
@@ -169,9 +183,19 @@ class ModerationTests(TestCase):
         Test that moderation auto enables.
         """
         self.assertFalse(Article().comments_are_moderated, "comment should not be moderated yet")
-        self.assertTrue(Article(publication_date=datetime.min).comments_are_moderated, "old comment should be moderated")
+        self.assertTrue(
+            Article(publication_date=datetime.min).comments_are_moderated,
+            "old comment should be moderated",
+        )
 
         # Test ranges
-        self.assertFalse(Article(publication_date=now() - timedelta(days=appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS - 1)).comments_are_moderated)
-        self.assertTrue(Article(publication_date=now() - timedelta(days=appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS)).comments_are_moderated)
-        self.assertTrue(Article(publication_date=now() - timedelta(days=appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS + 1)).comments_are_moderated)
+        days = appsettings.FLUENT_COMMENTS_MODERATE_AFTER_DAYS
+        self.assertFalse(
+            Article(publication_date=now() - timedelta(days=days - 1)).comments_are_moderated
+        )
+        self.assertTrue(
+            Article(publication_date=now() - timedelta(days=days)).comments_are_moderated
+        )
+        self.assertTrue(
+            Article(publication_date=now() - timedelta(days=days + 1)).comments_are_moderated
+        )

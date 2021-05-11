@@ -1,7 +1,7 @@
 """
 API for :ref:`custom-comment-app-api`
 """
-default_app_config = 'fluent_comments.apps.FluentCommentsApp'
+default_app_config = "fluent_comments.apps.FluentCommentsApp"
 
 form_class = None
 model_class = None
@@ -17,6 +17,7 @@ def get_model():
     global model_class
     if model_class is None:
         from fluent_comments.models import FluentComment
+
         # Our proxy model that performs select_related('user') for the comments
         model_class = FluentComment
 
@@ -29,12 +30,15 @@ def get_form():
     """
     global form_class
     from fluent_comments import appsettings
+
     if form_class is None:
         if appsettings.FLUENT_COMMENTS_FORM_CLASS:
             from django.utils.module_loading import import_string
+
             form_class = import_string(appsettings.FLUENT_COMMENTS_FORM_CLASS)
         else:
             from fluent_comments.forms import FluentCommentForm
+
             form_class = FluentCommentForm
 
     return form_class

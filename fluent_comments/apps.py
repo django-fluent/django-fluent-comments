@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class FluentCommentsApp(AppConfig):
-    name = 'fluent_comments'
+    name = "fluent_comments"
     verbose_name = _("Comments")
 
     def ready(self):
