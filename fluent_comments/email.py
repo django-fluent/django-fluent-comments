@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from fluent_comments import appsettings
 
 
@@ -17,7 +17,7 @@ def send_comment_posted(comment, request):
     recipient_list = [manager_tuple[1] for manager_tuple in settings.MANAGERS]
     site = get_current_site(request)
     content_object = comment.content_object
-    content_title = force_text(content_object)
+    content_title = force_str(content_object)
 
     if comment.is_removed:
         subject = u'[{0}] Spam comment on "{1}"'.format(site.name, content_title)

@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import escape, format_html
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from fluent_comments import appsettings
 from django_comments import get_model as get_comments_model
 
@@ -65,7 +65,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
         if not object:
             return ''
 
-        title = force_text(object)
+        title = force_str(object)
         if hasattr(object, 'get_absolute_url'):
             return format_html(u'<a href="{0}">{1}</a>', object.get_absolute_url(), title)
         else:
@@ -78,7 +78,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
         if comment.user_name:
             return comment.user_name
         elif comment.user_id:
-            return force_text(comment.user)
+            return force_str(comment.user)
         else:
             return None
 

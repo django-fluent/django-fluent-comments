@@ -3,7 +3,7 @@ from crispy_forms.layout import Button, Submit
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.forms.widgets import Input
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_comments import get_form_target
 
 from fluent_comments import appsettings

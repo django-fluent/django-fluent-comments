@@ -1,5 +1,5 @@
 from django.contrib.contenttypes.fields import GenericRelation
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_comments import get_model as get_comments_model
 from django_comments.managers import CommentManager
 

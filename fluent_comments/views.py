@@ -25,7 +25,8 @@ def post_comment_ajax(request, using=None):
     """
     Post a comment, via an Ajax call.
     """
-    if not request.is_ajax():
+    is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+    if not is_ajax:
         return HttpResponseBadRequest("Expecting Ajax call")
 
     # This is copied from django_comments.
