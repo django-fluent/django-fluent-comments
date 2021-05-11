@@ -33,7 +33,7 @@ class CommentFormHelper(FormHelper):
         return get_form_target()  # reads get_form_target from COMMENTS_APP
 
     def __init__(self, form=None):
-        super(CommentFormHelper, self).__init__(form=form)
+        super().__init__(form=form)
         if form is not None:
             # When using the helper like this, it could generate all fields.
             self.form_id = "comment-form-{0}".format(form.target_object.pk)
@@ -86,9 +86,7 @@ class CompactLabelsCommentFormHelper(CommentFormHelper):
             ):
                 field.widget.attrs["placeholder"] = u"{0}:".format(field.label)
 
-        return super(CompactLabelsCommentFormHelper, self).render_layout(
-            form, context, template_pack=template_pack
-        )
+        return super().render_layout(form, context, template_pack=template_pack)
 
 
 class SubmitButton(Submit):
@@ -99,7 +97,7 @@ class SubmitButton(Submit):
     """
 
     def __init__(self, text=_("Post Comment"), **kwargs):
-        super(SubmitButton, self).__init__(name="post", value=text, **kwargs)
+        super().__init__(name="post", value=text, **kwargs)
 
 
 class PreviewButton(Button):
@@ -113,4 +111,4 @@ class PreviewButton(Button):
 
     def __init__(self, text=_("Preview"), **kwargs):
         kwargs.setdefault("css_class", "btn-default")
-        super(PreviewButton, self).__init__(name="preview", value=text, **kwargs)
+        super().__init__(name="preview", value=text, **kwargs)

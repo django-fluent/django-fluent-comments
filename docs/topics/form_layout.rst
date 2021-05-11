@@ -99,7 +99,7 @@ you can define a custom form class entirely:
         """
 
         def __init__(self, *args, **kwargs):
-            super(CommentForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             self.fields['url'].label = _("Website")  # Changed the label
             self.fields['email'].label = _("Email address (will not be published)")
 

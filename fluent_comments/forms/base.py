@@ -25,7 +25,7 @@ class AbstractCommentForm(base_class):
 
     def __init__(self, *args, **kwargs):
         self.is_preview = kwargs.pop("is_preview", False)
-        super(AbstractCommentForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Remove fields from the form.
         # This has to be done in the constructor, because the ThreadedCommentForm
@@ -69,4 +69,4 @@ class AbstractCommentForm(base_class):
             self.cleaned_data[name] = ""
 
         # Pass args, kwargs for django-contrib-comments 1.8, which accepts a ``site_id`` argument.
-        return super(AbstractCommentForm, self).get_comment_create_data(*args, **kwargs)
+        return super().get_comment_create_data(*args, **kwargs)

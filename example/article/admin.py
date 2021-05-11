@@ -6,7 +6,7 @@ from article.models import Article
 
 class ArticleAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(ArticleAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields[
             "publication_date"
         ].required = False  # The admin's .save() method fills in a default.

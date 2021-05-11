@@ -46,7 +46,7 @@ class FluentCommentsModerator(CommentModerator):
         Returns ``True`` if the comment should be allowed, ``False`` otherwise.
         """
         # Parent class check
-        if not super(FluentCommentsModerator, self).allow(comment, content_object, request):
+        if not super().allow(comment, content_object, request):
             return False
 
         # Akismet check
@@ -91,7 +91,7 @@ class FluentCommentsModerator(CommentModerator):
                 return True
 
         # Parent class check
-        if super(FluentCommentsModerator, self).moderate(comment, content_object, request):
+        if super().moderate(comment, content_object, request):
             return True
 
         # Bad words check
@@ -141,7 +141,7 @@ class AlwaysModerate(FluentCommentsModerator):
 
     def moderate(self, comment, content_object, request):
         # Still calling super in case Akismet marks the comment as spam.
-        return super(AlwaysModerate, self).moderate(comment, content_object, request) or True
+        return super().moderate(comment, content_object, request) or True
 
 
 class AlwaysDeny(FluentCommentsModerator):

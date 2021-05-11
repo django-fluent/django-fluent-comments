@@ -80,7 +80,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
         raw_id_fields = ("parent",)
 
     def get_queryset(self, request):
-        return super(FluentCommentsAdmin, self).get_queryset(request).select_related("user")
+        return super().get_queryset(request).select_related("user")
 
     def object_link(self, comment):
         try:
@@ -116,7 +116,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == "title":
             kwargs["widget"] = AdminTextInputWidget
-        return super(FluentCommentsAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        return super().formfield_for_dbfield(db_field, **kwargs)
 
 
 # Replace the old admin screen.

@@ -17,7 +17,7 @@ class FluentCommentManager(CommentManager):
     """
 
     def get_queryset(self):
-        return super(CommentManager, self).get_queryset().select_related("user")
+        return super().get_queryset().select_related("user")
 
 
 class FluentComment(BaseModel):
@@ -58,7 +58,7 @@ class CommentsRelation(GenericRelation):
     """
 
     def __init__(self, *args, **kwargs):
-        super(CommentsRelation, self).__init__(
+        super().__init__(
             to=get_comments_model(),
             content_type_field="content_type",
             object_id_field="object_pk",

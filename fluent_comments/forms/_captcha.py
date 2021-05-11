@@ -14,7 +14,7 @@ class CaptchaFormMixin(object):
                     self.__class__.__name__
                 )
             )
-        super(CaptchaFormMixin, self)._reorder_fields(ordering)
+        super()._reorder_fields(ordering)
 
         # Avoid making captcha required for previews.
         if self.is_preview:
