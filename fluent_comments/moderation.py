@@ -1,6 +1,5 @@
-from __future__ import absolute_import
-
 import logging
+from urllib.parse import urljoin
 
 from akismet import SpamStatus
 from django_comments.moderation import moderator, CommentModerator
@@ -10,10 +9,6 @@ from fluent_comments.akismet import akismet_check
 from fluent_comments.email import send_comment_posted
 from fluent_comments.utils import split_words
 
-try:
-    from urllib.parse import urljoin  # Python 3
-except ImportError:
-    from urlparse import urljoin  # Python 2
 
 logger = logging.getLogger(__name__)
 

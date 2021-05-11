@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import json
 import time
 
@@ -7,7 +5,7 @@ from akismet import Akismet
 from django.test import TestCase
 from django_comments import get_model as get_comment_model, signals
 from django_comments.forms import CommentForm
-from mock import patch
+from unittest.mock import patch
 
 from article.models import Article
 from article.tests import factories

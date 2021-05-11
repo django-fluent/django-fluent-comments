@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from urllib.parse import urljoin
 
 from akismet import Akismet, SpamStatus
 from django.contrib.sites.shortcuts import get_current_site
@@ -7,11 +7,6 @@ from django.utils.encoding import smart_str
 
 import fluent_comments
 from fluent_comments import appsettings
-
-try:
-    from urllib.parse import urljoin  # Python 3
-except ImportError:
-    from urlparse import urljoin  # Python 2
 
 
 def akismet_check(comment, content_object, request):

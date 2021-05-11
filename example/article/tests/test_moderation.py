@@ -6,7 +6,7 @@ from django.test import TestCase
 from django.utils.timezone import now
 from fluent_comments import appsettings
 from fluent_comments.moderation import FluentCommentsModerator, get_model_moderator
-from mock import patch
+from unittest.mock import patch
 
 from article.models import Article
 from article.tests import factories

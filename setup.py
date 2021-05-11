@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from __future__ import print_function
 from setuptools import setup, find_packages
 from os import path
 import codecs
@@ -47,9 +46,6 @@ setup(
     ],
     requires=[
         'Django (>=1.11)',
-    ],
-    tests_require = [
-        'mock',
     ],
     extras_require = {
         'threadedcomments': ['django-threadedcomments>=1.2'],

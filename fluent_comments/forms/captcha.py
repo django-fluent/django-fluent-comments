@@ -1,8 +1,6 @@
 """
 Variations of the form that use
 """
-from __future__ import absolute_import
-
 from django.utils.translation import pgettext_lazy
 
 from fluent_comments.forms._captcha import CaptchaFormMixin
