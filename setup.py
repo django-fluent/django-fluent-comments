@@ -39,13 +39,13 @@ setup(
     license='Apache 2.0',
 
     install_requires = [
-        'django-crispy-forms>=1.7.1',
-        'django-tag-parser>=3.1',
-        'django-contrib-comments>=1.9',
+        'django-crispy-forms>=1.9.2',
+        'django-tag-parser>=3.2',
+        'django-contrib-comments>=2.0.0',
         'python-akismet>=0.4.1',  # Python 3 port, replaces Python 2-only "akismet" library.
     ],
     requires=[
-        'Django (>=1.11)',
+        'Django (>=2.2)',
     ],
     extras_require = {
         'threadedcomments': ['django-threadedcomments>=1.2'],
@@ -71,13 +71,14 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.2',
+        'Framework :: Django :: 3.0',
+        'Framework :: Django :: 3.1',
+        'Framework :: Django :: 3.2',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
