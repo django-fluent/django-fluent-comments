@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = "django-fluent-comments"
-copyright = "2018, Diederik van der Boor"
+copyright = "2021, Diederik van der Boor"
 author = "Diederik van der Boor"
 
 # The short X.Y version
-version = "2.1"
+version = "3.0"
 # The full version, including alpha/beta/rc tags
-release = "2.1"
+release = "3.0"
 
 
 # -- General configuration ---------------------------------------------------

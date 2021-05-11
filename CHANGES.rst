@@ -1,3 +1,13 @@
+Version 3.0 (2021-05-11)
+------------------------
+
+* Added Django 3 compatibility.
+* Added HTML email support (``FLUENT_COMMENTS_MULTIPART_EMAILS = True`` setting)
+* Fix duplicated comment forms in threaded response.
+* Drop Django 1.8, 1.9 and 1.10 compatibility.
+* Drop Python 2 support.
+
+
 Version 2.1 (2018-08-27)
 ------------------------
 
