@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from akismet import Akismet
 from django.test import RequestFactory
 from django.test import TestCase
+from django.urls import reverse
 from django.utils.timezone import now
 from fluent_comments import appsettings
 from fluent_comments.moderation import FluentCommentsModerator, get_model_moderator
@@ -11,11 +12,6 @@ from unittest.mock import patch
 from article.models import Article
 from article.tests import factories
 from fluent_comments.tests.utils import MockedResponse, override_appsettings
-
-try:
-    from django.urls import reverse
-except ImportError:  # Django<2.0
-    from django.core.urlresolvers import reverse
 
 
 class ModerationTests(TestCase):

@@ -1,16 +1,10 @@
 from django.db import models
-from django.utils.six import python_2_unicode_compatible
+from django.urls import reverse
 
 from fluent_comments.moderation import moderate_model, comments_are_open, comments_are_moderated
 from fluent_comments.models import get_comments_for_model, CommentsRelation
 
-try:
-    from django.urls import reverse
-except ImportError:  # Django<2.0
-    from django.core.urlresolvers import reverse
 
-
-@python_2_unicode_compatible
 class Article(models.Model):
     title = models.CharField("Title", max_length=200)
     slug = models.SlugField("Slug", unique=True)

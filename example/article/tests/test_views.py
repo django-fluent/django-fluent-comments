@@ -3,6 +3,7 @@ import time
 
 from akismet import Akismet
 from django.test import TestCase
+from django.urls import reverse
 from django_comments import get_model as get_comment_model, signals
 from django_comments.forms import CommentForm
 from unittest.mock import patch
@@ -11,10 +12,6 @@ from article.models import Article
 from article.tests import factories
 from fluent_comments.moderation import get_model_moderator
 from fluent_comments.tests.utils import MockedResponse, override_appsettings
-try:
-    from django.urls import reverse
-except ImportError:  # Django<2.0
-    from django.core.urlresolvers import reverse
 
 
 class ViewTests(TestCase):

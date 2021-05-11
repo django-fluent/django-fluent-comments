@@ -1,14 +1,8 @@
-from __future__ import unicode_literals
-
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase
 
 from article.tests import factories
-
-try:
-    from django.urls import reverse
-except ImportError:  # Django<2.0
-    from django.core.urlresolvers import reverse
 
 
 class AdminCommentsTests(TestCase):

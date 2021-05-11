@@ -1,12 +1,8 @@
-Django>=1.6
+Django>=3.2.2
 
 # Base setup requirements
-django-crispy-forms>=1.1.1
-django-tag-parser>=2.1
-django-contrib-comments>=1.5
+django-crispy-forms>=1.11.2
+django-tag-parser>=3.2
+django-contrib-comments>=2.1.0
 
-# Akismet still doesn't have a Python 3 version, handle with environment markers
-akismet>=0.2; python_version in '2.6,2.7'
-
-# Python 3 compatible fork:
-#-e git+https://github.com/allieus/python-akismet.git#egg=akismet
+akismet>=1.1
