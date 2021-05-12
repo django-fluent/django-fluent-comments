@@ -8,6 +8,31 @@
 
 {% block scripts %}{{ block.super }}
     <script type="text/javascript" src="{{ STATIC_URL }}fluent_comments/js/ajaxcomments.js"></script>
+    <script type="text/javascript">
+        var updateCommentsCount = function updateCommentsCount($) {
+            if ($ !== null) {
+                $.fn.ready(function () {
+                    $(document).on('ajaxComplete', function () {
+                      var $comments = $('#comment_count');
+                      if ($comments) {
+                        var currentCountStr = $comments.html().toString().split(' ');
+                        var currentCount = parseInt(currentCountStr[0], 10);
+                        var commentCount = $('.comment-item').length;
+                        if (currentCount !== commentCount) {
+                          currentCountStr[0] = commentCount.toString();
+                          $comments.html(currentCountStr.join(' '));
+                        }
+                        return true;
+                      }return false;
+                    });
+                });
+            }
+        };
+
+        (function ($) {
+            updateCommentsCount($);
+        })(window.jQuery);
+    </script>
 {% endblock %}
 
 {% block main %}
@@ -33,7 +58,7 @@
 
   <div id="comments-wrapper">
     {% if comments_count %}
-    <h3 class="has-comments-title">{% blocktrans with entry_title=article.title count comments_count=comments_count %}{{ comments_count }} comment to {{ entry_title }}{% plural %}{{ comments_count }} comments to {{ entry_title }}{% endblocktrans %}</h3>
+    <h3 id="comment_count" class="has-comments-title">{% blocktrans with entry_title=article.title count comments_count=comments_count %}{{ comments_count }} comment to {{ entry_title }}{% plural %}{{ comments_count }} comments to {{ entry_title }}{% endblocktrans %}</h3>
       {% render_comment_list for object %}
 
       {% if not article|comments_are_open %}
