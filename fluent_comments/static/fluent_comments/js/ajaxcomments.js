@@ -170,6 +170,7 @@
         removeThreadedPreview();
         $('.js-comments-form:first').appendTo($comment);
         $($comment.find('#id_parent')[0]).val(comment_id);
+        $('.comment-cancel-reply-link').attr('href', '#c' + comment_id);
     }
 
 
